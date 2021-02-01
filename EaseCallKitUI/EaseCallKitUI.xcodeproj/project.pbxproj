@@ -1,0 +1,551 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 50;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		C0C6831825C7FB6F00F7AD5A /* EaseCall.bundle in Resources */ = {isa = PBXBuildFile; fileRef = C0C682F925C7FB6F00F7AD5A /* EaseCall.bundle */; };
+		C0C6835925C800A600F7AD5A /* EaseCallDefine.h in Headers */ = {isa = PBXBuildFile; fileRef = C0C6833D25C800A600F7AD5A /* EaseCallDefine.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		C0C6835A25C800A600F7AD5A /* EaseCallConfig.h in Headers */ = {isa = PBXBuildFile; fileRef = C0C6833E25C800A600F7AD5A /* EaseCallConfig.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		C0C6835B25C800A600F7AD5A /* EaseCallError.h in Headers */ = {isa = PBXBuildFile; fileRef = C0C6833F25C800A600F7AD5A /* EaseCallError.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		C0C6835C25C800A600F7AD5A /* EaseCallHttpRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = C0C6834025C800A600F7AD5A /* EaseCallHttpRequest.m */; };
+		C0C6835D25C800A600F7AD5A /* EaseCallError.m in Sources */ = {isa = PBXBuildFile; fileRef = C0C6834125C800A600F7AD5A /* EaseCallError.m */; };
+		C0C6835E25C800A600F7AD5A /* EaseCallConfig.m in Sources */ = {isa = PBXBuildFile; fileRef = C0C6834225C800A600F7AD5A /* EaseCallConfig.m */; };
+		C0C6835F25C800A600F7AD5A /* EaseCallHttpRequest.h in Headers */ = {isa = PBXBuildFile; fileRef = C0C6834325C800A600F7AD5A /* EaseCallHttpRequest.h */; };
+		C0C6836025C800A600F7AD5A /* EaseCallStreamView.m in Sources */ = {isa = PBXBuildFile; fileRef = C0C6834525C800A600F7AD5A /* EaseCallStreamView.m */; };
+		C0C6836125C800A600F7AD5A /* EaseCallStreamView.h in Headers */ = {isa = PBXBuildFile; fileRef = C0C6834625C800A600F7AD5A /* EaseCallStreamView.h */; };
+		C0C6836225C800A600F7AD5A /* EaseCallUIKit.h in Headers */ = {isa = PBXBuildFile; fileRef = C0C6834725C800A600F7AD5A /* EaseCallUIKit.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		C0C6836325C800A600F7AD5A /* EaseCallBaseViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C0C6834925C800A600F7AD5A /* EaseCallBaseViewController.m */; };
+		C0C6836425C800A600F7AD5A /* EaseCallSingleViewController.h in Headers */ = {isa = PBXBuildFile; fileRef = C0C6834A25C800A600F7AD5A /* EaseCallSingleViewController.h */; };
+		C0C6836525C800A600F7AD5A /* EaseCallMultiViewController.h in Headers */ = {isa = PBXBuildFile; fileRef = C0C6834B25C800A600F7AD5A /* EaseCallMultiViewController.h */; };
+		C0C6836625C800A600F7AD5A /* EaseCallBaseViewController.h in Headers */ = {isa = PBXBuildFile; fileRef = C0C6834C25C800A600F7AD5A /* EaseCallBaseViewController.h */; };
+		C0C6836725C800A600F7AD5A /* EaseCallSingleViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C0C6834D25C800A600F7AD5A /* EaseCallSingleViewController.m */; };
+		C0C6836825C800A600F7AD5A /* EaseCallMultiViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C0C6834E25C800A600F7AD5A /* EaseCallMultiViewController.m */; };
+		C0C6836925C800A600F7AD5A /* UIImage+Ext.h in Headers */ = {isa = PBXBuildFile; fileRef = C0C6835025C800A600F7AD5A /* UIImage+Ext.h */; };
+		C0C6836A25C800A600F7AD5A /* UIImage+Ext.m in Sources */ = {isa = PBXBuildFile; fileRef = C0C6835125C800A600F7AD5A /* UIImage+Ext.m */; };
+		C0C6836B25C800A600F7AD5A /* EaseCallManager+Private.h in Headers */ = {isa = PBXBuildFile; fileRef = C0C6835325C800A600F7AD5A /* EaseCallManager+Private.h */; };
+		C0C6836C25C800A600F7AD5A /* EaseCallManager.h in Headers */ = {isa = PBXBuildFile; fileRef = C0C6835425C800A600F7AD5A /* EaseCallManager.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		C0C6836D25C800A600F7AD5A /* EaseCallManager.m in Sources */ = {isa = PBXBuildFile; fileRef = C0C6835525C800A600F7AD5A /* EaseCallManager.m */; };
+		C0C6836E25C800A600F7AD5A /* EaseCallModal.m in Sources */ = {isa = PBXBuildFile; fileRef = C0C6835725C800A600F7AD5A /* EaseCallModal.m */; };
+		C0C6836F25C800A600F7AD5A /* EaseCallModal.h in Headers */ = {isa = PBXBuildFile; fileRef = C0C6835825C800A600F7AD5A /* EaseCallModal.h */; };
+		C2844222FC53A9C3AE9B0C2A /* libPods-EaseCallKitUI.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 102973BCE12C5BC02F97DC78 /* libPods-EaseCallKitUI.a */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXFileReference section */
+		102973BCE12C5BC02F97DC78 /* libPods-EaseCallKitUI.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-EaseCallKitUI.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		4EB621F0FC2E00B8E7FDC60F /* Pods-EaseCallKitUI.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-EaseCallKitUI.release.xcconfig"; path = "Target Support Files/Pods-EaseCallKitUI/Pods-EaseCallKitUI.release.xcconfig"; sourceTree = "<group>"; };
+		C0C682E525C7F61700F7AD5A /* EaseCallKitUI.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = EaseCallKitUI.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		C0C682E925C7F61700F7AD5A /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		C0C682F925C7FB6F00F7AD5A /* EaseCall.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = EaseCall.bundle; sourceTree = "<group>"; };
+		C0C6833D25C800A600F7AD5A /* EaseCallDefine.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EaseCallDefine.h; sourceTree = "<group>"; };
+		C0C6833E25C800A600F7AD5A /* EaseCallConfig.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EaseCallConfig.h; sourceTree = "<group>"; };
+		C0C6833F25C800A600F7AD5A /* EaseCallError.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EaseCallError.h; sourceTree = "<group>"; };
+		C0C6834025C800A600F7AD5A /* EaseCallHttpRequest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EaseCallHttpRequest.m; sourceTree = "<group>"; };
+		C0C6834125C800A600F7AD5A /* EaseCallError.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EaseCallError.m; sourceTree = "<group>"; };
+		C0C6834225C800A600F7AD5A /* EaseCallConfig.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EaseCallConfig.m; sourceTree = "<group>"; };
+		C0C6834325C800A600F7AD5A /* EaseCallHttpRequest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EaseCallHttpRequest.h; sourceTree = "<group>"; };
+		C0C6834525C800A600F7AD5A /* EaseCallStreamView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EaseCallStreamView.m; sourceTree = "<group>"; };
+		C0C6834625C800A600F7AD5A /* EaseCallStreamView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EaseCallStreamView.h; sourceTree = "<group>"; };
+		C0C6834725C800A600F7AD5A /* EaseCallUIKit.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EaseCallUIKit.h; sourceTree = "<group>"; };
+		C0C6834925C800A600F7AD5A /* EaseCallBaseViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EaseCallBaseViewController.m; sourceTree = "<group>"; };
+		C0C6834A25C800A600F7AD5A /* EaseCallSingleViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EaseCallSingleViewController.h; sourceTree = "<group>"; };
+		C0C6834B25C800A600F7AD5A /* EaseCallMultiViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EaseCallMultiViewController.h; sourceTree = "<group>"; };
+		C0C6834C25C800A600F7AD5A /* EaseCallBaseViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EaseCallBaseViewController.h; sourceTree = "<group>"; };
+		C0C6834D25C800A600F7AD5A /* EaseCallSingleViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EaseCallSingleViewController.m; sourceTree = "<group>"; };
+		C0C6834E25C800A600F7AD5A /* EaseCallMultiViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EaseCallMultiViewController.m; sourceTree = "<group>"; };
+		C0C6835025C800A600F7AD5A /* UIImage+Ext.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIImage+Ext.h"; sourceTree = "<group>"; };
+		C0C6835125C800A600F7AD5A /* UIImage+Ext.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIImage+Ext.m"; sourceTree = "<group>"; };
+		C0C6835325C800A600F7AD5A /* EaseCallManager+Private.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "EaseCallManager+Private.h"; sourceTree = "<group>"; };
+		C0C6835425C800A600F7AD5A /* EaseCallManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EaseCallManager.h; sourceTree = "<group>"; };
+		C0C6835525C800A600F7AD5A /* EaseCallManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EaseCallManager.m; sourceTree = "<group>"; };
+		C0C6835725C800A600F7AD5A /* EaseCallModal.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EaseCallModal.m; sourceTree = "<group>"; };
+		C0C6835825C800A600F7AD5A /* EaseCallModal.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EaseCallModal.h; sourceTree = "<group>"; };
+		F63841FC80FBCBF8DDCCFFA7 /* Pods-EaseCallKitUI.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-EaseCallKitUI.debug.xcconfig"; path = "Target Support Files/Pods-EaseCallKitUI/Pods-EaseCallKitUI.debug.xcconfig"; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		C0C682E225C7F61700F7AD5A /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				C2844222FC53A9C3AE9B0C2A /* libPods-EaseCallKitUI.a in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		3B5474447D42F05936B8C7F3 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				102973BCE12C5BC02F97DC78 /* libPods-EaseCallKitUI.a */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		76E8BF9C5F41652A49CF8583 /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				F63841FC80FBCBF8DDCCFFA7 /* Pods-EaseCallKitUI.debug.xcconfig */,
+				4EB621F0FC2E00B8E7FDC60F /* Pods-EaseCallKitUI.release.xcconfig */,
+			);
+			path = Pods;
+			sourceTree = "<group>";
+		};
+		C0C682DB25C7F61700F7AD5A = {
+			isa = PBXGroup;
+			children = (
+				C0C682E725C7F61700F7AD5A /* EaseCallKitUI */,
+				C0C682E625C7F61700F7AD5A /* Products */,
+				76E8BF9C5F41652A49CF8583 /* Pods */,
+				3B5474447D42F05936B8C7F3 /* Frameworks */,
+			);
+			sourceTree = "<group>";
+		};
+		C0C682E625C7F61700F7AD5A /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				C0C682E525C7F61700F7AD5A /* EaseCallKitUI.framework */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		C0C682E725C7F61700F7AD5A /* EaseCallKitUI */ = {
+			isa = PBXGroup;
+			children = (
+				C0C6833B25C800A600F7AD5A /* Classes */,
+				C0C682F825C7FB6F00F7AD5A /* Assets */,
+				C0C682E925C7F61700F7AD5A /* Info.plist */,
+			);
+			path = EaseCallKitUI;
+			sourceTree = "<group>";
+		};
+		C0C682F825C7FB6F00F7AD5A /* Assets */ = {
+			isa = PBXGroup;
+			children = (
+				C0C682F925C7FB6F00F7AD5A /* EaseCall.bundle */,
+			);
+			name = Assets;
+			path = ../../Assets;
+			sourceTree = "<group>";
+		};
+		C0C6833B25C800A600F7AD5A /* Classes */ = {
+			isa = PBXGroup;
+			children = (
+				C0C6833C25C800A600F7AD5A /* Utils */,
+				C0C6834425C800A600F7AD5A /* View */,
+				C0C6834725C800A600F7AD5A /* EaseCallUIKit.h */,
+				C0C6834825C800A600F7AD5A /* ViewController */,
+				C0C6834F25C800A600F7AD5A /* Categories */,
+				C0C6835225C800A600F7AD5A /* Process */,
+				C0C6835625C800A600F7AD5A /* Store */,
+			);
+			name = Classes;
+			path = ../../Classes;
+			sourceTree = "<group>";
+		};
+		C0C6833C25C800A600F7AD5A /* Utils */ = {
+			isa = PBXGroup;
+			children = (
+				C0C6833D25C800A600F7AD5A /* EaseCallDefine.h */,
+				C0C6833E25C800A600F7AD5A /* EaseCallConfig.h */,
+				C0C6833F25C800A600F7AD5A /* EaseCallError.h */,
+				C0C6834025C800A600F7AD5A /* EaseCallHttpRequest.m */,
+				C0C6834125C800A600F7AD5A /* EaseCallError.m */,
+				C0C6834225C800A600F7AD5A /* EaseCallConfig.m */,
+				C0C6834325C800A600F7AD5A /* EaseCallHttpRequest.h */,
+			);
+			path = Utils;
+			sourceTree = "<group>";
+		};
+		C0C6834425C800A600F7AD5A /* View */ = {
+			isa = PBXGroup;
+			children = (
+				C0C6834525C800A600F7AD5A /* EaseCallStreamView.m */,
+				C0C6834625C800A600F7AD5A /* EaseCallStreamView.h */,
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
+		C0C6834825C800A600F7AD5A /* ViewController */ = {
+			isa = PBXGroup;
+			children = (
+				C0C6834925C800A600F7AD5A /* EaseCallBaseViewController.m */,
+				C0C6834A25C800A600F7AD5A /* EaseCallSingleViewController.h */,
+				C0C6834B25C800A600F7AD5A /* EaseCallMultiViewController.h */,
+				C0C6834C25C800A600F7AD5A /* EaseCallBaseViewController.h */,
+				C0C6834D25C800A600F7AD5A /* EaseCallSingleViewController.m */,
+				C0C6834E25C800A600F7AD5A /* EaseCallMultiViewController.m */,
+			);
+			path = ViewController;
+			sourceTree = "<group>";
+		};
+		C0C6834F25C800A600F7AD5A /* Categories */ = {
+			isa = PBXGroup;
+			children = (
+				C0C6835025C800A600F7AD5A /* UIImage+Ext.h */,
+				C0C6835125C800A600F7AD5A /* UIImage+Ext.m */,
+			);
+			path = Categories;
+			sourceTree = "<group>";
+		};
+		C0C6835225C800A600F7AD5A /* Process */ = {
+			isa = PBXGroup;
+			children = (
+				C0C6835325C800A600F7AD5A /* EaseCallManager+Private.h */,
+				C0C6835425C800A600F7AD5A /* EaseCallManager.h */,
+				C0C6835525C800A600F7AD5A /* EaseCallManager.m */,
+			);
+			path = Process;
+			sourceTree = "<group>";
+		};
+		C0C6835625C800A600F7AD5A /* Store */ = {
+			isa = PBXGroup;
+			children = (
+				C0C6835725C800A600F7AD5A /* EaseCallModal.m */,
+				C0C6835825C800A600F7AD5A /* EaseCallModal.h */,
+			);
+			path = Store;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXHeadersBuildPhase section */
+		C0C682E025C7F61700F7AD5A /* Headers */ = {
+			isa = PBXHeadersBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				C0C6836C25C800A600F7AD5A /* EaseCallManager.h in Headers */,
+				C0C6835A25C800A600F7AD5A /* EaseCallConfig.h in Headers */,
+				C0C6835925C800A600F7AD5A /* EaseCallDefine.h in Headers */,
+				C0C6835B25C800A600F7AD5A /* EaseCallError.h in Headers */,
+				C0C6836225C800A600F7AD5A /* EaseCallUIKit.h in Headers */,
+				C0C6836625C800A600F7AD5A /* EaseCallBaseViewController.h in Headers */,
+				C0C6836925C800A600F7AD5A /* UIImage+Ext.h in Headers */,
+				C0C6836125C800A600F7AD5A /* EaseCallStreamView.h in Headers */,
+				C0C6836B25C800A600F7AD5A /* EaseCallManager+Private.h in Headers */,
+				C0C6835F25C800A600F7AD5A /* EaseCallHttpRequest.h in Headers */,
+				C0C6836F25C800A600F7AD5A /* EaseCallModal.h in Headers */,
+				C0C6836425C800A600F7AD5A /* EaseCallSingleViewController.h in Headers */,
+				C0C6836525C800A600F7AD5A /* EaseCallMultiViewController.h in Headers */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXHeadersBuildPhase section */
+
+/* Begin PBXNativeTarget section */
+		C0C682E425C7F61700F7AD5A /* EaseCallKitUI */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = C0C682ED25C7F61700F7AD5A /* Build configuration list for PBXNativeTarget "EaseCallKitUI" */;
+			buildPhases = (
+				683F40A9F21FA3EE7D1CFF0D /* [CP] Check Pods Manifest.lock */,
+				C0C682E025C7F61700F7AD5A /* Headers */,
+				C0C682E125C7F61700F7AD5A /* Sources */,
+				C0C682E225C7F61700F7AD5A /* Frameworks */,
+				C0C682E325C7F61700F7AD5A /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = EaseCallKitUI;
+			productName = EaseCallKitUI;
+			productReference = C0C682E525C7F61700F7AD5A /* EaseCallKitUI.framework */;
+			productType = "com.apple.product-type.framework";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		C0C682DC25C7F61700F7AD5A /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastUpgradeCheck = 1210;
+				TargetAttributes = {
+					C0C682E425C7F61700F7AD5A = {
+						CreatedOnToolsVersion = 12.1;
+					};
+				};
+			};
+			buildConfigurationList = C0C682DF25C7F61700F7AD5A /* Build configuration list for PBXProject "EaseCallKitUI" */;
+			compatibilityVersion = "Xcode 9.3";
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = C0C682DB25C7F61700F7AD5A;
+			productRefGroup = C0C682E625C7F61700F7AD5A /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				C0C682E425C7F61700F7AD5A /* EaseCallKitUI */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		C0C682E325C7F61700F7AD5A /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				C0C6831825C7FB6F00F7AD5A /* EaseCall.bundle in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		683F40A9F21FA3EE7D1CFF0D /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-EaseCallKitUI-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		C0C682E125C7F61700F7AD5A /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				C0C6836325C800A600F7AD5A /* EaseCallBaseViewController.m in Sources */,
+				C0C6836E25C800A600F7AD5A /* EaseCallModal.m in Sources */,
+				C0C6836025C800A600F7AD5A /* EaseCallStreamView.m in Sources */,
+				C0C6835D25C800A600F7AD5A /* EaseCallError.m in Sources */,
+				C0C6836825C800A600F7AD5A /* EaseCallMultiViewController.m in Sources */,
+				C0C6835E25C800A600F7AD5A /* EaseCallConfig.m in Sources */,
+				C0C6836A25C800A600F7AD5A /* UIImage+Ext.m in Sources */,
+				C0C6836D25C800A600F7AD5A /* EaseCallManager.m in Sources */,
+				C0C6836725C800A600F7AD5A /* EaseCallSingleViewController.m in Sources */,
+				C0C6835C25C800A600F7AD5A /* EaseCallHttpRequest.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin XCBuildConfiguration section */
+		C0C682EB25C7F61700F7AD5A /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				CURRENT_PROJECT_VERSION = 1;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 14.1;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = iphoneos;
+				VERSIONING_SYSTEM = "apple-generic";
+				VERSION_INFO_PREFIX = "";
+			};
+			name = Debug;
+		};
+		C0C682EC25C7F61700F7AD5A /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				CURRENT_PROJECT_VERSION = 1;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 14.1;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				MTL_FAST_MATH = YES;
+				SDKROOT = iphoneos;
+				VALIDATE_PRODUCT = YES;
+				VERSIONING_SYSTEM = "apple-generic";
+				VERSION_INFO_PREFIX = "";
+			};
+			name = Release;
+		};
+		C0C682EE25C7F61700F7AD5A /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = F63841FC80FBCBF8DDCCFFA7 /* Pods-EaseCallKitUI.debug.xcconfig */;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				DEFINES_MODULE = YES;
+				DEVELOPMENT_TEAM = 499WYUV8Q2;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				HEADER_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"${PODS_ROOT}/Headers/Public\"",
+					"\"${PODS_ROOT}/Headers/Public/Masonry\"",
+					"\"${PODS_ROOT}/Headers/Public/SDWebImage\"",
+					"\"$(SRCROOT)/../Classes\"/**",
+				);
+				INFOPLIST_FILE = EaseCallKitUI/Info.plist;
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.easemob.EaseCallKitUI;
+				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
+				SKIP_INSTALL = YES;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		C0C682EF25C7F61700F7AD5A /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 4EB621F0FC2E00B8E7FDC60F /* Pods-EaseCallKitUI.release.xcconfig */;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				DEFINES_MODULE = YES;
+				DEVELOPMENT_TEAM = 499WYUV8Q2;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				HEADER_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"${PODS_ROOT}/Headers/Public\"",
+					"\"${PODS_ROOT}/Headers/Public/Masonry\"",
+					"\"${PODS_ROOT}/Headers/Public/SDWebImage\"",
+					"\"$(SRCROOT)/../Classes\"/**",
+				);
+				INFOPLIST_FILE = EaseCallKitUI/Info.plist;
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.easemob.EaseCallKitUI;
+				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
+				SKIP_INSTALL = YES;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		C0C682DF25C7F61700F7AD5A /* Build configuration list for PBXProject "EaseCallKitUI" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				C0C682EB25C7F61700F7AD5A /* Debug */,
+				C0C682EC25C7F61700F7AD5A /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		C0C682ED25C7F61700F7AD5A /* Build configuration list for PBXNativeTarget "EaseCallKitUI" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				C0C682EE25C7F61700F7AD5A /* Debug */,
+				C0C682EF25C7F61700F7AD5A /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = C0C682DC25C7F61700F7AD5A /* Project object */;
+}
