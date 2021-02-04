@@ -13,7 +13,7 @@
 @interface EaseCallStreamView()
 
 @property (nonatomic, strong) UIImageView *statusView;
-
+@property (nonatomic) NSTimer *timeTimer;
 @end
 
 @implementation EaseCallStreamView
@@ -23,6 +23,7 @@
     self = [super initWithFrame:frame];
     if (self) {
         _enableVoice = YES;
+        _isTalking = NO;
         
         self.bgView = [[UIImageView alloc] init];
         self.bgView.contentMode = UIViewContentModeScaleAspectFit;
@@ -79,6 +80,7 @@
     if (enableVoice) {
         _statusView.image = nil;
     } else {
+        self.isTalking = NO;
         _statusView.image = [UIImage imageNamedFromBundle:@"microphonenclose"];
     }
 }
@@ -96,6 +98,31 @@
         [_displayView setHidden:YES];
     }
 }
+
+- (void)setIsTalking:(BOOL)isTalking
+{
+    if(isTalking != _isTalking) {
+        if(isTalking) {
+            _statusView.image = [UIImage imageNamedFromBundle:@"talking_green"];
+            if(!self.timeTimer)
+                self.timeTimer = [NSTimer scheduledTimerWithTimeInterval:0.3 target:self selector:@selector(timeTalkingAction:) userInfo:nil repeats:NO];
+            
+        }else{
+            if(self.timeTimer) {
+                [self.timeTimer invalidate];
+                self.timeTimer = nil;
+            }
+        }
+    }
+    _isTalking = isTalking;
+}
+
+- (void)timeTalkingAction:(id)sender
+{
+    _statusView.image = nil;
+    self.isTalking = NO;
+}
+
 #pragma mark - UITapGestureRecognizer
 
 - (void)handleTapAction:(UITapGestureRecognizer *)aTap

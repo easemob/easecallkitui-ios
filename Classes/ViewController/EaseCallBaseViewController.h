@@ -7,7 +7,8 @@
 //
 
 #import <UIKit/UIKit.h>
-#import <HyphenateLite/HyphenateLite.h>
+#import "EaseCallStreamView.h"
+#import <Hyphenate/Hyphenate.h>
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -27,12 +28,16 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic,strong) UILabel* speakerLabel;
 @property (nonatomic,strong) UILabel* hangupLabel;
 @property (nonatomic,strong) UILabel* acceptLabel;
+@property (nonatomic,strong) UIButton* miniButton;
+@property (nonatomic) EaseCallStreamView* floatingView;
+@property (nonatomic) BOOL isMini;
 
 - (void)hangupAction;
 - (void)muteAction;
 - (void)enableVideoAction;
 - (void)startTimer;
 - (void)answerAction;
+- (void)miniAction;
 @end
 
 NS_ASSUME_NONNULL_END

@@ -7,13 +7,15 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		C083E90D25CAD41D004DCCC0 /* EaseCallConfig.h in Headers */ = {isa = PBXBuildFile; fileRef = C083E90B25CAD41D004DCCC0 /* EaseCallConfig.h */; };
+		C083E90E25CAD41D004DCCC0 /* EaseCallConfig.m in Sources */ = {isa = PBXBuildFile; fileRef = C083E90C25CAD41D004DCCC0 /* EaseCallConfig.m */; };
+		C083E91225CAD432004DCCC0 /* EaseCallPlaceholderView.m in Sources */ = {isa = PBXBuildFile; fileRef = C083E91025CAD432004DCCC0 /* EaseCallPlaceholderView.m */; };
+		C083E91325CAD432004DCCC0 /* EaseCallPlaceholderView.h in Headers */ = {isa = PBXBuildFile; fileRef = C083E91125CAD432004DCCC0 /* EaseCallPlaceholderView.h */; };
 		C0C6831825C7FB6F00F7AD5A /* EaseCall.bundle in Resources */ = {isa = PBXBuildFile; fileRef = C0C682F925C7FB6F00F7AD5A /* EaseCall.bundle */; };
 		C0C6835925C800A600F7AD5A /* EaseCallDefine.h in Headers */ = {isa = PBXBuildFile; fileRef = C0C6833D25C800A600F7AD5A /* EaseCallDefine.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		C0C6835A25C800A600F7AD5A /* EaseCallConfig.h in Headers */ = {isa = PBXBuildFile; fileRef = C0C6833E25C800A600F7AD5A /* EaseCallConfig.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		C0C6835B25C800A600F7AD5A /* EaseCallError.h in Headers */ = {isa = PBXBuildFile; fileRef = C0C6833F25C800A600F7AD5A /* EaseCallError.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		C0C6835C25C800A600F7AD5A /* EaseCallHttpRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = C0C6834025C800A600F7AD5A /* EaseCallHttpRequest.m */; };
 		C0C6835D25C800A600F7AD5A /* EaseCallError.m in Sources */ = {isa = PBXBuildFile; fileRef = C0C6834125C800A600F7AD5A /* EaseCallError.m */; };
-		C0C6835E25C800A600F7AD5A /* EaseCallConfig.m in Sources */ = {isa = PBXBuildFile; fileRef = C0C6834225C800A600F7AD5A /* EaseCallConfig.m */; };
 		C0C6835F25C800A600F7AD5A /* EaseCallHttpRequest.h in Headers */ = {isa = PBXBuildFile; fileRef = C0C6834325C800A600F7AD5A /* EaseCallHttpRequest.h */; };
 		C0C6836025C800A600F7AD5A /* EaseCallStreamView.m in Sources */ = {isa = PBXBuildFile; fileRef = C0C6834525C800A600F7AD5A /* EaseCallStreamView.m */; };
 		C0C6836125C800A600F7AD5A /* EaseCallStreamView.h in Headers */ = {isa = PBXBuildFile; fileRef = C0C6834625C800A600F7AD5A /* EaseCallStreamView.h */; };
@@ -37,15 +39,17 @@
 /* Begin PBXFileReference section */
 		102973BCE12C5BC02F97DC78 /* libPods-EaseCallKitUI.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-EaseCallKitUI.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		4EB621F0FC2E00B8E7FDC60F /* Pods-EaseCallKitUI.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-EaseCallKitUI.release.xcconfig"; path = "Target Support Files/Pods-EaseCallKitUI/Pods-EaseCallKitUI.release.xcconfig"; sourceTree = "<group>"; };
+		C083E90B25CAD41D004DCCC0 /* EaseCallConfig.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EaseCallConfig.h; sourceTree = "<group>"; };
+		C083E90C25CAD41D004DCCC0 /* EaseCallConfig.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EaseCallConfig.m; sourceTree = "<group>"; };
+		C083E91025CAD432004DCCC0 /* EaseCallPlaceholderView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EaseCallPlaceholderView.m; sourceTree = "<group>"; };
+		C083E91125CAD432004DCCC0 /* EaseCallPlaceholderView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EaseCallPlaceholderView.h; sourceTree = "<group>"; };
 		C0C682E525C7F61700F7AD5A /* EaseCallKitUI.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = EaseCallKitUI.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		C0C682E925C7F61700F7AD5A /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		C0C682F925C7FB6F00F7AD5A /* EaseCall.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = EaseCall.bundle; sourceTree = "<group>"; };
 		C0C6833D25C800A600F7AD5A /* EaseCallDefine.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EaseCallDefine.h; sourceTree = "<group>"; };
-		C0C6833E25C800A600F7AD5A /* EaseCallConfig.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EaseCallConfig.h; sourceTree = "<group>"; };
 		C0C6833F25C800A600F7AD5A /* EaseCallError.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EaseCallError.h; sourceTree = "<group>"; };
 		C0C6834025C800A600F7AD5A /* EaseCallHttpRequest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EaseCallHttpRequest.m; sourceTree = "<group>"; };
 		C0C6834125C800A600F7AD5A /* EaseCallError.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EaseCallError.m; sourceTree = "<group>"; };
-		C0C6834225C800A600F7AD5A /* EaseCallConfig.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EaseCallConfig.m; sourceTree = "<group>"; };
 		C0C6834325C800A600F7AD5A /* EaseCallHttpRequest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EaseCallHttpRequest.h; sourceTree = "<group>"; };
 		C0C6834525C800A600F7AD5A /* EaseCallStreamView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EaseCallStreamView.m; sourceTree = "<group>"; };
 		C0C6834625C800A600F7AD5A /* EaseCallStreamView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EaseCallStreamView.h; sourceTree = "<group>"; };
@@ -151,11 +155,9 @@
 			isa = PBXGroup;
 			children = (
 				C0C6833D25C800A600F7AD5A /* EaseCallDefine.h */,
-				C0C6833E25C800A600F7AD5A /* EaseCallConfig.h */,
 				C0C6833F25C800A600F7AD5A /* EaseCallError.h */,
 				C0C6834025C800A600F7AD5A /* EaseCallHttpRequest.m */,
 				C0C6834125C800A600F7AD5A /* EaseCallError.m */,
-				C0C6834225C800A600F7AD5A /* EaseCallConfig.m */,
 				C0C6834325C800A600F7AD5A /* EaseCallHttpRequest.h */,
 			);
 			path = Utils;
@@ -164,6 +166,8 @@
 		C0C6834425C800A600F7AD5A /* View */ = {
 			isa = PBXGroup;
 			children = (
+				C083E91125CAD432004DCCC0 /* EaseCallPlaceholderView.h */,
+				C083E91025CAD432004DCCC0 /* EaseCallPlaceholderView.m */,
 				C0C6834525C800A600F7AD5A /* EaseCallStreamView.m */,
 				C0C6834625C800A600F7AD5A /* EaseCallStreamView.h */,
 			);
@@ -205,6 +209,8 @@
 		C0C6835625C800A600F7AD5A /* Store */ = {
 			isa = PBXGroup;
 			children = (
+				C083E90B25CAD41D004DCCC0 /* EaseCallConfig.h */,
+				C083E90C25CAD41D004DCCC0 /* EaseCallConfig.m */,
 				C0C6835725C800A600F7AD5A /* EaseCallModal.m */,
 				C0C6835825C800A600F7AD5A /* EaseCallModal.h */,
 			);
@@ -219,16 +225,17 @@
 			buildActionMask = 2147483647;
 			files = (
 				C0C6836C25C800A600F7AD5A /* EaseCallManager.h in Headers */,
-				C0C6835A25C800A600F7AD5A /* EaseCallConfig.h in Headers */,
 				C0C6835925C800A600F7AD5A /* EaseCallDefine.h in Headers */,
 				C0C6835B25C800A600F7AD5A /* EaseCallError.h in Headers */,
 				C0C6836225C800A600F7AD5A /* EaseCallUIKit.h in Headers */,
 				C0C6836625C800A600F7AD5A /* EaseCallBaseViewController.h in Headers */,
+				C083E90D25CAD41D004DCCC0 /* EaseCallConfig.h in Headers */,
 				C0C6836925C800A600F7AD5A /* UIImage+Ext.h in Headers */,
 				C0C6836125C800A600F7AD5A /* EaseCallStreamView.h in Headers */,
 				C0C6836B25C800A600F7AD5A /* EaseCallManager+Private.h in Headers */,
 				C0C6835F25C800A600F7AD5A /* EaseCallHttpRequest.h in Headers */,
 				C0C6836F25C800A600F7AD5A /* EaseCallModal.h in Headers */,
+				C083E91325CAD432004DCCC0 /* EaseCallPlaceholderView.h in Headers */,
 				C0C6836425C800A600F7AD5A /* EaseCallSingleViewController.h in Headers */,
 				C0C6836525C800A600F7AD5A /* EaseCallMultiViewController.h in Headers */,
 			);
@@ -332,10 +339,11 @@
 				C0C6836E25C800A600F7AD5A /* EaseCallModal.m in Sources */,
 				C0C6836025C800A600F7AD5A /* EaseCallStreamView.m in Sources */,
 				C0C6835D25C800A600F7AD5A /* EaseCallError.m in Sources */,
+				C083E91225CAD432004DCCC0 /* EaseCallPlaceholderView.m in Sources */,
 				C0C6836825C800A600F7AD5A /* EaseCallMultiViewController.m in Sources */,
-				C0C6835E25C800A600F7AD5A /* EaseCallConfig.m in Sources */,
 				C0C6836A25C800A600F7AD5A /* UIImage+Ext.m in Sources */,
 				C0C6836D25C800A600F7AD5A /* EaseCallManager.m in Sources */,
+				C083E90E25CAD41D004DCCC0 /* EaseCallConfig.m in Sources */,
 				C0C6836725C800A600F7AD5A /* EaseCallSingleViewController.m in Sources */,
 				C0C6835C25C800A600F7AD5A /* EaseCallHttpRequest.m in Sources */,
 			);

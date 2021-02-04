@@ -26,6 +26,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     self.isConnected = NO;
+    self.isMini = NO;
     if(self.type == EaseCallType1v1Video) {
         self.localView = [[EaseCallStreamView alloc] init];
         [self setLocalDisplayView:[UIView new] enableVideo:YES];
@@ -45,23 +46,23 @@
     [self drawViewRoundHead];
     self.remoteNameLable = [[UILabel alloc] init];
     self.remoteNameLable.backgroundColor = [UIColor clearColor];
-    self.remoteNameLable.font = [UIFont systemFontOfSize:19];
+    self.remoteNameLable.font = [UIFont systemFontOfSize:24];
     self.remoteNameLable.textColor = [UIColor whiteColor];
     self.remoteNameLable.textAlignment = NSTextAlignmentRight;
     self.remoteNameLable.text = [[EaseCallManager sharedManager] getNicknameFromUid:self.remoteUid];
     [self.view addSubview:self.remoteNameLable];
     [self.remoteNameLable mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(self.viewRoundHead.mas_bottom).offset(10);
+        make.top.equalTo(self.viewRoundHead.mas_bottom).offset(40);
         make.centerX.equalTo(self.view);
     }];
     self.statusLable = [[UILabel alloc] init];
     self.statusLable.backgroundColor = [UIColor clearColor];
     self.statusLable.font = [UIFont systemFontOfSize:15];
-    self.statusLable.textColor = [UIColor whiteColor];
+    self.statusLable.textColor = [UIColor colorWithWhite:1.0 alpha:0.5];
     self.statusLable.textAlignment = NSTextAlignmentRight;
     [self.view addSubview:self.statusLable];
     [self.statusLable mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(self.remoteNameLable.mas_bottom).with.offset(20);
+        make.top.equalTo(self.remoteNameLable.mas_bottom).with.offset(5);
         make.centerX.equalTo(self.view);
     }];
     
@@ -101,7 +102,11 @@
         self.answerButton.hidden = YES;
         self.acceptLabel.hidden = YES;
     }else
+    {
         self.statusLable.text = @"邀请你进行音视频通话";
+        self.localView.hidden = YES;
+        self.remoteView.hidden = YES;
+    }
     [self updatePos];
     
 }
@@ -172,6 +177,9 @@
 {
     if(self.type == EaseCallType1v1Audio)
         return;
+    if(self.isMini) {
+        self.floatingView.enableVideo = NO;
+    }
     self.type = EaseCallType1v1Audio;
     [self updatePos];
 }
@@ -206,6 +214,10 @@
         self.remoteNameLable.hidden = NO;
         self.viewRoundHead.hidden = NO;
         [self.answerButton setImage:[UIImage imageNamedFromBundle:@"answer"] forState:UIControlStateNormal];
+        [self.remoteNameLable mas_remakeConstraints:^(MASConstraintMaker *make) {
+            make.top.equalTo(self.viewRoundHead.mas_bottom).with.offset(30);
+            make.centerX.equalTo(self.view);
+        }];
         if(_isConnected) {
             // 接通
             self.microphoneButton.hidden = NO;
@@ -293,6 +305,9 @@
             make.centerX.equalTo(self.view);
             make.top.equalTo(@100);
         }];
+        [self.remoteNameLable mas_updateConstraints:^(MASConstraintMaker *make) {
+            make.top.equalTo(self.remoteHeadView.mas_bottom).offset(40);
+        }];
         [self.answerButton setImage:[UIImage imageNamedFromBundle:@"camera_answer"] forState:UIControlStateNormal];
         if(_isConnected) {
             // 接通
@@ -339,8 +354,10 @@
                 [self.hangupButton mas_updateConstraints:^(MASConstraintMaker *make) {
                     make.centerX.equalTo(self.view);
                 }];
+                self.localView.hidden = NO;
             }else{
                 // 接听方
+                self.localView.hidden = YES;
                 self.switchCameraButton.hidden = YES;
                 self.switchCameraLabel.hidden = YES;
                 self.answerButton.hidden = NO;
@@ -379,7 +396,7 @@
     }else
     {
         self.localView.enableVideo = NO;
-        [self.localView setHidden:YES];
+        self.localView.hidden = YES;
     }
 }
 
@@ -418,8 +435,43 @@
     self.localView.enableVoice = self.microphoneButton.isSelected;
 }
 
+- (void)miniAction
+{
+    self.isMini = YES;
+    [super miniAction];
+    self.floatingView.enableVideo = self.type == EaseCallType1v1Video ? YES : NO;
+    self.floatingView.delegate = self;
+    if(self.type == EaseCallType1v1Video) {
+        self.floatingView.displayView = self.remoteView.displayView;
+        [self.floatingView addSubview:self.remoteView.displayView];
+        self.floatingView.enableVideo = self.remoteView.enableVideo;
+        [self.floatingView.displayView mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.edges.equalTo(self.floatingView);
+        }];
+    }
+    if(self.isConnected) {
+        self.floatingView.nameLabel.text = @"通话中";
+    }else{
+        self.floatingView.nameLabel.text = @"等待接听";
+        self.floatingView.enableVideo = NO;
+    }
+}
+
 - (void)streamViewDidTap:(EaseCallStreamView *)aVideoView
 {
+    if(aVideoView == self.floatingView) {
+        self.isMini = NO;
+        [self.floatingView removeFromSuperview];
+        UIWindow *window = [[UIApplication sharedApplication] keyWindow];
+        UIViewController *rootViewController = window.rootViewController;
+        self.modalPresentationStyle = 0;
+        [rootViewController presentViewController:self animated:YES completion:nil];
+        if(self.type == EaseCallType1v1Video) {
+            [self.floatingView.displayView removeFromSuperview];
+                [self setRemoteDisplayView:self.floatingView.displayView enableVideo:YES];
+        }
+        return;
+    }
     if(aVideoView.frame.size.width == 80) {
         [self.view sendSubviewToBack:aVideoView];
         EaseCallStreamView *otherView = aVideoView == self.localView?self.remoteView:self.localView;
@@ -454,25 +506,34 @@
 }
 - (void)setRemoteDisplayView:(UIView*)aDisplayView enableVideo:(BOOL)aEnableVideo
 {
-    if(self.remoteView)
-    {
-        self.remoteView.displayView = aDisplayView;
-        self.remoteView.delegate = self;
-        [self.remoteView addSubview:aDisplayView];
-        self.remoteView.enableVideo = aEnableVideo;
-        [self.remoteView.bgView sd_setImageWithURL:[[EaseCallManager sharedManager] getHeadImageFromUid:self.remoteUid]];
-        [aDisplayView mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.edges.equalTo(self.remoteView);
-        }];
+    __weak typeof(self) weakself = self;
+    void (^setDisplayView)(EaseCallStreamView*) = ^void (EaseCallStreamView*view) {
+        if(view)
+        {
+            view.displayView = aDisplayView;
+            view.delegate = self;
+            [view addSubview:aDisplayView];
+            view.enableVideo = aEnableVideo;
+            [view.bgView sd_setImageWithURL:[[EaseCallManager sharedManager] getHeadImageFromUid:weakself.remoteUid]];
+            [aDisplayView mas_makeConstraints:^(MASConstraintMaker *make) {
+                make.edges.equalTo(view);
+            }];
+        }
+    };
+    if(self.isMini) {
+        setDisplayView(self.floatingView);
+        self.floatingView.nameLabel.text = @"通话中";
+        return;
+    }else{
+        setDisplayView(self.remoteView);
         if(!aEnableVideo && self.type == EaseCallType1v1Video) {
-            [self switchToVoiceAction];
+            [weakself switchToVoiceAction];
         }
-        if(self.type == EaseCallType1v1Video) {
-            [self streamViewDidTap:self.remoteView];
+        if(self.type == EaseCallType1v1Video && self.isConnected) {
+            [weakself streamViewDidTap:self.remoteView];
         }
+        [self updatePos];
     }
-    
-    [self updatePos];
 }
 
 - (void)enableVideoAction
@@ -506,7 +567,13 @@
 {
     _isConnected = isConnected;
     if(isConnected)
+    {
         [self startTimer];
+        if(self.isMini && self.type == EaseCallType1v1Video) {
+            self.floatingView.enableVideo = YES;
+            self.floatingView.nameLabel.text = @"通话中";
+        }
+    }
     if(self.type == EaseCallType1v1Video && isConnected)
         [self streamViewDidTap:self.remoteView];
     [self updatePos];

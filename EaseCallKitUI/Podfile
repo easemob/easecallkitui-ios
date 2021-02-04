@@ -5,7 +5,7 @@ source 'https://github.com/CocoaPods/Specs.git'
 
 target 'EaseCallKitUI' do
 
-    pod 'HyphenateLite'
+    pod 'Hyphenate'
     pod 'Masonry'
     pod 'AgoraRtcEngine_iOS'
     pod 'SDWebImage', '~> 3.7.2'

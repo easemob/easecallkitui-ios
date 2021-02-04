@@ -48,6 +48,8 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic,strong) AgoraUserInfo* remoteUserInfo;
 // 频道名称
 @property (nonatomic,strong) NSString* channelName;
+// 扩展字段
+@property (nonatomic) NSDictionary* ext;
 @end
 
 @interface EaseCallModal : NSObject

@@ -19,6 +19,8 @@
 
 @property (nonatomic) BOOL enableVoice;
 
+@property (nonatomic) BOOL isTalking;
+
 @property (nonatomic) BOOL enableVideo;
 
 @property (nonatomic, strong) UIImageView *bgView;

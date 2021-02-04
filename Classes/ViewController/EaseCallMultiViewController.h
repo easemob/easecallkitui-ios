@@ -19,6 +19,8 @@ NS_ASSUME_NONNULL_BEGIN
 - (void)setLocalVideoView:(UIView*)localView enableVideo:(BOOL)aEnableVideo;
 - (void)setRemoteViewNickname:(NSString*)aNickname headImage:(NSURL*)url uId:(NSNumber*)aUid;
 - (UIView*) getViewByUid:(NSNumber*)uId;
+- (void)setPlaceHolderUrl:(NSURL*)url member:(NSString*)uId;
+- (void)removePlaceHolderForMember:(NSString*)uId;
 @property (nonatomic,strong) UILabel* remoteNameLable;
 @property (nonatomic,strong) NSString* inviterId;
 @property (nonatomic,strong) UIImageView* remoteHeadView;

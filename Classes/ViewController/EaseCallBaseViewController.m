@@ -28,6 +28,19 @@
 - (void)setubSubViews
 {
     int size = 60;
+    
+    self.miniButton = [[UIButton alloc] init];
+    self.miniButton.imageView.contentMode = UIViewContentModeScaleAspectFit;
+    [self.miniButton setImage:[UIImage imageNamedFromBundle:@"mini"] forState:UIControlStateNormal];
+    [self.miniButton addTarget:self action:@selector(miniAction) forControlEvents:UIControlEventTouchUpInside];
+    [self.view addSubview:self.miniButton];
+    [self.miniButton setTintColor:[UIColor whiteColor]];
+    [self.miniButton mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.top.equalTo(self.view).offset(20);
+        make.left.equalTo(@10);
+        make.width.height.equalTo(@40);
+    }];
+    
     self.hangupButton = [[UIButton alloc] init];
     self.hangupButton.imageView.contentMode = UIViewContentModeScaleAspectFit;
     [self.hangupButton setImage:[UIImage imageNamedFromBundle:@"hangup"] forState:UIControlStateNormal];
@@ -206,6 +219,30 @@
 {
     self.enableCameraButton.selected = !self.enableCameraButton.isSelected;
     [[EaseCallManager sharedManager] enableVideo:self.enableCameraButton.selected];
+}
+
+- (void)miniAction
+{
+    UIWindow *keyWindow = [UIApplication sharedApplication].keyWindow;
+    self.floatingView.frame = CGRectMake(self.view.bounds.size.width - 100, 80, 80, 100);
+    [keyWindow addSubview:self.floatingView];
+    [keyWindow bringSubviewToFront:self.floatingView];
+    
+    [self dismissViewControllerAnimated:YES completion:nil];
+}
+
+- (EaseCallStreamView*)floatingView
+{
+    if(!_floatingView)
+    {
+        _floatingView = [[EaseCallStreamView alloc] init];
+        _floatingView.backgroundColor = [UIColor grayColor];
+        _floatingView.bgView.image = [UIImage imageNamedFromBundle:@"floating_voice"];
+        [_floatingView.bgView mas_updateConstraints:^(MASConstraintMaker *make) {
+                make.width.height.equalTo(@55);
+        }];
+    }
+    return _floatingView;
 }
 
 

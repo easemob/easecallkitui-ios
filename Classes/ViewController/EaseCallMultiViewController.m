@@ -9,6 +9,7 @@
 #import "EaseCallMultiViewController.h"
 #import "EaseCallStreamView.h"
 #import "EaseCallManager+Private.h"
+#import "EaseCallPlaceholderView.h"
 #import <Masonry/Masonry.h>
 #import <SDWebImage/UIImageView+WebCache.h>
 #import "UIImage+Ext.h"
@@ -18,6 +19,7 @@
 @property (nonatomic) UILabel* statusLable;
 @property (nonatomic) BOOL isJoined;
 @property (nonatomic) EaseCallStreamView* bigView;
+@property (nonatomic) NSMutableDictionary* placeHolderViewsDic;
 @end
 
 @implementation EaseCallMultiViewController
@@ -39,7 +41,7 @@
     [self.inviteButton addTarget:self action:@selector(inviteAction) forControlEvents:UIControlEventTouchUpInside];
     [self.view addSubview:self.inviteButton];
     [self.inviteButton mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(@40);
+        make.top.equalTo(@20);
         make.right.equalTo(self.view);
         make.width.height.equalTo(@50);
     }];
@@ -59,27 +61,28 @@
             [self.remoteHeadView sd_setImageWithURL:remoteUrl];
             self.remoteNameLable = [[UILabel alloc] init];
             self.remoteNameLable.backgroundColor = [UIColor clearColor];
-            self.remoteNameLable.font = [UIFont systemFontOfSize:19];
+            //self.remoteNameLable.font = [UIFont systemFontOfSize:19];
             self.remoteNameLable.textColor = [UIColor whiteColor];
             self.remoteNameLable.textAlignment = NSTextAlignmentRight;
+            self.remoteNameLable.font = [UIFont systemFontOfSize:24];
             self.remoteNameLable.text = [[EaseCallManager sharedManager] getNicknameFromUid:self.inviterId];
             [self.timeLabel setHidden:YES];
             [self.view addSubview:self.remoteNameLable];
             [self.remoteNameLable mas_makeConstraints:^(MASConstraintMaker *make) {
-                make.top.equalTo(self.remoteHeadView.mas_bottom).offset(10);
+                make.top.equalTo(self.remoteHeadView.mas_bottom).offset(20);
                 make.centerX.equalTo(self.view);
             }];
             self.statusLable = [[UILabel alloc] init];
             self.statusLable.backgroundColor = [UIColor clearColor];
             self.statusLable.font = [UIFont systemFontOfSize:15];
-            self.statusLable.textColor = [UIColor whiteColor];
+            self.statusLable.textColor = [UIColor colorWithWhite:1.0 alpha:0.5];
             self.statusLable.textAlignment = NSTextAlignmentRight;
             self.statusLable.text = @"邀请你进行音视频会话";
             self.answerButton.hidden = NO;
             self.acceptLabel.hidden = NO;
             [self.view addSubview:self.statusLable];
             [self.statusLable mas_makeConstraints:^(MASConstraintMaker *make) {
-                make.top.equalTo(self.remoteNameLable.mas_bottom);
+                make.top.equalTo(self.remoteNameLable.mas_bottom).offset(20);
                 make.centerX.equalTo(self.view);
             }];
         }else{
@@ -108,6 +111,14 @@
         _streamViewsDic = [NSMutableDictionary dictionary];
     }
     return _streamViewsDic;
+}
+
+- (NSMutableDictionary*)placeHolderViewsDic
+{
+    if(!_placeHolderViewsDic) {
+        _placeHolderViewsDic = [NSMutableDictionary dictionary];
+    }
+    return _placeHolderViewsDic;
 }
 
 - (void)addRemoteView:(UIView*)remoteView member:(NSNumber*)uId enableVideo:(BOOL)aEnableVideo
@@ -172,6 +183,8 @@
     self.localView.delegate = self;
     self.localView.nameLabel.text = [[EaseCallManager sharedManager] getNicknameFromUid:[EMClient sharedClient].currentUsername ];
     [self.localView addSubview:aDisplayView];
+    int width = self.view.bounds.size.width/2;
+    self.localView.frame = CGRectMake(0, 60, width, width);
     [aDisplayView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.edges.equalTo(self.localView);
     }];
@@ -205,11 +218,11 @@
 
 - (void)updateViewPos
 {
-    unsigned long count = self.streamViewsDic.count;
+    unsigned long count = self.streamViewsDic.count + self.placeHolderViewsDic.count;
     if(self.localView.displayView)
         count++;
     int index = 0;
-    int top = 80;
+    int top = 60;
     int left = 0;
     int right = 0;
     int colSize = 1;
@@ -217,6 +230,8 @@
     int bottom = 200;
     int cellwidth = (self.view.frame.size.width - left - right - (colomns - 1)*colSize)/colomns ;
     int cellHeight = (self.view.frame.size.height - top - bottom)/(count > 6?5:3);
+    if(count < 5)
+        cellHeight = cellwidth;
     //int cellwidth = (self.view.frame.size.width - left - right - (colomns - 1)*colSize)/colomns ;
     //int cellHeight = MIN(cellHeightH, cellWidthV);
     //int cellwidth = cellHeight
@@ -251,6 +266,11 @@
             index++;
             NSArray* views = [self.streamViewsDic allValues];
             for(EaseCallStreamView* view in views) {
+                view.frame = CGRectMake(left + index%colomns * (cellwidth + colSize), top + index/colomns * (cellHeight + colSize), cellwidth, cellHeight);
+                index++;
+            }
+            NSArray* placeViews = [self.placeHolderViewsDic allValues];
+            for(EaseCallStreamView* view in placeViews) {
                 view.frame = CGRectMake(left + index%colomns * (cellwidth + colSize), top + index/colomns * (cellHeight + colSize), cellwidth, cellHeight);
                 index++;
             }
@@ -313,8 +333,43 @@
     }
 }
 
+- (void)setPlaceHolderUrl:(NSURL*)url member:(NSString*)uId
+{
+    EaseCallPlaceholderView* view = [self.placeHolderViewsDic objectForKey:uId];
+    if(view)
+        return;
+    EaseCallPlaceholderView* placeHolderView = [[EaseCallPlaceholderView alloc] init];
+    [self.view addSubview:placeHolderView];
+    [placeHolderView.nameLabel setText:[[EaseCallManager sharedManager] getNicknameFromUid:uId]];
+//    NSData* data = [NSData dataWithContentsOfURL:url ];
+//    [placeHolderView.placeHolder setImage:[UIImage imageWithData:data]];
+    [placeHolderView.placeHolder sd_setImageWithURL:url];
+    [self.placeHolderViewsDic setObject:placeHolderView forKey:uId];
+    [self updateViewPos];
+}
+
+- (void)removePlaceHolderForMember:(NSString*)uId
+{
+    EaseCallPlaceholderView* view = [self.placeHolderViewsDic objectForKey:uId];
+    if(view)
+    {
+        [view removeFromSuperview];
+        [self.placeHolderViewsDic removeObjectForKey:uId];
+        [self updateViewPos];
+    }
+}
+
 - (void)streamViewDidTap:(EaseCallStreamView *)aVideoView
 {
+    if(aVideoView == self.floatingView) {
+        self.isMini = NO;
+        [self.floatingView removeFromSuperview];
+        UIWindow *window = [[UIApplication sharedApplication] keyWindow];
+        UIViewController *rootViewController = window.rootViewController;
+        self.modalPresentationStyle = 0;
+        [rootViewController presentViewController:self animated:YES completion:nil];
+        return;
+    }
     if(aVideoView == self.bigView) {
         self.bigView = nil;
         [self updateViewPos];
@@ -324,6 +379,19 @@
             self.bigView = aVideoView;
             [self updateViewPos];
         }
+    }
+}
+
+- (void)miniAction
+{
+    self.isMini = YES;
+    [super miniAction];
+    self.floatingView.enableVideo = NO;
+    self.floatingView.delegate = self;
+    if(self.isJoined) {
+        self.floatingView.nameLabel.text = @"通话中";
+    }else{
+        self.floatingView.nameLabel.text = @"等待接听";
     }
 }
 /*
