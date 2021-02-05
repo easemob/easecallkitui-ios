@@ -37,7 +37,6 @@ static NSString* kBusyResult = @"busy";
 static NSString* kAcceptResult = @"accept";
 static NSString* kRefuseresult = @"refuse";
 static NSString* kMsgTypeValue = @"rtcCallWithAgora";
-static NSString* kAppId = @"15cb0d28b87b425ea613fc46f7c9f974";
 static NSString* kExt = @"ext";
 
 @interface EaseCallManager ()<EMChatManagerDelegate,EMConferenceManagerDelegate,AgoraRtcEngineDelegate,EaseCallModalDelegate>
@@ -68,9 +67,8 @@ static EaseCallManager *easeCallManager = nil;
         easeCallManager = [[EaseCallManager alloc] init];
         easeCallManager.delegate = nil;
         [[EMClient sharedClient].chatManager addDelegate:easeCallManager delegateQueue:nil];
-        easeCallManager.agoraKit = [AgoraRtcEngineKit sharedEngineWithAppId:kAppId delegate:easeCallManager];
-        [easeCallManager.agoraKit enableAudioVolumeIndication:1000 smooth:5 report_vad:NO];
         easeCallManager.modal = [[EaseCallModal alloc] initWithDelegate:easeCallManager];
+        easeCallManager.agoraKit = nil;
     });
     return easeCallManager;
 }
@@ -84,6 +82,11 @@ static EaseCallManager *easeCallManager = nil;
     }else{
         self.config = [[EaseCallConfig alloc] init];
     }
+    if(!self.agoraKit) {
+        self.agoraKit = [AgoraRtcEngineKit sharedEngineWithAppId:self.config.agoraAppId delegate:self];
+        [self.agoraKit enableAudioVolumeIndication:1000 smooth:5 report_vad:NO];
+    }
+    
     self.modal.curUserAccount = [[EMClient sharedClient] currentUsername];
 }
 
@@ -1046,7 +1049,7 @@ static EaseCallManager *easeCallManager = nil;
         return;
     if(self.modal.currentCall && self.modal.currentCall.callType == EaseCallTypeMulti) {
         for (AgoraRtcAudioVolumeInfo *speakerInfo in speakers) {
-            if(speakerInfo.volume > 3) {
+            if(speakerInfo.volume > 5) {
                 if(speakerInfo.uid == 0) {
                     [self getMultiVC].localView.isTalking = YES;
                 }else{
@@ -1106,8 +1109,11 @@ static EaseCallManager *easeCallManager = nil;
 
 #pragma mark - 获取token
 - (NSString*)fetchToken {
+    if([self.delegate respondsToSelector:@selector(fetchTokenForAppId:channelName:)]) {
+        return [self.delegate fetchTokenForAppId:self.config.agoraAppId channelName:self.modal.currentCall.channelName];
+    }
     __weak typeof(self) weakself = self;
-    NSDictionary*parameters = @{@"AppId":kAppId,@"account":[EMClient sharedClient].currentUsername,@"channelName":self.modal.currentCall.channelName};
+    NSDictionary*parameters = @{@"AppId":self.config.agoraAppId,@"account":[EMClient sharedClient].currentUsername,@"channelName":self.modal.currentCall.channelName};
     return [EaseCallHttpRequest requestWithUrl:@"http://120.25.226.186:32812/login?username=123&pwd=123" parameters:parameters token:[EMClient sharedClient].accessUserToken timeOutInterval:30 failCallback:^(NSData * _Nonnull resBody) {
         [weakself callBackError:EaseCallErrorTypeProcess code:EaseCallProcessErrorCodeFetchTokenFail description:[[NSString alloc] initWithData:resBody encoding:NSUTF8StringEncoding]];
     }];

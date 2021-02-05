@@ -10,12 +10,13 @@
 
 NS_ASSUME_NONNULL_BEGIN
 @interface EaseCallUser : NSObject
-@property (nonatomic)  NSString* _Nonnull  uId;
 @property (nonatomic)  NSString* _Nullable  nickName;
 @property (nonatomic)  NSURL* _Nullable  headImage;
 @end
 
 @interface EaseCallVideoConfig : NSObject
+
+typedef NSString*_Nullable(^FetchTokenCallback)(NSString*channelName,NSString*appId);
 
 @end
 // 增加铃声、标题文本、环信ID与昵称的映射
@@ -28,6 +29,8 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic) NSMutableDictionary* users;
 // 振铃文件
 @property (nonatomic) NSURL* ringFileUrl;
+// 声网appId
+@property (nonatomic) NSString* agoraAppId;
 @end
 
 NS_ASSUME_NONNULL_END

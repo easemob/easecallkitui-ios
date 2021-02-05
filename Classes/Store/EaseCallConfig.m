@@ -17,7 +17,6 @@
         NSURL* url = [[NSBundle mainBundle] URLForResource:path withExtension:@"png"];
         self.headImage = url;
         self.nickName = @"";
-        self.uId = @"";
     }
     return self;
 }
@@ -48,6 +47,7 @@
     NSString* path = [NSString stringWithFormat:@"EaseCall.bundle/icon"];
     NSURL* url = [[NSBundle mainBundle] URLForResource:path withExtension:@"png"];
     _defaultHeadImage = url;
+    _agoraAppId = @"15cb0d28b87b425ea613fc46f7c9f974";
 }
 
 @end

@@ -40,6 +40,12 @@
  * @param aError         错误信息
  */
 - (void)callDidOccurError:(EaseCallError*_Nonnull)aError;
+/**
+ * @param aAppId 声网通话使用的appId
+ * @param aChannelName 呼叫使用的频道名称
+ * @return 返回用户获取到的token
+ */
+- (NSString*_Nullable)fetchTokenForAppId:(NSString*_Nonnull)aAppId channelName:(NSString*_Nonnull)aChannelName;
 @end
 
 NS_ASSUME_NONNULL_BEGIN
