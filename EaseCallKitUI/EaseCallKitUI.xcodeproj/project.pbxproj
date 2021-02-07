@@ -7,7 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		C083E90D25CAD41D004DCCC0 /* EaseCallConfig.h in Headers */ = {isa = PBXBuildFile; fileRef = C083E90B25CAD41D004DCCC0 /* EaseCallConfig.h */; };
+		C083E90D25CAD41D004DCCC0 /* EaseCallConfig.h in Headers */ = {isa = PBXBuildFile; fileRef = C083E90B25CAD41D004DCCC0 /* EaseCallConfig.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		C083E90E25CAD41D004DCCC0 /* EaseCallConfig.m in Sources */ = {isa = PBXBuildFile; fileRef = C083E90C25CAD41D004DCCC0 /* EaseCallConfig.m */; };
 		C083E91225CAD432004DCCC0 /* EaseCallPlaceholderView.m in Sources */ = {isa = PBXBuildFile; fileRef = C083E91025CAD432004DCCC0 /* EaseCallPlaceholderView.m */; };
 		C083E91325CAD432004DCCC0 /* EaseCallPlaceholderView.h in Headers */ = {isa = PBXBuildFile; fileRef = C083E91125CAD432004DCCC0 /* EaseCallPlaceholderView.h */; };
@@ -227,9 +227,9 @@
 				C0C6836C25C800A600F7AD5A /* EaseCallManager.h in Headers */,
 				C0C6835925C800A600F7AD5A /* EaseCallDefine.h in Headers */,
 				C0C6835B25C800A600F7AD5A /* EaseCallError.h in Headers */,
+				C083E90D25CAD41D004DCCC0 /* EaseCallConfig.h in Headers */,
 				C0C6836225C800A600F7AD5A /* EaseCallUIKit.h in Headers */,
 				C0C6836625C800A600F7AD5A /* EaseCallBaseViewController.h in Headers */,
-				C083E90D25CAD41D004DCCC0 /* EaseCallConfig.h in Headers */,
 				C0C6836925C800A600F7AD5A /* UIImage+Ext.h in Headers */,
 				C0C6836125C800A600F7AD5A /* EaseCallStreamView.h in Headers */,
 				C0C6836B25C800A600F7AD5A /* EaseCallManager+Private.h in Headers */,

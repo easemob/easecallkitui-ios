@@ -6,6 +6,7 @@
 //  Copyright © 2020 lixiaoming. All rights reserved.
 //
 
+#import <AgoraRtcKit/AgoraRtcEngineKit.h>
 #import "EaseCallManager.h"
 #import "EaseCallSingleViewController.h"
 #import "EaseCallMultiViewController.h"
@@ -1082,8 +1083,6 @@ static EaseCallManager *easeCallManager = nil;
         self.modal.currentCall.remoteUserAccount = userInfo.userAccount;
     }
 }
-
-
 
 - (void)callBackCallEnd:(EaseCallEndReason)reason
 {

@@ -10,7 +10,6 @@
 #import "EaseCallConfig.h"
 #import "EaseCallDefine.h"
 #import "EaseCallError.h"
-#import <AgoraRtcKit/AgoraRtcEngineKit.h>
 
 @protocol EaseCallDelegate <NSObject>
 /**
