@@ -10,6 +10,7 @@
 #import "EaseCallConfig.h"
 #import "EaseCallDefine.h"
 #import "EaseCallError.h"
+#import <AgoraRtcKit/AgoraRtcEngineKit.h>
 
 @protocol EaseCallDelegate <NSObject>
 /**
@@ -40,9 +41,11 @@
  */
 - (void)callDidOccurError:(EaseCallError*_Nonnull)aError;
 /**
+ * 获取用户的声网token
  * @param aAppId 声网通话使用的appId
  * @param aChannelName 呼叫使用的频道名称
- * @return 返回用户获取到的token
+ * @param aUserAccount 账户
+ * @return 返回用户声网token
  */
 - (NSString*_Nullable)fetchTokenForAppId:(NSString*_Nonnull)aAppId channelName:(NSString*_Nonnull)aChannelName account:(NSString*_Nonnull)aUserAccount;
 @end

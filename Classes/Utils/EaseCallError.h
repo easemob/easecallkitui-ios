@@ -7,7 +7,7 @@
 //
 
 #import <Foundation/Foundation.h>
-#import <EaseCallDefine.h>
+#import "EaseCallDefine.h"
 
 NS_ASSUME_NONNULL_BEGIN
 

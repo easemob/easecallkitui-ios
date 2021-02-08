@@ -110,7 +110,7 @@ static EaseCallManager *easeCallManager = nil;
     return _alertTimerDic;
 }
 
-- (void)startInviteUsers:(NSArray<NSString*>*)aUsers ext:(NSDictionary*)aExt completion:(void (^)(NSString* callId,EaseCallError*))aCompletionBlock{
+- (void)startInviteUsers:(NSArray<NSString*>*)aUsers ext:(NSDictionary*)aExt  completion:(void (^)(NSString* callId,EaseCallError*))aCompletionBlock{
     if([aUsers count] == 0){
         NSLog(@"InviteUsers faild!!remoteUid is empty");
         if(aCompletionBlock)
@@ -553,7 +553,10 @@ static EaseCallManager *easeCallManager = nil;
     NSNumber* isValid = [ext objectForKey:kCallStatus];
     NSNumber* callType = [ext objectForKey:kCallType];
     NSNumber* isVideoToVoice = [ext objectForKey:kVideoToVoice];
-    NSDictionary* callExt = [ext objectForKey:kExt];
+    NSDictionary* callExt = nil;
+    id ret = [ext objectForKey:kExt];
+    if([ret isKindOfClass:[NSDictionary class]])
+        callExt = ret;
     __weak typeof(self) weakself = self;
     
     void (^parseInviteMsgExt)(NSDictionary*) = ^void (NSDictionary* ext) {
