@@ -9,27 +9,41 @@
 #import <Foundation/Foundation.h>
 
 NS_ASSUME_NONNULL_BEGIN
+/**
+ * 用户的昵称、头像信息
+ */
 @interface EaseCallUser : NSObject
+/*
+ * nickName    用户昵称
+ */
 @property (nonatomic)  NSString* _Nullable  nickName;
+/*
+ * nickName    用户头像
+ */
 @property (nonatomic)  NSURL* _Nullable  headImage;
 @end
 
-@interface EaseCallVideoConfig : NSObject
-
-typedef NSString*_Nullable(^FetchTokenCallback)(NSString*channelName,NSString*appId);
-
-@end
 // 增加铃声、标题文本、环信ID与昵称的映射
 @interface EaseCallConfig : NSObject
-// 默认头像
+/*
+ * nickName    用户头像
+ */
 @property (nonatomic)  NSURL*  defaultHeadImage;
-// 呼叫超时时间
+/*
+ * callTimeOut    呼叫超时时间
+ */
 @property (nonatomic) UInt32 callTimeOut;
-// 用户信息字典,key为环信ID，value为EaseCallUser
+/*
+ * users    用户信息字典,key为环信ID，value为EaseCallUser
+ */
 @property (nonatomic) NSMutableDictionary* users;
-// 振铃文件
+/*
+ * ringFileUrl    振铃文件
+ */
 @property (nonatomic) NSURL* ringFileUrl;
-// 声网appId
+/*
+ * agoraAppId    声网appId
+ */
 @property (nonatomic) NSString* agoraAppId;
 @end
 

@@ -1108,8 +1108,8 @@ static EaseCallManager *easeCallManager = nil;
 
 #pragma mark - 获取token
 - (NSString*)fetchToken {
-    if([self.delegate respondsToSelector:@selector(fetchTokenForAppId:channelName:)]) {
-        return [self.delegate fetchTokenForAppId:self.config.agoraAppId channelName:self.modal.currentCall.channelName];
+    if([self.delegate respondsToSelector:@selector(fetchTokenForAppId:channelName:account:)]) {
+        return [self.delegate fetchTokenForAppId:self.config.agoraAppId channelName:self.modal.currentCall.channelName account:[EMClient sharedClient].currentUsername];
     }
     __weak typeof(self) weakself = self;
     NSDictionary*parameters = @{@"AppId":self.config.agoraAppId,@"account":[EMClient sharedClient].currentUsername,@"channelName":self.modal.currentCall.channelName};

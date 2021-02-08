@@ -44,7 +44,7 @@
  * @param aChannelName 呼叫使用的频道名称
  * @return 返回用户获取到的token
  */
-- (NSString*_Nullable)fetchTokenForAppId:(NSString*_Nonnull)aAppId channelName:(NSString*_Nonnull)aChannelName;
+- (NSString*_Nullable)fetchTokenForAppId:(NSString*_Nonnull)aAppId channelName:(NSString*_Nonnull)aChannelName account:(NSString*_Nonnull)aUserAccount;
 @end
 
 NS_ASSUME_NONNULL_BEGIN
