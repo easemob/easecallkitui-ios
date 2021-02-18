@@ -16,6 +16,7 @@ EaseCallKitUI是一套可以让用户快速集成1v1语言、视频通话以及�
 
 1.通过cocoapods安装依赖库
 打开终端，运行命令
+
 ```
 cd ./EaseCallKitUI
 
@@ -35,3 +36,14 @@ pod install
     - Utils [通用工具类、定义 ]
     - View [音视频视图]
     - ViewController [通话界面视图控制器]
+
+## Pod集成(暂时)
+
+```
+pod 'EaseCallKit', :git => 'https://github.com/lixm1988/easecallkitui-ios.git', :branch => 'dev'
+```
+引入头文件:  
+
+```
+#import <EaseCallKit/EaseCallUIKit.h>
+```
