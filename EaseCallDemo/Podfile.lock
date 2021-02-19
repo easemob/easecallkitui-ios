@@ -10,9 +10,11 @@ PODS:
   - SDWebImage (3.7.6):
     - SDWebImage/Core (= 3.7.6)
   - SDWebImage/Core (3.7.6)
+  - WHToast (0.0.7)
 
 DEPENDENCIES:
   - EaseCallKit (from `../`)
+  - WHToast
 
 SPEC REPOS:
   https://github.com/CocoaPods/Specs.git:
@@ -20,6 +22,7 @@ SPEC REPOS:
     - Hyphenate
     - Masonry
     - SDWebImage
+    - WHToast
 
 EXTERNAL SOURCES:
   EaseCallKit:
@@ -31,7 +34,8 @@ SPEC CHECKSUMS:
   Hyphenate: 50590f6059cc49e604f3b067a208867986162944
   Masonry: 678fab65091a9290e40e2832a55e7ab731aad201
   SDWebImage: c325cf02c30337336b95beff20a13df489ec0ec9
+  WHToast: 11a17a3f09f5f733e32bd6f3338919a448cbb719
 
-PODFILE CHECKSUM: a33b93dd025186ac6c71e42062fa99f0dacccdcd
+PODFILE CHECKSUM: 5c2894fbd7150b431f2e5e21c09a5a6586cdc3ae
 
 COCOAPODS: 1.10.0

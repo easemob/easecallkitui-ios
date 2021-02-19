@@ -7,9 +7,16 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		902DA81625DF9EC00098E6DF /* AppDelegate+EaseCallKit.m in Sources */ = {isa = PBXBuildFile; fileRef = 902DA81525DF9EC00098E6DF /* AppDelegate+EaseCallKit.m */; };
+		902DA81E25DFA93D0098E6DF /* LoginViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 902DA81D25DFA93D0098E6DF /* LoginViewController.m */; };
+		902DA82225DFA9B80098E6DF /* UIStoryboard+Category.m in Sources */ = {isa = PBXBuildFile; fileRef = 902DA82125DFA9B80098E6DF /* UIStoryboard+Category.m */; };
+		902DA82525DFAA4E0098E6DF /* HomeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 902DA82425DFAA4E0098E6DF /* HomeViewController.m */; };
+		902DA82D25DFB23B0098E6DF /* LaunchImage@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 902DA82A25DFB23B0098E6DF /* LaunchImage@2x.png */; };
+		902DA82E25DFB23C0098E6DF /* LaunchImage@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 902DA82B25DFB23B0098E6DF /* LaunchImage@3x.png */; };
+		902DA82F25DFB23C0098E6DF /* LaunchImage.png in Resources */ = {isa = PBXBuildFile; fileRef = 902DA82C25DFB23B0098E6DF /* LaunchImage.png */; };
+		902DA83225DFB2D70098E6DF /* LaunchViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 902DA83125DFB2D70098E6DF /* LaunchViewController.m */; };
+		902DA83825DFD6170098E6DF /* ContactsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 902DA83725DFD6170098E6DF /* ContactsViewController.m */; };
+		902DA83B25DFD61E0098E6DF /* SettingsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 902DA83A25DFD61E0098E6DF /* SettingsViewController.m */; };
 		907CCB1825DE7ADC009AD53F /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 907CCB1725DE7ADC009AD53F /* AppDelegate.m */; };
-		907CCB1E25DE7ADD009AD53F /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 907CCB1D25DE7ADD009AD53F /* ViewController.m */; };
 		907CCB2125DE7ADD009AD53F /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 907CCB1F25DE7ADD009AD53F /* Main.storyboard */; };
 		907CCB2325DE7ADF009AD53F /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 907CCB2225DE7ADF009AD53F /* Assets.xcassets */; };
 		907CCB2625DE7ADF009AD53F /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 907CCB2425DE7ADF009AD53F /* LaunchScreen.storyboard */; };
@@ -20,13 +27,24 @@
 /* Begin PBXFileReference section */
 		01B54487887DAA94AF453420 /* libPods-EaseCallDemo.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-EaseCallDemo.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		20C5F65DD148A5D7C5F9AD77 /* Pods-EaseCallDemo.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-EaseCallDemo.release.xcconfig"; path = "../EaseCallDemo/Pods/Target Support Files/Pods-EaseCallDemo/Pods-EaseCallDemo.release.xcconfig"; sourceTree = "<group>"; };
-		902DA81425DF9EC00098E6DF /* AppDelegate+EaseCallKit.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "AppDelegate+EaseCallKit.h"; sourceTree = "<group>"; };
-		902DA81525DF9EC00098E6DF /* AppDelegate+EaseCallKit.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "AppDelegate+EaseCallKit.m"; sourceTree = "<group>"; };
+		902DA81C25DFA93D0098E6DF /* LoginViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = LoginViewController.h; sourceTree = "<group>"; };
+		902DA81D25DFA93D0098E6DF /* LoginViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = LoginViewController.m; sourceTree = "<group>"; };
+		902DA82025DFA9B80098E6DF /* UIStoryboard+Category.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "UIStoryboard+Category.h"; sourceTree = "<group>"; };
+		902DA82125DFA9B80098E6DF /* UIStoryboard+Category.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "UIStoryboard+Category.m"; sourceTree = "<group>"; };
+		902DA82325DFAA4E0098E6DF /* HomeViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HomeViewController.h; sourceTree = "<group>"; };
+		902DA82425DFAA4E0098E6DF /* HomeViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HomeViewController.m; sourceTree = "<group>"; };
+		902DA82A25DFB23B0098E6DF /* LaunchImage@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "LaunchImage@2x.png"; sourceTree = "<group>"; };
+		902DA82B25DFB23B0098E6DF /* LaunchImage@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "LaunchImage@3x.png"; sourceTree = "<group>"; };
+		902DA82C25DFB23B0098E6DF /* LaunchImage.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = LaunchImage.png; sourceTree = "<group>"; };
+		902DA83025DFB2D70098E6DF /* LaunchViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = LaunchViewController.h; sourceTree = "<group>"; };
+		902DA83125DFB2D70098E6DF /* LaunchViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = LaunchViewController.m; sourceTree = "<group>"; };
+		902DA83625DFD6170098E6DF /* ContactsViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ContactsViewController.h; sourceTree = "<group>"; };
+		902DA83725DFD6170098E6DF /* ContactsViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ContactsViewController.m; sourceTree = "<group>"; };
+		902DA83925DFD61E0098E6DF /* SettingsViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SettingsViewController.h; sourceTree = "<group>"; };
+		902DA83A25DFD61E0098E6DF /* SettingsViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SettingsViewController.m; sourceTree = "<group>"; };
 		907CCB1325DE7ADC009AD53F /* EaseCallDemo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = EaseCallDemo.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		907CCB1625DE7ADC009AD53F /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		907CCB1725DE7ADC009AD53F /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
-		907CCB1C25DE7ADC009AD53F /* ViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ViewController.h; sourceTree = "<group>"; };
-		907CCB1D25DE7ADD009AD53F /* ViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ViewController.m; sourceTree = "<group>"; };
 		907CCB2025DE7ADD009AD53F /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		907CCB2225DE7ADF009AD53F /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		907CCB2525DE7ADF009AD53F /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
@@ -57,6 +75,51 @@
 			path = ../Pods;
 			sourceTree = "<group>";
 		};
+		902DA81A25DFA92D0098E6DF /* Classes */ = {
+			isa = PBXGroup;
+			children = (
+				902DA81F25DFA99F0098E6DF /* Categorys */,
+				902DA81B25DFA92D0098E6DF /* ViewControllers */,
+			);
+			path = Classes;
+			sourceTree = "<group>";
+		};
+		902DA81B25DFA92D0098E6DF /* ViewControllers */ = {
+			isa = PBXGroup;
+			children = (
+				902DA81C25DFA93D0098E6DF /* LoginViewController.h */,
+				902DA81D25DFA93D0098E6DF /* LoginViewController.m */,
+				902DA82325DFAA4E0098E6DF /* HomeViewController.h */,
+				902DA82425DFAA4E0098E6DF /* HomeViewController.m */,
+				902DA83025DFB2D70098E6DF /* LaunchViewController.h */,
+				902DA83125DFB2D70098E6DF /* LaunchViewController.m */,
+				902DA83625DFD6170098E6DF /* ContactsViewController.h */,
+				902DA83725DFD6170098E6DF /* ContactsViewController.m */,
+				902DA83925DFD61E0098E6DF /* SettingsViewController.h */,
+				902DA83A25DFD61E0098E6DF /* SettingsViewController.m */,
+			);
+			path = ViewControllers;
+			sourceTree = "<group>";
+		};
+		902DA81F25DFA99F0098E6DF /* Categorys */ = {
+			isa = PBXGroup;
+			children = (
+				902DA82025DFA9B80098E6DF /* UIStoryboard+Category.h */,
+				902DA82125DFA9B80098E6DF /* UIStoryboard+Category.m */,
+			);
+			path = Categorys;
+			sourceTree = "<group>";
+		};
+		902DA82925DFB23B0098E6DF /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				902DA82A25DFB23B0098E6DF /* LaunchImage@2x.png */,
+				902DA82B25DFB23B0098E6DF /* LaunchImage@3x.png */,
+				902DA82C25DFB23B0098E6DF /* LaunchImage.png */,
+			);
+			path = Resources;
+			sourceTree = "<group>";
+		};
 		907CCB0A25DE7ADC009AD53F = {
 			isa = PBXGroup;
 			children = (
@@ -78,17 +141,15 @@
 		907CCB1525DE7ADC009AD53F /* EaseCallDemo */ = {
 			isa = PBXGroup;
 			children = (
+				902DA82925DFB23B0098E6DF /* Resources */,
+				902DA81A25DFA92D0098E6DF /* Classes */,
 				907CCB1625DE7ADC009AD53F /* AppDelegate.h */,
 				907CCB1725DE7ADC009AD53F /* AppDelegate.m */,
-				907CCB1C25DE7ADC009AD53F /* ViewController.h */,
-				907CCB1D25DE7ADD009AD53F /* ViewController.m */,
 				907CCB1F25DE7ADD009AD53F /* Main.storyboard */,
 				907CCB2225DE7ADF009AD53F /* Assets.xcassets */,
 				907CCB2425DE7ADF009AD53F /* LaunchScreen.storyboard */,
 				907CCB2725DE7ADF009AD53F /* Info.plist */,
 				907CCB2825DE7ADF009AD53F /* main.m */,
-				902DA81425DF9EC00098E6DF /* AppDelegate+EaseCallKit.h */,
-				902DA81525DF9EC00098E6DF /* AppDelegate+EaseCallKit.m */,
 			);
 			path = EaseCallDemo;
 			sourceTree = "<group>";
@@ -161,7 +222,10 @@
 			buildActionMask = 2147483647;
 			files = (
 				907CCB2625DE7ADF009AD53F /* LaunchScreen.storyboard in Resources */,
+				902DA82D25DFB23B0098E6DF /* LaunchImage@2x.png in Resources */,
+				902DA82F25DFB23C0098E6DF /* LaunchImage.png in Resources */,
 				907CCB2325DE7ADF009AD53F /* Assets.xcassets in Resources */,
+				902DA82E25DFB23C0098E6DF /* LaunchImage@3x.png in Resources */,
 				907CCB2125DE7ADD009AD53F /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -232,10 +296,14 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				907CCB1E25DE7ADD009AD53F /* ViewController.m in Sources */,
-				902DA81625DF9EC00098E6DF /* AppDelegate+EaseCallKit.m in Sources */,
+				902DA81E25DFA93D0098E6DF /* LoginViewController.m in Sources */,
 				907CCB1825DE7ADC009AD53F /* AppDelegate.m in Sources */,
 				907CCB2925DE7ADF009AD53F /* main.m in Sources */,
+				902DA83B25DFD61E0098E6DF /* SettingsViewController.m in Sources */,
+				902DA83825DFD6170098E6DF /* ContactsViewController.m in Sources */,
+				902DA82225DFA9B80098E6DF /* UIStoryboard+Category.m in Sources */,
+				902DA82525DFAA4E0098E6DF /* HomeViewController.m in Sources */,
+				902DA83225DFB2D70098E6DF /* LaunchViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -379,8 +447,8 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
-				CODE_SIGN_IDENTITY = "iPhone Distribution";
-				CODE_SIGN_STYLE = Manual;
+				CODE_SIGN_IDENTITY = "Apple Development";
+				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 499WYUV8Q2;
 				INFOPLIST_FILE = EaseCallDemo/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
@@ -390,8 +458,8 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.easemob.EaseCallKitDemo;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE_SPECIFIER = com.easemob.EaseCallKitDemo.dev;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				PROVISIONING_PROFILE_SPECIFIER = "";
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Debug;
 		};
@@ -401,8 +469,8 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
-				CODE_SIGN_IDENTITY = "iPhone Distribution";
-				CODE_SIGN_STYLE = Manual;
+				CODE_SIGN_IDENTITY = "Apple Development";
+				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 499WYUV8Q2;
 				INFOPLIST_FILE = EaseCallDemo/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
@@ -412,8 +480,8 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.easemob.EaseCallKitDemo;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE_SPECIFIER = com.easemob.EaseCallKitDemo.pro;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				PROVISIONING_PROFILE_SPECIFIER = "";
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Release;
 		};
