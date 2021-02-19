@@ -41,7 +41,7 @@
  */
 - (void)callDidOccurError:(EaseCallError*_Nonnull)aError;
 /**
- * 获取用户的声网token
+ * 加入音视频通话频道前触发该回调，用户需要在触发该回调后，主动从AppServer获取声网token，然后调用setRTCToken:channelName:方法将token设置进来
  * @param aAppId 声网通话使用的appId
  * @param aChannelName 呼叫使用的频道名称
  * @param aUserAccount 账户
