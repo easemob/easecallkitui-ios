@@ -45,9 +45,8 @@
  * @param aAppId 声网通话使用的appId
  * @param aChannelName 呼叫使用的频道名称
  * @param aUserAccount 账户
- * @return 返回用户声网token
  */
-- (NSString*_Nullable)fetchTokenForAppId:(NSString*_Nonnull)aAppId channelName:(NSString*_Nonnull)aChannelName account:(NSString*_Nonnull)aUserAccount;
+- (void)callDidRequestRTCTokenForAppId:(NSString*_Nonnull)aAppId channelName:(NSString*_Nonnull)aChannelName account:(NSString*_Nonnull)aUserAccount;
 @end
 
 NS_ASSUME_NONNULL_BEGIN
@@ -80,6 +79,12 @@ NS_ASSUME_NONNULL_BEGIN
  * @return  EaseCallKit的配置
  */
 - (EaseCallConfig*)getEaseCallConfig;
+/**
+ * 设置声网频道及token
+ * @param aToken         声网token
+ * @param aChannelName              token对应的频道名称
+ */
+- (void)setRTCToken:(NSString*_Nullable)aToken channelName:(NSString*)aChannelName;
 @end
 
 NS_ASSUME_NONNULL_END

@@ -16,11 +16,11 @@ NS_ASSUME_NONNULL_BEGIN
 /*
  * nickName    用户昵称
  */
-@property (nonatomic)  NSString* _Nullable  nickName;
+@property (nonatomic,strong)  NSString* _Nullable  nickName;
 /*
  * nickName    用户头像
  */
-@property (nonatomic)  NSURL* _Nullable  headImage;
+@property (nonatomic,strong)  NSURL* _Nullable  headImage;
 @end
 
 // 增加铃声、标题文本、环信ID与昵称的映射
@@ -28,7 +28,7 @@ NS_ASSUME_NONNULL_BEGIN
 /*
  * nickName    用户头像
  */
-@property (nonatomic)  NSURL*  defaultHeadImage;
+@property (nonatomic,strong)  NSURL*  defaultHeadImage;
 /*
  * callTimeOut    呼叫超时时间
  */
@@ -36,15 +36,15 @@ NS_ASSUME_NONNULL_BEGIN
 /*
  * users    用户信息字典,key为环信ID，value为EaseCallUser
  */
-@property (nonatomic) NSMutableDictionary* users;
+@property (nonatomic,strong) NSMutableDictionary* users;
 /*
  * ringFileUrl    振铃文件
  */
-@property (nonatomic) NSURL* ringFileUrl;
+@property (nonatomic,strong) NSURL* ringFileUrl;
 /*
  * agoraAppId    声网appId
  */
-@property (nonatomic) NSString* agoraAppId;
+@property (nonatomic,strong) NSString* agoraAppId;
 @end
 
 NS_ASSUME_NONNULL_END

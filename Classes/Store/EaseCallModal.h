@@ -19,7 +19,7 @@ typedef NS_ENUM(NSInteger,EaseCallState) {
 
 @protocol EaseCallModalDelegate <NSObject>
 
-// 结束时通话时长
+// 通话状态改变
 - (void)callStateWillChangeTo:(EaseCallState)newState from:(EaseCallState)preState;
 
 @end
@@ -29,9 +29,9 @@ NS_ASSUME_NONNULL_BEGIN
 // 加入频道时，使用joinChannlewithAccount接口，account为自己的环信账户
 @interface ECCall : NSObject
 // 通话的callId，一次通话的唯一标识符
-@property (nonatomic) NSString* callId;
+@property (nonatomic,strong) NSString* callId;
 // 通话的对端账户环信Id
-@property (nonatomic) NSString* remoteUserAccount;
+@property (nonatomic,strong) NSString* remoteUserAccount;
 // 通话的对端账户设备ID
 @property (nonatomic,strong) NSString* remoteCallDevId;
 // 通话类型
@@ -49,7 +49,7 @@ NS_ASSUME_NONNULL_BEGIN
 // 频道名称
 @property (nonatomic,strong) NSString* channelName;
 // 扩展字段
-@property (nonatomic) NSDictionary* ext;
+@property (nonatomic,strong) NSDictionary* ext;
 @end
 
 @interface EaseCallModal : NSObject

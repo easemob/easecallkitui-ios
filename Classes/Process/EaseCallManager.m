@@ -11,7 +11,6 @@
 #import "EaseCallSingleViewController.h"
 #import "EaseCallMultiViewController.h"
 #import "EaseCallManager+Private.h"
-#import "EaseCallHttpRequest.h"
 #import <AVFoundation/AVFoundation.h>
 #import <AudioToolbox/AudioToolbox.h>
 #import <Masonry/Masonry.h>
@@ -40,21 +39,21 @@ static NSString* kRefuseresult = @"refuse";
 static NSString* kMsgTypeValue = @"rtcCallWithAgora";
 static NSString* kExt = @"ext";
 
-@interface EaseCallManager ()<EMChatManagerDelegate,EMConferenceManagerDelegate,AgoraRtcEngineDelegate,EaseCallModalDelegate>
-@property (nonatomic) EaseCallConfig* config;
+@interface EaseCallManager ()<EMChatManagerDelegate,AgoraRtcEngineDelegate,EaseCallModalDelegate>
+@property (nonatomic,strong) EaseCallConfig* config;
 @property (nonatomic,weak) id<EaseCallDelegate> delegate;
 @property (nonatomic) dispatch_queue_t workQueue;
 @property (nonatomic,strong) AVAudioPlayer* audioPlayer;
-@property (nonatomic) EaseCallModal* modal;
+@property (nonatomic,strong) EaseCallModal* modal;
 // 定义 agoraKit 变量
 @property (strong, nonatomic) AgoraRtcEngineKit *agoraKit;
 // 呼叫方Timer
-@property (nonatomic) NSMutableDictionary* callTimerDic;
+@property (nonatomic,strong) NSMutableDictionary* callTimerDic;
 // 接听方Timer
-@property (nonatomic) NSMutableDictionary* alertTimerDic;
+@property (nonatomic,strong) NSMutableDictionary* alertTimerDic;
 @property (nonatomic,weak) NSTimer* confirmTimer;
 @property (nonatomic,weak) NSTimer* ringTimer;
-@property (nonatomic) EaseCallBaseViewController*callVC;
+@property (nonatomic,strong) EaseCallBaseViewController*callVC;
 @property (nonatomic) BOOL bNeedSwitchToVoice;
 @end
 
@@ -94,6 +93,14 @@ static EaseCallManager *easeCallManager = nil;
 - (EaseCallConfig*)getEaseCallConfig
 {
     return self.config;
+}
+
+- (void)setRTCToken:(NSString*_Nullable)aToken channelName:(NSString*)aChannelName
+{
+    if(self.modal.currentCall && [self.modal.currentCall.channelName isEqualToString:aChannelName]) {
+        self.modal.agoraRTCToken = aToken;
+        [self joinChannel];
+    }
 }
 
 - (NSMutableDictionary*)callTimerDic
@@ -219,7 +226,7 @@ static EaseCallManager *easeCallManager = nil;
             [self.agoraKit disableVideo];
         }
         [self.agoraKit leaveChannel:^(AgoraChannelStats * _Nonnull stat) {
-                NSLog(@"leaveChannel,stat:%@",stat);
+                NSLog(@"leaveChannel");
                 }];
     }
     if(self.callVC) {
@@ -233,7 +240,7 @@ static EaseCallManager *easeCallManager = nil;
             }];
         }
     }
-    NSLog(@"invite timer count:%ld",self.callTimerDic.count);
+    NSLog(@"invite timer count:%lu",(unsigned long)self.callTimerDic.count);
     NSArray* timers = [self.callTimerDic allValues];
     for (NSTimer* tm in timers) {
         if(tm) {
@@ -272,7 +279,7 @@ static EaseCallManager *easeCallManager = nil;
         [rootVC presentViewController:self.callVC animated:NO completion:^{
             if(weakself.modal.currentCall.callType == EaseCallType1v1Video)
                 [weakself setupLocalVideo];
-            [weakself joinChannel];
+            [weakself fetchToken];
         }];
     }
 }
@@ -287,7 +294,7 @@ static EaseCallManager *easeCallManager = nil;
             __weak typeof(self) weakself = self;
             [rootVC presentViewController:self.callVC animated:NO completion:^{
                 [weakself setupLocalVideo];
-                [weakself joinChannel];
+                [weakself fetchToken];
             }];
         }
         [self _stopRingTimer];
@@ -353,7 +360,7 @@ static EaseCallManager *easeCallManager = nil;
 #pragma mark - EaseCallModalDelegate
 - (void)callStateWillChangeTo:(EaseCallState)newState from:(EaseCallState)preState
 {
-    NSLog(@"callState will chageto:%ld from:%ld",newState,preState);
+    NSLog(@"callState will chageto:%ld from:%ld",newState,(long)preState);
     __weak typeof(self) weakself = self;
     dispatch_async(dispatch_get_main_queue(), ^{
         switch (newState) {
@@ -585,7 +592,7 @@ static EaseCallManager *easeCallManager = nil;
         }
     };
     void (^parseAlertMsgExt)(NSDictionary*) = ^void (NSDictionary* ext) {
-        NSLog(@"parseAlertMsgExt currentCallId:%@,state:%ld",weakself.modal.currentCall.callId,weakself.modal.state);
+        NSLog(@"parseAlertMsgExt currentCallId:%@,state:%ld",weakself.modal.currentCall.callId,(long)weakself.modal.state);
         // 判断devId
         if([weakself.modal.curDevId isEqualToString:callerDevId]) {
             // 判断有效
@@ -597,7 +604,7 @@ static EaseCallManager *easeCallManager = nil;
         }
     };
     void (^parseCancelCallMsgExt)(NSDictionary*) = ^void (NSDictionary* ext) {
-        NSLog(@"parseCancelCallMsgExt currentCallId:%@,state:%ld",weakself.modal.currentCall.callId,weakself.modal.state);
+        NSLog(@"parseCancelCallMsgExt currentCallId:%@,state:%ld",weakself.modal.currentCall.callId,(long)weakself.modal.state);
         if(weakself.modal.currentCall && [weakself.modal.currentCall.callId isEqualToString:callId]) {
             [weakself _stopConfirmTimer:callId];
             [weakself _stopAlertTimer:callId];
@@ -928,10 +935,10 @@ static EaseCallManager *easeCallManager = nil;
 #pragma mark - AgoraRtcEngineKitDelegate
 - (void)rtcEngine:(AgoraRtcEngineKit *)engine didOccurError:(AgoraErrorCode)errorCode
 {
-    NSLog(@"rtcEngine didOccurError:%ld",errorCode);
+    NSLog(@"rtcEngine didOccurError:%ld",(long)errorCode);
     if(errorCode == AgoraErrorCodeTokenExpired || errorCode == AgoraErrorCodeInvalidToken) {
-        // 重新获取token
-        [self fetchToken];
+        self.modal.state = EaseCallState_Idle;
+        [self callBackError:EaseCallErrorTypeRTC code:errorCode description:@"RTC Error"];
     }else{
         if(errorCode != AgoraErrorCodeNoError) {
             [self callBackError:EaseCallErrorTypeRTC code:errorCode description:@"RTC Error"];
@@ -948,7 +955,7 @@ static EaseCallManager *easeCallManager = nil;
 // 加入频道成功
 - (void)rtcEngine:(AgoraRtcEngineKit *)engine didJoinChannel:(NSString *)channel withUid:(NSUInteger)uid elapsed:(NSInteger)elapsed
 {
-    NSLog(@"join channel success!!! channel:%@,uid:%ld",channel,uid);
+    NSLog(@"join channel success!!! channel:%@,uid:%lu",channel,(unsigned long)uid);
 }
 
 // 注册账户成功
@@ -989,7 +996,7 @@ static EaseCallManager *easeCallManager = nil;
 // 对方加入频道
 - (void)rtcEngine:(AgoraRtcEngineKit * _Nonnull)engine didJoinedOfUid:(NSUInteger)uid elapsed:(NSInteger)elapsed
 {
-    NSLog(@"didJoinedOfUid:%ld",uid);
+    NSLog(@"didJoinedOfUid:%lu",(unsigned long)uid);
     if(self.modal.currentCall.callType == EaseCallTypeMulti) {
         UIView *view = [UIView new];
         [[self getMultiVC] addRemoteView:view member:[NSNumber numberWithUnsignedInteger:uid] enableVideo:YES];
@@ -1033,7 +1040,7 @@ static EaseCallManager *easeCallManager = nil;
 
 - (void)rtcEngine:(AgoraRtcEngineKit *)engine firstRemoteAudioFrameOfUid:(NSUInteger)uid elapsed:(NSInteger)elapsed
 {
-    NSLog(@"firstRemoteAudioFrameOfUid:%ld",uid);
+    NSLog(@"firstRemoteAudioFrameOfUid:%lu",(unsigned long)uid);
 }
 
 - (void)rtcEngine:(AgoraRtcEngineKit *)engine remoteVideoStateChangedOfUid:(NSUInteger)uid state:(AgoraVideoRemoteState)state reason:(AgoraVideoRemoteStateReason)reason elapsed:(NSInteger)elapsed
@@ -1071,7 +1078,7 @@ static EaseCallManager *easeCallManager = nil;
 // 对方account更新
 - (void)rtcEngine:(AgoraRtcEngineKit * _Nonnull)engine didUpdatedUserInfo:(AgoraUserInfo * _Nonnull)userInfo withUid:(NSUInteger)uid;
 {
-    NSLog(@"didUpdatedUserInfo uid:%ld,account:%@",uid,userInfo.userAccount);
+    NSLog(@"didUpdatedUserInfo uid:%lu,account:%@",(unsigned long)uid,userInfo.userAccount);
     if(self.modal.currentCall.callType == EaseCallTypeMulti) {
 //        if([[self getMultiVC].streamViewsDic objectForKey:[NSNumber numberWithUnsignedInteger:uid]]) {
 //            [self _stopCallTimer:userInfo.userAccount];
@@ -1086,6 +1093,8 @@ static EaseCallManager *easeCallManager = nil;
         self.modal.currentCall.remoteUserAccount = userInfo.userAccount;
     }
 }
+
+#pragma mark - 提供delegate
 
 - (void)callBackCallEnd:(EaseCallEndReason)reason
 {
@@ -1110,15 +1119,12 @@ static EaseCallManager *easeCallManager = nil;
 
 
 #pragma mark - 获取token
-- (NSString*)fetchToken {
-    if([self.delegate respondsToSelector:@selector(fetchTokenForAppId:channelName:account:)]) {
-        return [self.delegate fetchTokenForAppId:self.config.agoraAppId channelName:self.modal.currentCall.channelName account:[EMClient sharedClient].currentUsername];
+- (void)fetchToken {
+    if([self.delegate respondsToSelector:@selector(callDidRequestRTCTokenForAppId:channelName:account:)]) {
+        [self.delegate callDidRequestRTCTokenForAppId:self.config.agoraAppId channelName:self.modal.currentCall.channelName account:[EMClient sharedClient].currentUsername];
+    }else{
+        [self setRTCToken:nil channelName:self.modal.currentCall.channelName];
     }
-    __weak typeof(self) weakself = self;
-    NSDictionary*parameters = @{@"AppId":self.config.agoraAppId,@"account":[EMClient sharedClient].currentUsername,@"channelName":self.modal.currentCall.channelName};
-    return [EaseCallHttpRequest requestWithUrl:@"http://120.25.226.186:32812/login?username=123&pwd=123" parameters:parameters token:[EMClient sharedClient].accessUserToken timeOutInterval:30 failCallback:^(NSData * _Nonnull resBody) {
-        [weakself callBackError:EaseCallErrorTypeProcess code:EaseCallProcessErrorCodeFetchTokenFail description:[[NSString alloc] initWithData:resBody encoding:NSUTF8StringEncoding]];
-    }];
 }
 @end
 
@@ -1127,7 +1133,7 @@ static EaseCallManager *easeCallManager = nil;
 
 - (void)hangupAction
 {
-    NSLog(@"hangupAction,curState:%ld",self.modal.state);
+    NSLog(@"hangupAction,curState:%ld",(long)self.modal.state);
     if(self.modal.state == EaseCallState_Answering) {
         // 正常挂断
         if(self.modal.currentCall.callType == EaseCallTypeMulti)
@@ -1250,11 +1256,12 @@ static EaseCallManager *easeCallManager = nil;
 
 - (void)joinChannel
 {
+    __weak typeof(self) weakself = self;
     dispatch_async(dispatch_get_main_queue(), ^{
-        [self.agoraKit joinChannelByUserAccount:self.modal.curUserAccount token:self.modal.agoraRTCToken channelId:self.modal.currentCall.channelName joinSuccess:^(NSString * _Nonnull channel, NSUInteger uid, NSInteger elapsed){
+        [weakself.agoraKit joinChannelByUserAccount:weakself.modal.curUserAccount token:weakself.modal.agoraRTCToken channelId:weakself.modal.currentCall.channelName joinSuccess:^(NSString * _Nonnull channel, NSUInteger uid, NSInteger elapsed){
             NSLog(@"joinChannel Success!! channel:%@",channel);
         }];
-        [self speakeOut:YES];
+        [weakself speakeOut:YES];
     });
     
 }
