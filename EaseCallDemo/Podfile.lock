@@ -1,0 +1,37 @@
+PODS:
+  - AgoraRtcEngine_iOS (3.3.0)
+  - EaseCallKit (1.0.0):
+    - AgoraRtcEngine_iOS
+    - Hyphenate (~> 3.7.4)
+    - Masonry
+    - SDWebImage (~> 3.7.2)
+  - Hyphenate (3.7.4)
+  - Masonry (1.1.0)
+  - SDWebImage (3.7.6):
+    - SDWebImage/Core (= 3.7.6)
+  - SDWebImage/Core (3.7.6)
+
+DEPENDENCIES:
+  - EaseCallKit (from `../`)
+
+SPEC REPOS:
+  https://github.com/CocoaPods/Specs.git:
+    - AgoraRtcEngine_iOS
+    - Hyphenate
+    - Masonry
+    - SDWebImage
+
+EXTERNAL SOURCES:
+  EaseCallKit:
+    :path: "../"
+
+SPEC CHECKSUMS:
+  AgoraRtcEngine_iOS: 1a0adbf959ab5175b700c8bab30b1346fc27ef1a
+  EaseCallKit: 89a0ef07dbf8601650423840e97b4238717af7f9
+  Hyphenate: 50590f6059cc49e604f3b067a208867986162944
+  Masonry: 678fab65091a9290e40e2832a55e7ab731aad201
+  SDWebImage: c325cf02c30337336b95beff20a13df489ec0ec9
+
+PODFILE CHECKSUM: a33b93dd025186ac6c71e42062fa99f0dacccdcd
+
+COCOAPODS: 1.10.0
