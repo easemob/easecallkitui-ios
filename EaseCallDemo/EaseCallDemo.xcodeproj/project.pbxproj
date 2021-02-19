@@ -7,8 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		902DA81625DF9EC00098E6DF /* AppDelegate+EaseCallKit.m in Sources */ = {isa = PBXBuildFile; fileRef = 902DA81525DF9EC00098E6DF /* AppDelegate+EaseCallKit.m */; };
 		907CCB1825DE7ADC009AD53F /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 907CCB1725DE7ADC009AD53F /* AppDelegate.m */; };
-		907CCB1B25DE7ADC009AD53F /* SceneDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 907CCB1A25DE7ADC009AD53F /* SceneDelegate.m */; };
 		907CCB1E25DE7ADD009AD53F /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 907CCB1D25DE7ADD009AD53F /* ViewController.m */; };
 		907CCB2125DE7ADD009AD53F /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 907CCB1F25DE7ADD009AD53F /* Main.storyboard */; };
 		907CCB2325DE7ADF009AD53F /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 907CCB2225DE7ADF009AD53F /* Assets.xcassets */; };
@@ -20,11 +20,11 @@
 /* Begin PBXFileReference section */
 		01B54487887DAA94AF453420 /* libPods-EaseCallDemo.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-EaseCallDemo.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		20C5F65DD148A5D7C5F9AD77 /* Pods-EaseCallDemo.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-EaseCallDemo.release.xcconfig"; path = "../EaseCallDemo/Pods/Target Support Files/Pods-EaseCallDemo/Pods-EaseCallDemo.release.xcconfig"; sourceTree = "<group>"; };
+		902DA81425DF9EC00098E6DF /* AppDelegate+EaseCallKit.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "AppDelegate+EaseCallKit.h"; sourceTree = "<group>"; };
+		902DA81525DF9EC00098E6DF /* AppDelegate+EaseCallKit.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "AppDelegate+EaseCallKit.m"; sourceTree = "<group>"; };
 		907CCB1325DE7ADC009AD53F /* EaseCallDemo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = EaseCallDemo.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		907CCB1625DE7ADC009AD53F /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		907CCB1725DE7ADC009AD53F /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
-		907CCB1925DE7ADC009AD53F /* SceneDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SceneDelegate.h; sourceTree = "<group>"; };
-		907CCB1A25DE7ADC009AD53F /* SceneDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SceneDelegate.m; sourceTree = "<group>"; };
 		907CCB1C25DE7ADC009AD53F /* ViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ViewController.h; sourceTree = "<group>"; };
 		907CCB1D25DE7ADD009AD53F /* ViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ViewController.m; sourceTree = "<group>"; };
 		907CCB2025DE7ADD009AD53F /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
@@ -80,8 +80,6 @@
 			children = (
 				907CCB1625DE7ADC009AD53F /* AppDelegate.h */,
 				907CCB1725DE7ADC009AD53F /* AppDelegate.m */,
-				907CCB1925DE7ADC009AD53F /* SceneDelegate.h */,
-				907CCB1A25DE7ADC009AD53F /* SceneDelegate.m */,
 				907CCB1C25DE7ADC009AD53F /* ViewController.h */,
 				907CCB1D25DE7ADD009AD53F /* ViewController.m */,
 				907CCB1F25DE7ADD009AD53F /* Main.storyboard */,
@@ -89,6 +87,8 @@
 				907CCB2425DE7ADF009AD53F /* LaunchScreen.storyboard */,
 				907CCB2725DE7ADF009AD53F /* Info.plist */,
 				907CCB2825DE7ADF009AD53F /* main.m */,
+				902DA81425DF9EC00098E6DF /* AppDelegate+EaseCallKit.h */,
+				902DA81525DF9EC00098E6DF /* AppDelegate+EaseCallKit.m */,
 			);
 			path = EaseCallDemo;
 			sourceTree = "<group>";
@@ -233,9 +233,9 @@
 			buildActionMask = 2147483647;
 			files = (
 				907CCB1E25DE7ADD009AD53F /* ViewController.m in Sources */,
+				902DA81625DF9EC00098E6DF /* AppDelegate+EaseCallKit.m in Sources */,
 				907CCB1825DE7ADC009AD53F /* AppDelegate.m in Sources */,
 				907CCB2925DE7ADF009AD53F /* main.m in Sources */,
-				907CCB1B25DE7ADC009AD53F /* SceneDelegate.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

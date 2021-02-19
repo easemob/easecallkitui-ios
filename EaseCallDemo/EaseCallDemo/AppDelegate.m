@@ -7,8 +7,10 @@
 
 #import "AppDelegate.h"
 #import <EaseCallKit/EaseCallUIKit.h>
+#import <Hyphenate/Hyphenate.h>
+#import "AppDelegate+EaseCallKit.h"
 
-@interface AppDelegate ()
+@interface AppDelegate ()<EaseCallDelegate>
 
 @end
 
@@ -17,25 +19,52 @@
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     // Override point for customization after application launch.
+    
+    
+    [self initHypheanteSDK];
+    EaseCallConfig* config = [[EaseCallConfig alloc] init];
+    EaseCallUser* usr = [[EaseCallUser alloc] init];
+    usr.nickName = @"自定义昵称";
+    config.users = [@{@"du001":usr} mutableCopy];
+    config.agoraAppId = @"15cb0d28b87b425ea613fc46f7c9f974";
+    [[EaseCallManager sharedManager] initWithConfig:config delegate:self];
     return YES;
 }
 
-
-#pragma mark - UISceneSession lifecycle
-
-
-- (UISceneConfiguration *)application:(UIApplication *)application configurationForConnectingSceneSession:(UISceneSession *)connectingSceneSession options:(UISceneConnectionOptions *)options {
-    // Called when a new scene session is being created.
-    // Use this method to select a configuration to create the new scene with.
-    return [[UISceneConfiguration alloc] initWithName:@"Default Configuration" sessionRole:connectingSceneSession.role];
+- (void)initHypheanteSDK {
+    
 }
 
 
-- (void)application:(UIApplication *)application didDiscardSceneSessions:(NSSet<UISceneSession *> *)sceneSessions {
-    // Called when the user discards a scene session.
-    // If any sessions were discarded while the application was not running, this will be called shortly after application:didFinishLaunchingWithOptions.
-    // Use this method to release any resources that were specific to the discarded scenes, as they will not return.
+
+
+- (void)callDidEnd:(NSString * _Nonnull)aChannelName
+            reason:(EaseCallEndReason)aReason
+              time:(int)aTm
+              type:(EaseCallType)aType {
+    
 }
 
+- (void)callDidOccurError:(EaseCallError * _Nonnull)aError {
+    
+}
+
+- (void)callDidReceive:(EaseCallType)aType
+               inviter:(NSString * _Nonnull)user
+                   ext:(NSDictionary * _Nullable)aExt {
+    
+}
+
+- (NSString * _Nullable)fetchTokenForAppId:(NSString * _Nonnull)aAppId
+                               channelName:(NSString * _Nonnull)aChannelName
+                                   account:(NSString * _Nonnull)aUserAccount {
+    return nil;
+}
+
+- (void)multiCallDidInvitingWithCurVC:(UIViewController * _Nonnull)vc
+                         excludeUsers:(NSArray<NSString *> * _Nullable)users
+                                  ext:(NSDictionary * _Nullable)aExt {
+    
+}
 
 @end
