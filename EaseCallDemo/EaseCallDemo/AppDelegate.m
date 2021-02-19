@@ -6,11 +6,15 @@
 //
 
 #import "AppDelegate.h"
-#import <EaseCallKit/EaseCallUIKit.h>
-#import <Hyphenate/Hyphenate.h>
-#import "AppDelegate+EaseCallKit.h"
 
-@interface AppDelegate ()<EaseCallDelegate>
+#import <HyphenateLite/HyphenateLite.h>
+#import "UIStoryboard+Category.h"
+
+#define EASEMOB_APP_KEY @"easemob-demo#easeim"
+
+
+
+@interface AppDelegate ()
 
 @end
 
@@ -18,53 +22,35 @@
 
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
-    // Override point for customization after application launch.
-    
-    
+
+    [NSNotificationCenter.defaultCenter addObserver:self selector:@selector(loginTypeChanged:) name:@"IsLoggedIn"  object:nil];
     [self initHypheanteSDK];
-    EaseCallConfig* config = [[EaseCallConfig alloc] init];
-    EaseCallUser* usr = [[EaseCallUser alloc] init];
-    usr.nickName = @"自定义昵称";
-    config.users = [@{@"du001":usr} mutableCopy];
-    config.agoraAppId = @"15cb0d28b87b425ea613fc46f7c9f974";
-    [[EaseCallManager sharedManager] initWithConfig:config delegate:self];
+    // 是否已登录
+    if (EMClient.sharedClient.isLoggedIn) {
+        self.window.rootViewController = [UIStoryboard loadViewControllerWithClassName:@"HomeViewController"];
+    }else {
+        self.window.rootViewController = [UIStoryboard loadViewControllerWithClassName:@"LoginViewController"];
+    }
     return YES;
 }
 
+
 - (void)initHypheanteSDK {
-    
+    EMOptions *options = [EMOptions optionsWithAppkey:EASEMOB_APP_KEY];
+    options.enableConsoleLog = YES;
+    // 为了方便演示，设置自动同意好友申请。
+    options.isAutoAcceptFriendInvitation = YES;
+    [EMClient.sharedClient initializeSDKWithOptions:options];
 }
 
-
-
-
-- (void)callDidEnd:(NSString * _Nonnull)aChannelName
-            reason:(EaseCallEndReason)aReason
-              time:(int)aTm
-              type:(EaseCallType)aType {
-    
-}
-
-- (void)callDidOccurError:(EaseCallError * _Nonnull)aError {
-    
-}
-
-- (void)callDidReceive:(EaseCallType)aType
-               inviter:(NSString * _Nonnull)user
-                   ext:(NSDictionary * _Nullable)aExt {
-    
-}
-
-- (NSString * _Nullable)fetchTokenForAppId:(NSString * _Nonnull)aAppId
-                               channelName:(NSString * _Nonnull)aChannelName
-                                   account:(NSString * _Nonnull)aUserAccount {
-    return nil;
-}
-
-- (void)multiCallDidInvitingWithCurVC:(UIViewController * _Nonnull)vc
-                         excludeUsers:(NSArray<NSString *> * _Nullable)users
-                                  ext:(NSDictionary * _Nullable)aExt {
-    
+- (void)loginTypeChanged:(NSNotification *)aNoti {
+    BOOL isLoggedIn = [(NSNumber *)aNoti.object boolValue];
+    if (isLoggedIn) {
+        self.window.rootViewController = [UIStoryboard loadViewControllerWithClassName:@"HomeViewController"];
+    }else {
+        self.window.rootViewController = [UIStoryboard loadViewControllerWithClassName:@"LoginViewController"];
+    }
 }
 
 @end
+

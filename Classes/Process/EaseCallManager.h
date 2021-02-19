@@ -66,7 +66,7 @@ NS_ASSUME_NONNULL_BEGIN
  * @param aExt      扩展信息
  * @param aCompletionBlock 完成回调
  */
-- (void)startSingleCallWithUId:(NSString*)uId type:(EaseCallType)aType ext:(NSDictionary*)aExt completion:(void (^)(NSString* callId,EaseCallError*))aCompletionBlock;
+- (void)startSingleCallWithUId:(NSString*)uId type:(EaseCallType)aType ext:(NSDictionary* _Nullable)aExt completion:(void (^)(NSString* callId,EaseCallError*))aCompletionBlock;
 /**
  * 邀请成员进行多人会议
  * @param aUsers         被邀请人的环信ID数组

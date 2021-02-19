@@ -52,7 +52,7 @@
         self.nameLabel = [[UILabel alloc] init];
         self.nameLabel.textColor = [UIColor whiteColor];
         self.nameLabel.font = [UIFont systemFontOfSize:13];
-        self.nameLabel.textAlignment = NSTextAlignmentLeft;
+        self.nameLabel.textAlignment = NSTextAlignmentCenter;
         [self addSubview:self.nameLabel];
         [self.nameLabel mas_makeConstraints:^(MASConstraintMaker *make) {
             make.bottom.equalTo(self).offset(-5);
