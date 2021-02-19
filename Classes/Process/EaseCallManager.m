@@ -692,7 +692,7 @@ static EaseCallManager *easeCallManager = nil;
                         
                         if(weakself.modal.currentCall.callType != EaseCallType1v1Audio)
                             [weakself setupLocalVideo];
-                        [weakself joinChannel];
+                        [weakself fetchToken];
                     });
                 }
             }else{
