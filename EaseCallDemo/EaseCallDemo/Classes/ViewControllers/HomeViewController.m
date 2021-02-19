@@ -7,7 +7,7 @@
 
 #import "HomeViewController.h"
 #import <EaseCallKit/EaseCallUIKit.h>
-#import <Hyphenate/Hyphenate.h>
+#import <HyphenateLite/HyphenateLite.h>
 
 #define AGORA_APP_ID @"15cb0d28b87b425ea613fc46f7c9f974"
 

@@ -7,7 +7,7 @@
 
 #import "AppDelegate.h"
 
-#import <Hyphenate/Hyphenate.h>
+#import <HyphenateLite/HyphenateLite.h>
 #import "UIStoryboard+Category.h"
 
 #define EASEMOB_APP_KEY @"easemob-demo#easeim"
