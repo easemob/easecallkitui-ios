@@ -41,13 +41,12 @@
  */
 - (void)callDidOccurError:(EaseCallError*_Nonnull)aError;
 /**
- * 获取用户的声网token
+ * 加入音视频通话频道前触发该回调，用户需要在触发该回调后，主动从AppServer获取声网token，然后调用setRTCToken:channelName:方法将token设置进来
  * @param aAppId 声网通话使用的appId
  * @param aChannelName 呼叫使用的频道名称
  * @param aUserAccount 账户
- * @return 返回用户声网token
  */
-- (NSString*_Nullable)fetchTokenForAppId:(NSString*_Nonnull)aAppId channelName:(NSString*_Nonnull)aChannelName account:(NSString*_Nonnull)aUserAccount;
+- (void)callDidRequestRTCTokenForAppId:(NSString*_Nonnull)aAppId channelName:(NSString*_Nonnull)aChannelName account:(NSString*_Nonnull)aUserAccount;
 @end
 
 NS_ASSUME_NONNULL_BEGIN
@@ -80,6 +79,12 @@ NS_ASSUME_NONNULL_BEGIN
  * @return  EaseCallKit的配置
  */
 - (EaseCallConfig*)getEaseCallConfig;
+/**
+ * 设置声网频道及token
+ * @param aToken         声网token
+ * @param aChannelName              token对应的频道名称
+ */
+- (void)setRTCToken:(NSString*_Nullable)aToken channelName:(NSString*)aChannelName;
 @end
 
 NS_ASSUME_NONNULL_END
