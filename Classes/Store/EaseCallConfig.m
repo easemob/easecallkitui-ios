@@ -40,6 +40,7 @@
 - (void)_initParams
 {
     _callTimeOut = 30;
+    _enableRTCTokenValidate = NO;
     _users = [NSMutableDictionary dictionary];
     NSString * ringFilePath = [[NSBundle mainBundle] pathForResource:@"EaseCall.bundle/music" ofType:@"mp3"];
     //_ringFileUrl = [[NSBundle mainBundle] URLForResource:@"music" withExtension:@".mp3"];

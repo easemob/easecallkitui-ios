@@ -45,6 +45,10 @@ NS_ASSUME_NONNULL_BEGIN
  * agoraAppId    声网appId
  */
 @property (nonatomic,strong) NSString* agoraAppId;
+/*
+ * enableRTCTokenValidate 是否开启声网token验证，默认不开启，开启后必须实现callDidRequestRTCTokenForAppId回调，并在收到回调后调用setRTCToken才能进行通话
+ */
+@property (nonatomic) BOOL enableRTCTokenValidate;
 @end
 
 NS_ASSUME_NONNULL_END
