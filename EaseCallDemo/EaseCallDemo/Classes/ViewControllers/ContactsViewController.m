@@ -101,12 +101,31 @@
      {
         if(aError) {
             [WHToast showErrorWithMessage:@"呼叫失败" duration:1.0 finishHandler:nil];
-            
         }
     }];
 }
 
 - (IBAction)multipleCallAction:(id)sender {
+    NSArray<NSIndexPath *> *indexPaths = [self.tableView indexPathsForSelectedRows];
+    if (indexPaths.count == 0) {
+        [WHToast showErrorWithMessage:@"请确认人数" duration:1.0 finishHandler:nil];
+        return;
+    }
+    
+    NSMutableArray *inviteUsers = [NSMutableArray array];
+    for (NSIndexPath *indexPath in indexPaths) {
+        NSString *user = self.contacts[ indexPath.row];
+        [inviteUsers addObject:user];
+    }
+    
+    [[EaseCallManager sharedManager] startInviteUsers:inviteUsers
+                                                  ext:nil
+                                           completion:^(NSString * _Nonnull callId, EaseCallError * aError)
+    {
+        if(aError) {
+            [WHToast showErrorWithMessage:@"呼叫失败" duration:1.0 finishHandler:nil];
+        }
+    }];
 }
 
 #pragma mark - getter
