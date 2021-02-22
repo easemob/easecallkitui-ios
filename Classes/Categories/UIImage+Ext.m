@@ -6,12 +6,14 @@
 //
 
 #import "UIImage+Ext.h"
+#import "EaseCallStreamView.h"
 
 @implementation UIImage (Ext)
 + (UIImage*) imageNamedFromBundle:(NSString*)imageName
 {
+    NSBundle* bundle = [NSBundle bundleForClass:[EaseCallStreamView class]];
     NSString* path = [NSString stringWithFormat:@"EaseCall.bundle/%@",imageName];
-    NSString *file1 = [[NSBundle mainBundle] pathForResource:path ofType:@"png"];
+    NSString *file1 = [bundle pathForResource:path ofType:@"png"];
     UIImage *image1 = [UIImage imageWithContentsOfFile:file1];
 
     return image1;
