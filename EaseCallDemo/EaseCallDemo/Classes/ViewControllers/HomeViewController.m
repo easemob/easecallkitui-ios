@@ -29,6 +29,7 @@
     EaseCallConfig* config = [[EaseCallConfig alloc] init];
     config.users = [NSMutableDictionary dictionaryWithObject:callUser forKey:aUId];
     config.agoraAppId = AGORA_APP_ID;
+    config.enableRTCTokenValidate = false;
     [[EaseCallManager sharedManager] initWithConfig:config delegate:self];
 }
 

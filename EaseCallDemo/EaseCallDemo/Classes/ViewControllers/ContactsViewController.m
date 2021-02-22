@@ -93,9 +93,10 @@
     }
     
     NSString *remoteUser = self.contacts[indexPaths.firstObject.row];
-    
+    NSUserDefaults *ud = [NSUserDefaults standardUserDefaults];
+    NSUInteger type = [ud integerForKey:@"EaseCallKit_SingleCallType"];
     [[EaseCallManager sharedManager] startSingleCallWithUId:remoteUser
-                                                       type:EaseCallType1v1Audio
+                                                       type:type == 0 ? EaseCallType1v1Audio : EaseCallType1v1Video
                                                         ext:nil
                                                  completion:^(NSString * callId, EaseCallError * aError)
     {

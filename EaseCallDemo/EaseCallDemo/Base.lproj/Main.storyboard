@@ -205,10 +205,21 @@
         <scene sceneID="6n6-pH-Dyk">
             <objects>
                 <tableViewController id="Q7e-IY-EH4" customClass="SettingsViewController" sceneMemberID="viewController">
-                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="static" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" id="O9P-Ax-AvU">
+                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="static" style="plain" separatorStyle="default" rowHeight="50" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" id="O9P-Ax-AvU">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                        <button key="tableFooterView" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="OCy-ug-vFB">
+                            <rect key="frame" x="0.0" y="199" width="414" height="50"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <color key="backgroundColor" systemColor="systemRedColor" red="1" green="0.23137254900000001" blue="0.18823529410000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                            <fontDescription key="fontDescription" type="system" pointSize="18"/>
+                            <color key="tintColor" red="0.94994920490000001" green="0.94997149709999995" blue="0.94995945690000005" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                            <state key="normal" title="退出"/>
+                            <connections>
+                                <action selector="logoutBtnAction:" destination="Q7e-IY-EH4" eventType="touchUpInside" id="CCg-Im-JhC"/>
+                            </connections>
+                        </button>
                         <sections>
                             <tableViewSection headerTitle="单人通话设置" id="heK-Te-7A3">
                                 <cells>
@@ -289,12 +300,13 @@
                     </tableView>
                     <navigationItem key="navigationItem" title="设置" id="ryL-Fy-sGS"/>
                     <connections>
+                        <outlet property="logoutBtn" destination="OCy-ug-vFB" id="bNx-LN-PEC"/>
                         <outlet property="segmentControl" destination="li7-t5-NNC" id="IaH-hA-tha"/>
                     </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="O38-Hg-cdO" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2087" y="1489"/>
+            <point key="canvasLocation" x="2086.9565217391305" y="1488.6160714285713"/>
         </scene>
     </scenes>
     <resources>
