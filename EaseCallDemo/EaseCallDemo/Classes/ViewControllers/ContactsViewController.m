@@ -61,8 +61,7 @@
     }];
     [alertController addAction:[UIAlertAction actionWithTitle:@"确定"
                                                         style:UIAlertActionStyleDefault
-                                                      handler:^(UIAlertAction * _Nonnull action)
-                                {
+                                                      handler:^(UIAlertAction * _Nonnull action) {
         
         UITextField *envirnmentNameTextField = alertController.textFields.firstObject;
         // 发送好友申请
@@ -93,17 +92,40 @@
     }
     
     NSString *remoteUser = self.contacts[indexPaths.firstObject.row];
-    
+    NSUserDefaults *ud = [NSUserDefaults standardUserDefaults];
+    NSUInteger type = [ud integerForKey:@"EaseCallKit_SingleCallType"];
     [[EaseCallManager sharedManager] startSingleCallWithUId:remoteUser
-                                                       type:EaseCallType1v1Audio
+                                                       type:type == 0 ? EaseCallType1v1Audio : EaseCallType1v1Video
                                                         ext:nil
                                                  completion:^(NSString * callId, EaseCallError * aError)
-    {
-
+     {
+        if(aError) {
+            [WHToast showErrorWithMessage:@"呼叫失败" duration:1.0 finishHandler:nil];
+        }
     }];
 }
 
 - (IBAction)multipleCallAction:(id)sender {
+    NSArray<NSIndexPath *> *indexPaths = [self.tableView indexPathsForSelectedRows];
+    if (indexPaths.count == 0) {
+        [WHToast showErrorWithMessage:@"请确认人数" duration:1.0 finishHandler:nil];
+        return;
+    }
+    
+    NSMutableArray *inviteUsers = [NSMutableArray array];
+    for (NSIndexPath *indexPath in indexPaths) {
+        NSString *user = self.contacts[ indexPath.row];
+        [inviteUsers addObject:user];
+    }
+    
+    [[EaseCallManager sharedManager] startInviteUsers:inviteUsers
+                                                  ext:nil
+                                           completion:^(NSString * _Nonnull callId, EaseCallError * aError)
+    {
+        if(aError) {
+            [WHToast showErrorWithMessage:@"呼叫失败" duration:1.0 finishHandler:nil];
+        }
+    }];
 }
 
 #pragma mark - getter
