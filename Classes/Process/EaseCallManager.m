@@ -149,8 +149,8 @@ static EaseCallManager *easeCallManager = nil;
             weakself.modal.currentCall.channelName = [[NSUUID UUID] UUIDString];
             weakself.modal.currentCall.callType = EaseCallTypeMulti;
             weakself.modal.currentCall.callId = [[NSUUID UUID] UUIDString];
-            weakself.modal.state = EaseCallState_Answering;
             weakself.modal.currentCall.isCaller = YES;
+            weakself.modal.state = EaseCallState_Answering;
             weakself.modal.currentCall.ext = aExt;
             dispatch_async(dispatch_get_main_queue(), ^{
                 for(NSString* uId in aUsers) {
