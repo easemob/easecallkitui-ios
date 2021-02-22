@@ -8,14 +8,19 @@
 #import "SettingsViewController.h"
 
 @interface SettingsViewController ()
-
+@property (weak, nonatomic) IBOutlet UISegmentedControl *segmentControl;
 @end
 
 @implementation SettingsViewController
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    // Do any additional setup after loading the view.
+    self.tableView.tableFooterView = [UIView new];
+    
+}
+
+- (IBAction)segmentControlChanged:(id)sender {
+    
 }
 
 /*

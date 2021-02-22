@@ -39,7 +39,6 @@
         <!--Login View Controller-->
         <scene sceneID="utl-5n-Bch">
             <objects>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="vri-lq-boe" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
                 <viewController storyboardIdentifier="LoginViewController" id="wAb-6c-c9g" customClass="LoginViewController" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="71c-EB-DEc"/>
@@ -99,6 +98,7 @@
                         <outlet property="usernameField" destination="2G0-8A-tA9" id="a5H-oL-38r"/>
                     </connections>
                 </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="vri-lq-boe" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
                 <tapGestureRecognizer id="gP9-D2-uuT">
                     <connections>
                         <action selector="tapBackgroundAction:" destination="wAb-6c-c9g" id="WNc-gu-Lhc"/>
@@ -110,7 +110,6 @@
         <!--通讯录-->
         <scene sceneID="qlx-L5-mc5">
             <objects>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="mJs-pQ-RZq" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
                 <viewController id="60M-qR-JqB" customClass="ContactsViewController" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="kam-56-U6U"/>
@@ -141,6 +140,7 @@
                         </rightBarButtonItems>
                     </navigationItem>
                 </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="mJs-pQ-RZq" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="2087" y="708"/>
         </scene>
@@ -150,6 +150,7 @@
                 <tabBarController storyboardIdentifier="HomeViewController" automaticallyAdjustsScrollViewInsets="NO" id="Mcc-G0-9Kb" customClass="HomeViewController" sceneMemberID="viewController">
                     <toolbarItems/>
                     <tabBar key="tabBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="LZk-GD-BjO">
+                        <rect key="frame" x="0.0" y="0.0" width="1000" height="1000"/>
                         <autoresizingMask key="autoresizingMask"/>
                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                     </tabBar>
@@ -182,25 +183,6 @@
             <point key="canvasLocation" x="1177" y="708"/>
         </scene>
         <!--设置-->
-        <scene sceneID="EOZ-fA-ZfZ">
-            <objects>
-                <viewController id="k0e-fk-ZdZ" customClass="SettingsViewController" sceneMemberID="viewController">
-                    <layoutGuides>
-                        <viewControllerLayoutGuide type="top" id="IsH-Ao-dnk"/>
-                        <viewControllerLayoutGuide type="bottom" id="Y1T-0z-78d"/>
-                    </layoutGuides>
-                    <view key="view" contentMode="scaleToFill" id="CYf-WJ-YLl">
-                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
-                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
-                    </view>
-                    <navigationItem key="navigationItem" title="设置" id="xec-fh-f5S"/>
-                </viewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="m77-MW-Eia" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="2087" y="1489"/>
-        </scene>
-        <!--设置-->
         <scene sceneID="w92-q3-rBi">
             <objects>
                 <navigationController automaticallyAdjustsScrollViewInsets="NO" id="lhR-WQ-QTx" sceneMemberID="viewController">
@@ -212,12 +194,107 @@
                     </navigationBar>
                     <nil name="viewControllers"/>
                     <connections>
-                        <segue destination="k0e-fk-ZdZ" kind="relationship" relationship="rootViewController" id="YT1-sa-sKr"/>
+                        <segue destination="Q7e-IY-EH4" kind="relationship" relationship="rootViewController" id="vqd-oo-LxR"/>
                     </connections>
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="HSl-WM-qm9" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="1194" y="1489"/>
+        </scene>
+        <!--设置-->
+        <scene sceneID="6n6-pH-Dyk">
+            <objects>
+                <tableViewController id="Q7e-IY-EH4" customClass="SettingsViewController" sceneMemberID="viewController">
+                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="static" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" id="O9P-Ax-AvU">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                        <sections>
+                            <tableViewSection headerTitle="单人通话设置" id="heK-Te-7A3">
+                                <cells>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="none" indentationWidth="10" id="ngU-oe-bad">
+                                        <rect key="frame" x="0.0" y="28" width="414" height="43.5"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="ngU-oe-bad" id="FYn-op-tsd">
+                                            <rect key="frame" x="0.0" y="0.0" width="414" height="43.5"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="呼叫类型" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="cgf-2X-kCe">
+                                                    <rect key="frame" x="20" y="13" width="61.5" height="18"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="15"/>
+                                                    <nil key="textColor"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                                <segmentedControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="li7-t5-NNC">
+                                                    <rect key="frame" x="303" y="6.5" width="91" height="32"/>
+                                                    <segments>
+                                                        <segment title="音频"/>
+                                                        <segment title="视频"/>
+                                                    </segments>
+                                                    <connections>
+                                                        <action selector="segmentControlChanged:" destination="Q7e-IY-EH4" eventType="valueChanged" id="oRZ-sb-sCM"/>
+                                                    </connections>
+                                                </segmentedControl>
+                                            </subviews>
+                                            <constraints>
+                                                <constraint firstItem="li7-t5-NNC" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="cgf-2X-kCe" secondAttribute="trailing" constant="8" symbolic="YES" id="Cnj-Os-q8T"/>
+                                                <constraint firstAttribute="trailing" secondItem="li7-t5-NNC" secondAttribute="trailing" constant="20" id="Fgy-Dx-dfq"/>
+                                                <constraint firstItem="cgf-2X-kCe" firstAttribute="centerY" secondItem="FYn-op-tsd" secondAttribute="centerY" id="bhA-28-hwP"/>
+                                                <constraint firstItem="li7-t5-NNC" firstAttribute="centerY" secondItem="FYn-op-tsd" secondAttribute="centerY" id="k7h-pl-1sV"/>
+                                                <constraint firstItem="cgf-2X-kCe" firstAttribute="leading" secondItem="FYn-op-tsd" secondAttribute="leading" constant="20" id="mhS-Vv-Ysk"/>
+                                            </constraints>
+                                        </tableViewCellContentView>
+                                    </tableViewCell>
+                                </cells>
+                            </tableViewSection>
+                            <tableViewSection headerTitle="多人通话设置" id="SIT-6c-zNd">
+                                <cells>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="none" indentationWidth="10" id="cCs-vF-lPL">
+                                        <rect key="frame" x="0.0" y="127.5" width="414" height="43.5"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="cCs-vF-lPL" id="Onr-KI-1Dc">
+                                            <rect key="frame" x="0.0" y="0.0" width="414" height="43.5"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="呼叫类型" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="wYV-F5-rFu">
+                                                    <rect key="frame" x="20" y="13" width="61.5" height="18"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="15"/>
+                                                    <nil key="textColor"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="音视频" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="UnV-81-pto">
+                                                    <rect key="frame" x="328" y="13" width="46" height="18"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="15"/>
+                                                    <color key="textColor" systemColor="systemGray2Color" red="0.68235294120000001" green="0.68235294120000001" blue="0.69803921570000005" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                            </subviews>
+                                            <constraints>
+                                                <constraint firstAttribute="trailingMargin" secondItem="UnV-81-pto" secondAttribute="trailing" constant="20" id="VIW-OI-PxP"/>
+                                                <constraint firstItem="wYV-F5-rFu" firstAttribute="centerY" secondItem="Onr-KI-1Dc" secondAttribute="centerY" id="f2z-v5-YGc"/>
+                                                <constraint firstItem="UnV-81-pto" firstAttribute="centerY" secondItem="Onr-KI-1Dc" secondAttribute="centerY" id="fXe-0D-iJv"/>
+                                                <constraint firstItem="wYV-F5-rFu" firstAttribute="leading" secondItem="Onr-KI-1Dc" secondAttribute="leading" constant="20" id="jHn-4c-hQW"/>
+                                                <constraint firstItem="wYV-F5-rFu" firstAttribute="centerY" secondItem="Onr-KI-1Dc" secondAttribute="centerY" id="kkg-lf-tVN"/>
+                                                <constraint firstItem="UnV-81-pto" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="wYV-F5-rFu" secondAttribute="trailing" constant="8" symbolic="YES" id="qPG-IV-o2T"/>
+                                            </constraints>
+                                        </tableViewCellContentView>
+                                    </tableViewCell>
+                                </cells>
+                            </tableViewSection>
+                        </sections>
+                        <connections>
+                            <outlet property="dataSource" destination="Q7e-IY-EH4" id="Cuy-OK-yq6"/>
+                            <outlet property="delegate" destination="Q7e-IY-EH4" id="PJG-ey-jYW"/>
+                        </connections>
+                    </tableView>
+                    <navigationItem key="navigationItem" title="设置" id="ryL-Fy-sGS"/>
+                    <connections>
+                        <outlet property="segmentControl" destination="li7-t5-NNC" id="IaH-hA-tha"/>
+                    </connections>
+                </tableViewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="O38-Hg-cdO" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="2087" y="1489"/>
         </scene>
     </scenes>
     <resources>
