@@ -61,8 +61,7 @@
     }];
     [alertController addAction:[UIAlertAction actionWithTitle:@"确定"
                                                         style:UIAlertActionStyleDefault
-                                                      handler:^(UIAlertAction * _Nonnull action)
-                                {
+                                                      handler:^(UIAlertAction * _Nonnull action) {
         
         UITextField *envirnmentNameTextField = alertController.textFields.firstObject;
         // 发送好友申请
@@ -93,13 +92,17 @@
     }
     
     NSString *remoteUser = self.contacts[indexPaths.firstObject.row];
-    
+    NSUserDefaults *ud = [NSUserDefaults standardUserDefaults];
+    NSUInteger type = [ud integerForKey:@"EaseCallKit_SingleCallType"];
     [[EaseCallManager sharedManager] startSingleCallWithUId:remoteUser
-                                                       type:EaseCallType1v1Audio
+                                                       type:type == 0 ? EaseCallType1v1Audio : EaseCallType1v1Video
                                                         ext:nil
                                                  completion:^(NSString * callId, EaseCallError * aError)
-    {
-
+     {
+        if(aError) {
+            [WHToast showErrorWithMessage:@"呼叫失败" duration:1.0 finishHandler:nil];
+            
+        }
     }];
 }
 

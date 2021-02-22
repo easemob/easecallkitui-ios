@@ -6,8 +6,12 @@
 //
 
 #import "SettingsViewController.h"
+#import <HyphenateLite/HyphenateLite.h>
+#import <MBProgressHUD/MBProgressHUD.h>
 
 @interface SettingsViewController ()
+@property (weak, nonatomic) IBOutlet UISegmentedControl *segmentControl;
+@property (weak, nonatomic) IBOutlet UIButton *logoutBtn;
 
 @end
 
@@ -15,17 +19,24 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    // Do any additional setup after loading the view.
+    NSString *btnTitle = [@"退出" stringByAppendingFormat:@"(%@)",EMClient.sharedClient.currentUsername];
+    NSUserDefaults *ud = [NSUserDefaults standardUserDefaults];
+    [self.logoutBtn setTitle:btnTitle forState:UIControlStateNormal];
+    self.segmentControl.selectedSegmentIndex = [ud integerForKey:@"EaseCallKit_SingleCallType"];
+    
 }
 
-/*
-#pragma mark - Navigation
-
-// In a storyboard-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
+- (IBAction)segmentControlChanged:(UISegmentedControl *)sender {
+    NSUserDefaults *ud = [NSUserDefaults standardUserDefaults];
+    [ud setInteger:sender.selectedSegmentIndex forKey:@"EaseCallKit_SingleCallType"];
 }
-*/
+
+- (IBAction)logoutBtnAction:(id)sender {
+    MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+    [EMClient.sharedClient logout:YES completion:^(EMError *aError) {
+        [hud hideAnimated:NO];
+        [NSNotificationCenter.defaultCenter postNotificationName:@"IsLoggedIn" object:@NO];
+    }];
+}
 
 @end

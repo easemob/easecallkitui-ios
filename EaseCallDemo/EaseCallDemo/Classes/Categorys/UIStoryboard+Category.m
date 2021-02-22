@@ -11,9 +11,7 @@
 + (UIViewController *)loadViewControllerWithClassName:(NSString *)aClassName {
     UIStoryboard *mainStoryboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
     UIViewController *vc = [mainStoryboard instantiateViewControllerWithIdentifier:aClassName];
-    if (!vc) {
-        vc = [mainStoryboard instantiateViewControllerWithIdentifier:@"ErrorViewController"];
-    }
+   
     return vc;
 }
 @end
