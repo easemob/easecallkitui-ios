@@ -1120,8 +1120,12 @@ static EaseCallManager *easeCallManager = nil;
 
 #pragma mark - 获取token
 - (void)fetchToken {
-    if([self.delegate respondsToSelector:@selector(callDidRequestRTCTokenForAppId:channelName:account:)]) {
-        [self.delegate callDidRequestRTCTokenForAppId:self.config.agoraAppId channelName:self.modal.currentCall.channelName account:[EMClient sharedClient].currentUsername];
+    if(self.config.enableRTCTokenValidate) {
+        if([self.delegate respondsToSelector:@selector(callDidRequestRTCTokenForAppId:channelName:account:)]) {
+            [self.delegate callDidRequestRTCTokenForAppId:self.config.agoraAppId channelName:self.modal.currentCall.channelName account:[EMClient sharedClient].currentUsername];
+        }else{
+            NSLog(@"Warning: You have not implement interface callDidRequestRTCTokenForAppId:channelName:account:!!!!");
+        }
     }else{
         [self setRTCToken:nil channelName:self.modal.currentCall.channelName];
     }
