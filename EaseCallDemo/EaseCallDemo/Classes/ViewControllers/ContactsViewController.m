@@ -6,7 +6,7 @@
 //
 
 #import "ContactsViewController.h"
-#import <HyphenateLite/HyphenateLite.h>
+#import <HyphenateChat/HyphenateChat.h>
 #import <EaseCallKit/EaseCallUIKit.h>
 #import <Masonry/Masonry.h>
 #import <WHToast/WHToast.h>

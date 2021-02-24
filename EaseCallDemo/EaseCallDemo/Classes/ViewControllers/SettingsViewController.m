@@ -6,7 +6,7 @@
 //
 
 #import "SettingsViewController.h"
-#import <HyphenateLite/HyphenateLite.h>
+#import <HyphenateChat/HyphenateChat.h>
 #import <MBProgressHUD/MBProgressHUD.h>
 
 @interface SettingsViewController ()
