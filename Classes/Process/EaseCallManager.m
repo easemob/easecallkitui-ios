@@ -38,6 +38,9 @@ static NSString* kAcceptResult = @"accept";
 static NSString* kRefuseresult = @"refuse";
 static NSString* kMsgTypeValue = @"rtcCallWithAgora";
 static NSString* kExt = @"ext";
+#define EMCOMMUNICATE_TYPE @"EMCommunicateType"
+#define EMCOMMUNICATE_TYPE_VOICE @"EMCommunicateTypeVoice"
+#define EMCOMMUNICATE_TYPE_VIDEO @"EMCommunicateTypeVideo"
 
 @interface EaseCallManager ()<EMChatManagerDelegate,AgoraRtcEngineDelegate,EaseCallModalDelegate>
 @property (nonatomic,strong) EaseCallConfig* config;
@@ -420,6 +423,12 @@ static EaseCallManager *easeCallManager = nil;
     NSMutableDictionary* ext = [@{kMsgType:kMsgTypeValue,kAction:kInviteAction,kCallId:aCallId,kCallType:[NSNumber numberWithInt:(int)aType],kCallerDevId:self.modal.curDevId,kChannelName:aChannelName,kTs:[self getTs]} mutableCopy];
     if(aExt && aExt.count > 0) {
         [ext setValue:aExt forKey:kExt];
+    }
+    if(aType == EaseCallType1v1Audio) {
+        [ext setObject:EMCOMMUNICATE_TYPE_VOICE forKey:EMCOMMUNICATE_TYPE];
+    }
+    if(aType == EaseCallType1v1Video) {
+        [ext setObject:EMCOMMUNICATE_TYPE_VIDEO forKey:EMCOMMUNICATE_TYPE];
     }
     EMMessage* msg = [[EMMessage alloc] initWithConversationID:aUid from:self.modal.curUserAccount to:aUid body:msgBody ext:ext];
     __weak typeof(self) weakself = self;
