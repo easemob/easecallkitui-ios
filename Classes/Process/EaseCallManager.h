@@ -44,21 +44,24 @@
  * 加入音视频通话频道前触发该回调，用户需要在触发该回调后，主动从AppServer获取声网token，然后调用setRTCToken:channelName:方法将token设置进来
  * @param aAppId 声网通话使用的appId
  * @param aChannelName 呼叫使用的频道名称
- * @param aUserAccount 账户
+ * @param aUserAccount 用户使用的环信账户
  */
 - (void)callDidRequestRTCTokenForAppId:(NSString*_Nonnull)aAppId channelName:(NSString*_Nonnull)aChannelName account:(NSString*_Nonnull)aUserAccount;
 @end
 
-NS_ASSUME_NONNULL_BEGIN
 
 @interface EaseCallManager : NSObject
-+ (instancetype)sharedManager;
++(instancetype _Nonnull ) alloc __attribute__((unavailable("call sharedManager instead")));
++(instancetype _Nonnull ) new __attribute__((unavailable("call sharedManager instead")));
+-(instancetype _Nonnull ) copy __attribute__((unavailable("call sharedManager instead")));
+-(instancetype _Nonnull ) mutableCopy __attribute__((unavailable("call sharedManager instead")));
++ (instancetype _Nonnull )sharedManager;
 /**
  * EaseCall模块初始化
  * @param aConfig         EaseCall的配置，包括用户昵称、头像、呼叫超时时间等
  * @param aDelegate    回调监听
  */
-- (void)initWithConfig:(EaseCallConfig*)aConfig delegate:(id<EaseCallDelegate>)aDelegate;
+- (void)initWithConfig:(EaseCallConfig*_Nullable)aConfig delegate:(id<EaseCallDelegate>_Nullable)aDelegate;
 /**
  * 邀请成员进行单人通话
  * @param uId         被邀请人的环信ID
@@ -66,25 +69,23 @@ NS_ASSUME_NONNULL_BEGIN
  * @param aExt      扩展信息
  * @param aCompletionBlock 完成回调
  */
-- (void)startSingleCallWithUId:(NSString*)uId type:(EaseCallType)aType ext:(NSDictionary* _Nullable)aExt completion:(void (^)(NSString* callId,EaseCallError*))aCompletionBlock;
+- (void)startSingleCallWithUId:(NSString*_Nonnull)uId type:(EaseCallType)aType ext:(NSDictionary* _Nullable)aExt completion:(void (^_Nullable)(NSString* _Nullable callId,EaseCallError* _Nullable aError))aCompletionBlock;
 /**
  * 邀请成员进行多人会议
  * @param aUsers         被邀请人的环信ID数组
  * @param aExt              扩展信息，可添加如群组ID等信息
  * @param aCompletionBlock 完成回调
  */
-- (void)startInviteUsers:(NSArray<NSString*>*)aUsers ext:(NSDictionary*)aExt  completion:(void (^)(NSString* callId,EaseCallError*))aCompletionBlock;
+- (void)startInviteUsers:(NSArray<NSString*>*_Nonnull)aUsers ext:(NSDictionary*_Nullable)aExt  completion:(void (^_Nullable)(NSString*_Nullable callId,EaseCallError*_Nullable aError))aCompletionBlock;
 /**
  * 获取EaseCallKit的配置
  * @return  EaseCallKit的配置
  */
-- (EaseCallConfig*)getEaseCallConfig;
+- (EaseCallConfig*_Nonnull)getEaseCallConfig;
 /**
  * 设置声网频道及token
  * @param aToken         声网token
  * @param aChannelName              token对应的频道名称
  */
-- (void)setRTCToken:(NSString*_Nullable)aToken channelName:(NSString*)aChannelName;
+- (void)setRTCToken:(NSString*_Nullable)aToken channelName:(NSString*_Nonnull)aChannelName;
 @end
-
-NS_ASSUME_NONNULL_END

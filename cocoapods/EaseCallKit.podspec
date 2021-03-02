@@ -1,6 +1,6 @@
 Pod::Spec.new do |s|
     s.name             = 'EaseCallKit'
-    s.version          = '3.8.0.1'
+    s.version          = '3.8.0.2'
     s.summary          = 'A UI framework with video and audio call'
     s.description      = <<-DESC
         ‘A UI framework which implemented by Easemob and Agora SDK. User can make video or audio call with it.'
@@ -13,6 +13,8 @@ Pod::Spec.new do |s|
     s.libraries = 'stdc++'
     s.ios.deployment_target = '9.0'
     s.preserve_paths = '*.framework'
+    s.requires_arc = true
+    s.vendored_frameworks = '*.framework'
     s.dependency 'HyphenateChat'
     s.dependency 'Masonry'
     s.dependency 'SDWebImage', '~> 3.7.2'
