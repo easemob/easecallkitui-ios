@@ -8,7 +8,7 @@
 
 #import <UIKit/UIKit.h>
 #import "EaseCallStreamView.h"
-#import <HyphenateLite/HyphenateLite.h>
+#import <HyphenateChat/HyphenateChat.h>
 
 NS_ASSUME_NONNULL_BEGIN
 

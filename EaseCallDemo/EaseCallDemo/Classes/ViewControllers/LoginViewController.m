@@ -6,7 +6,7 @@
 //
 
 #import "LoginViewController.h"
-#import <HyphenateLite/HyphenateLite.h>
+#import <HyphenateChat/HyphenateChat.h>
 #import <MBProgressHUD/MBProgressHUD.h>
 #import <WHToast/WHToast.h>
 
