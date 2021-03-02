@@ -39,6 +39,7 @@ typedef NS_ENUM(NSInteger,EaseCallProcessErrorCode) {
     EaseCallProcessErrorCodeInvalidParams = 100, // 参数错误
     EaseCallProcessErrorCodeBusy, //当前处于忙碌状态
     EaseCallProcessErrorCodeFetchTokenFail, //token错误
+
 };
 
 #endif /* EaseCallDefine_h */

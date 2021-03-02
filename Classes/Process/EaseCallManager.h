@@ -49,7 +49,6 @@
 - (void)callDidRequestRTCTokenForAppId:(NSString*_Nonnull)aAppId channelName:(NSString*_Nonnull)aChannelName account:(NSString*_Nonnull)aUserAccount;
 @end
 
-
 @interface EaseCallManager : NSObject
 +(instancetype _Nonnull ) alloc __attribute__((unavailable("call sharedManager instead")));
 +(instancetype _Nonnull ) new __attribute__((unavailable("call sharedManager instead")));
@@ -76,7 +75,9 @@
  * @param aExt              扩展信息，可添加如群组ID等信息
  * @param aCompletionBlock 完成回调
  */
+
 - (void)startInviteUsers:(NSArray<NSString*>*_Nonnull)aUsers ext:(NSDictionary*_Nullable)aExt  completion:(void (^_Nullable)(NSString*_Nullable callId,EaseCallError*_Nullable aError))aCompletionBlock;
+
 /**
  * 获取EaseCallKit的配置
  * @return  EaseCallKit的配置
