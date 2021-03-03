@@ -51,6 +51,18 @@
     NSURL* url = [bundle URLForResource:path withExtension:@"png"];
     _defaultHeadImage = url;
     _agoraAppId = @"15cb0d28b87b425ea613fc46f7c9f974";
+
+}
+
+- (AgoraVideoEncoderConfiguration*)encoderConfiguration
+{
+    if(!_encoderConfiguration) {
+        _encoderConfiguration = [[AgoraVideoEncoderConfiguration alloc] initWithSize:AgoraVideoDimension640x360
+                                                                           frameRate:AgoraVideoFrameRateFps15
+                                                                             bitrate:AgoraVideoBitrateStandard
+                                                                     orientationMode:AgoraVideoOutputOrientationModeAdaptative];
+    }
+    return _encoderConfiguration;
 }
 
 @end

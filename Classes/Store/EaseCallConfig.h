@@ -7,6 +7,7 @@
 //
 
 #import <Foundation/Foundation.h>
+#import <AgoraRtcKit/AgoraRtcEngineKit.h>
 
 NS_ASSUME_NONNULL_BEGIN
 /**
@@ -49,6 +50,10 @@ NS_ASSUME_NONNULL_BEGIN
  * enableRTCTokenValidate 是否开启声网token验证，默认不开启，开启后必须实现callDidRequestRTCTokenForAppId回调，并在收到回调后调用setRTCToken才能进行通话
  */
 @property (nonatomic) BOOL enableRTCTokenValidate;
+/*
+ * encoderConfiguration    声网RTC Video配置
+ */
+@property (nonatomic,strong) AgoraVideoEncoderConfiguration *encoderConfiguration;
 @end
 
 NS_ASSUME_NONNULL_END

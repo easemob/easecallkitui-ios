@@ -6,7 +6,6 @@
 //  Copyright © 2020 lixiaoming. All rights reserved.
 //
 
-#import <AgoraRtcKit/AgoraRtcEngineKit.h>
 #import "EaseCallManager.h"
 #import "EaseCallSingleViewController.h"
 #import "EaseCallMultiViewController.h"
@@ -342,12 +341,7 @@ static EaseCallManager *easeCallManager = nil;
     // Default mode is disableVideo
     
     // Set up the configuration such as dimension, frame rate, bit rate and orientation
-    AgoraVideoEncoderConfiguration *encoderConfiguration =
-    [[AgoraVideoEncoderConfiguration alloc] initWithSize:AgoraVideoDimension640x360
-                                               frameRate:AgoraVideoFrameRateFps15
-                                                 bitrate:AgoraVideoBitrateStandard
-                                         orientationMode:AgoraVideoOutputOrientationModeAdaptative];
-    [self.agoraKit setVideoEncoderConfiguration:encoderConfiguration];
+    [self.agoraKit setVideoEncoderConfiguration:self.config.encoderConfiguration];
 }
 
 - (EaseCallSingleViewController*)getSingleVC
