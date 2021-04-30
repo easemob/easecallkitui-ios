@@ -14,6 +14,7 @@
 #import <AudioToolbox/AudioToolbox.h>
 #import <Masonry/Masonry.h>
 #import "EaseCallModal.h"
+#import <CommonCrypto/CommonDigest.h>
 
 static NSString* kAction = @"action";
 static NSString* kChannelName = @"channelName";
@@ -66,6 +67,7 @@ static EaseCallManager *easeCallManager = nil;
 {
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
+        //[[EMClient sharedClient] log:@"-------[EaseCallManager] init-------"];
         easeCallManager = [[EaseCallManager alloc] init];
         easeCallManager.delegate = nil;
         [[EMClient sharedClient].chatManager addDelegate:easeCallManager delegateQueue:nil];
@@ -86,6 +88,8 @@ static EaseCallManager *easeCallManager = nil;
     }
     if(!self.agoraKit) {
         self.agoraKit = [AgoraRtcEngineKit sharedEngineWithAppId:self.config.agoraAppId delegate:self];
+        [self.agoraKit setChannelProfile:AgoraChannelProfileLiveBroadcasting];
+        [self.agoraKit setClientRole:AgoraClientRoleBroadcaster];
         [self.agoraKit enableAudioVolumeIndication:1000 smooth:5 report_vad:NO];
     }
     
@@ -97,11 +101,27 @@ static EaseCallManager *easeCallManager = nil;
     return self.config;
 }
 
-- (void)setRTCToken:(NSString*_Nullable)aToken channelName:(NSString*)aChannelName
+- (void)setRTCToken:(NSString*_Nullable)aToken channelName:(NSString*)aChannelName uid:(NSUInteger)aUid
 {
     if(self.modal.currentCall && [self.modal.currentCall.channelName isEqualToString:aChannelName]) {
         self.modal.agoraRTCToken = aToken;
+        self.modal.agoraUid = aUid;
         [self joinChannel];
+    }
+}
+
+- (void)setUsers:(NSDictionary<NSNumber*,NSString*>*_Nonnull)aUsers channelName:(NSString*)aChannel
+{
+    if(aUsers.count > 0 && self.modal.currentCall && [self.modal.currentCall.channelName isEqualToString:aChannel])
+    {
+        self.modal.currentCall.allUserAccounts = [aUsers mutableCopy];
+        if(self.modal.currentCall.callType == EaseCallTypeMulti) {
+            NSArray<NSString*>* array = aUsers.allValues;
+            for(NSString* username in array) {
+                [[self getMultiVC] removePlaceHolderForMember:username];
+                [self _stopCallTimer:username];
+            }
+        }
     }
 }
 
@@ -136,12 +156,12 @@ static EaseCallManager *easeCallManager = nil;
         if(weakself.modal.currentCall && weakself.callVC) {
             NSLog(@"inviteUsers in group");
             for(NSString* uId in aUsers) {
-                if([weakself.modal.currentCall.remoteUserAccounts containsObject:uId])
+                if([weakself.modal.currentCall.allUserAccounts.allKeys containsObject:uId])
                     continue;
                 [weakself sendInviteMsgToCallee:uId type:weakself.modal.currentCall.callType callId:weakself.modal.currentCall.callId channelName:weakself.modal.currentCall.channelName ext:aExt completion:nil];
                 [weakself _startCallTimer:uId];
                 dispatch_async(dispatch_get_main_queue(), ^{
-                    [[weakself getMultiVC] setPlaceHolderUrl:[weakself getHeadImageFromUid:uId] member:uId];
+                    [[weakself getMultiVC] setPlaceHolderUrl:[weakself getHeadImageByUserName:uId] member:uId];
                 });
                 if(aCompletionBlock)
                     aCompletionBlock(weakself.modal.currentCall.callId,nil);
@@ -158,7 +178,7 @@ static EaseCallManager *easeCallManager = nil;
                 for(NSString* uId in aUsers) {
                     [weakself sendInviteMsgToCallee:uId type:weakself.modal.currentCall.callType callId:weakself.modal.currentCall.callId channelName:weakself.modal.currentCall.channelName ext:aExt completion:nil];
                     [weakself _startCallTimer:uId];
-                    [[weakself getMultiVC] setPlaceHolderUrl:[weakself getHeadImageFromUid:uId] member:uId];
+                    [[weakself getMultiVC] setPlaceHolderUrl:[weakself getHeadImageByUserName:uId] member:uId];
                 }
                 if(aCompletionBlock)
                     aCompletionBlock(weakself.modal.currentCall.callId,nil);
@@ -227,9 +247,16 @@ static EaseCallManager *easeCallManager = nil;
             [self.agoraKit stopPreview];
             [self.agoraKit disableVideo];
         }
-        [self.agoraKit leaveChannel:^(AgoraChannelStats * _Nonnull stat) {
-                NSLog(@"leaveChannel");
+        if(self.modal.hasJoinedChannel)
+            dispatch_async(self.workQueue, ^{
+                self.modal.hasJoinedChannel = NO;
+                [self.agoraKit leaveChannel:^(AgoraChannelStats * _Nonnull stat) {
+                    NSLog(@"leaveChannel");
+                    //[[EMClient sharedClient] log:@"leaveChannel"];
                 }];
+            });
+            
+        
     }
     if(self.callVC) {
         if(self.callVC.isMini) {
@@ -512,7 +539,7 @@ static EaseCallManager *easeCallManager = nil;
         return;
     EMCmdMessageBody* msgBody = [[EMCmdMessageBody alloc] initWithAction:@"rtcCall"];
     msgBody.isDeliverOnlineOnly = YES;
-    NSDictionary* ext = @{kMsgType:kMsgTypeValue,kAction:kConfirmCalleeAction,kCallId:aCallId,kCallerDevId:self.modal.curDevId,kCalleeDevId:aDevId,kCallResult:aResult,kTs:[self getTs]};
+    NSMutableDictionary* ext = [@{kMsgType:kMsgTypeValue,kAction:kConfirmCalleeAction,kCallId:aCallId,kCallerDevId:self.modal.curDevId,kCalleeDevId:aDevId,kCallResult:aResult,kTs:[self getTs]} mutableCopy];
     EMMessage* msg = [[EMMessage alloc] initWithConversationID:aUid from:self.modal.curUserAccount to:aUid body:msgBody ext:ext];
     __weak typeof(self) weakself = self;
     [[[EMClient sharedClient] chatManager] sendMessage:msg progress:nil completion:^(EMMessage *message, EMError *error) {
@@ -572,7 +599,7 @@ static EaseCallManager *easeCallManager = nil;
     __weak typeof(self) weakself = self;
     
     void (^parseInviteMsgExt)(NSDictionary*) = ^void (NSDictionary* ext) {
-        NSLog(@"parseInviteMsgExt");
+        //[[EMClient sharedClient] log:@"parseInviteMsgExt"];
         if(weakself.modal.currentCall && [weakself.modal.currentCall.callId isEqualToString:callId])
         {
             return;
@@ -597,7 +624,7 @@ static EaseCallManager *easeCallManager = nil;
         }
     };
     void (^parseAlertMsgExt)(NSDictionary*) = ^void (NSDictionary* ext) {
-        NSLog(@"parseAlertMsgExt currentCallId:%@,state:%ld",weakself.modal.currentCall.callId,(long)weakself.modal.state);
+        //[[EMClient sharedClient] log:[NSString stringWithFormat:@"parseAlertMsgExt currentCallId:%@,state:%ld",weakself.modal.currentCall.callId,(long)weakself.modal.state]];
         // 判断devId
         if([weakself.modal.curDevId isEqualToString:callerDevId]) {
             // 判断有效
@@ -609,8 +636,8 @@ static EaseCallManager *easeCallManager = nil;
         }
     };
     void (^parseCancelCallMsgExt)(NSDictionary*) = ^void (NSDictionary* ext) {
-        NSLog(@"parseCancelCallMsgExt currentCallId:%@,state:%ld",weakself.modal.currentCall.callId,(long)weakself.modal.state);
-        if(weakself.modal.currentCall && [weakself.modal.currentCall.callId isEqualToString:callId]) {
+        //[[EMClient sharedClient] log:[NSString stringWithFormat:@"parseCancelCallMsgExt currentCallId:%@,state:%ld",weakself.modal.currentCall.callId,(long)weakself.modal.state]];
+        if(weakself.modal.currentCall && [weakself.modal.currentCall.callId isEqualToString:callId] && !weakself.modal.hasJoinedChannel) {
             [weakself _stopConfirmTimer:callId];
             [weakself _stopAlertTimer:callId];
             [weakself callBackCallEnd:EaseCallEndReasonRemoteCancel];
@@ -622,7 +649,7 @@ static EaseCallManager *easeCallManager = nil;
         }
     };
     void (^parseAnswerMsgExt)(NSDictionary*) = ^void (NSDictionary* ext) {
-        NSLog(@"parseAnswerMsgExt currentCallId:%@,state:%ld",weakself.modal.currentCall.callId,weakself.modal.state);
+        //[[EMClient sharedClient] log:[NSString stringWithFormat:@"parseAnswerMsgExt currentCallId:%@,state:%ld",weakself.modal.currentCall.callId,weakself.modal.state]];
         if(weakself.modal.currentCall && [weakself.modal.currentCall.callId isEqualToString:callId] && [weakself.modal.curDevId isEqualToString:callerDevId]) {
             if(weakself.modal.currentCall.callType == EaseCallTypeMulti) {
                 dispatch_async(dispatch_get_main_queue(), ^{
@@ -662,7 +689,7 @@ static EaseCallManager *easeCallManager = nil;
         }
     };
     void (^parseConfirmRingMsgExt)(NSDictionary*) = ^void (NSDictionary* ext) {
-        NSLog(@"parseConfirmRingMsgExt currentCallId:%@,state:%ld",weakself.modal.currentCall.callId,weakself.modal.state);
+        //[[EMClient sharedClient] log:[NSString stringWithFormat:@"parseConfirmRingMsgExt currentCallId:%@,state:%ld",weakself.modal.currentCall.callId,weakself.modal.state]];
         if([weakself.alertTimerDic objectForKey:callId] && [calleeDevId isEqualToString:weakself.modal.curDevId]) {
             [weakself _stopAlertTimer:callId];
             if([weakself isBusy])
@@ -685,7 +712,7 @@ static EaseCallManager *easeCallManager = nil;
         }
     };
     void (^parseConfirmCalleeMsgExt)(NSDictionary*) = ^void (NSDictionary* ext) {
-        NSLog(@"parseConfirmCalleeMsgExt currentCallId:%@,state:%ld",weakself.modal.currentCall.callId,weakself.modal.state);
+        //[[EMClient sharedClient] log:[NSString stringWithFormat:@"parseConfirmCalleeMsgExt currentCallId:%@,state:%ld",weakself.modal.currentCall.callId,weakself.modal.state]];
         if (weakself.modal.state == EaseCallState_Alerting && [weakself.modal.currentCall.callId isEqualToString:callId]) {
             [weakself _stopConfirmTimer:callId];
             if([weakself.modal.curDevId isEqualToString:calleeDevId])
@@ -766,9 +793,9 @@ static EaseCallManager *easeCallManager = nil;
 {
     __weak typeof(self) weakself = self;
     dispatch_async(dispatch_get_main_queue(), ^{
-        NSLog(@"stopCallTimer:%@",aRemoteUser);
         NSTimer* tm = [weakself.callTimerDic objectForKey:aRemoteUser];
         if(tm) {
+            NSLog(@"stopCallTimer:%@",aRemoteUser);
             [tm invalidate];
             tm = nil;
             [weakself.callTimerDic removeObjectForKey:aRemoteUser];
@@ -910,7 +937,7 @@ static EaseCallManager *easeCallManager = nil;
 
 - (AVAudioPlayer*)audioPlayer
 {
-    if(!_audioPlayer) {
+    if(!_audioPlayer && _config.ringFileUrl) {
         _audioPlayer = [[AVAudioPlayer alloc] initWithContentsOfURL:_config.ringFileUrl error:nil];
         _audioPlayer.numberOfLoops = -1;
         [_audioPlayer prepareToPlay];
@@ -945,7 +972,7 @@ static EaseCallManager *easeCallManager = nil;
         self.modal.state = EaseCallState_Idle;
         [self callBackError:EaseCallErrorTypeRTC code:errorCode description:@"RTC Error"];
     }else{
-        if(errorCode != AgoraErrorCodeNoError) {
+        if(errorCode != AgoraErrorCodeNoError && errorCode != AgoraErrorCodeLeaveChannelRejected) {
             [self callBackError:EaseCallErrorTypeRTC code:errorCode description:@"RTC Error"];
         }
     }
@@ -984,13 +1011,11 @@ static EaseCallManager *easeCallManager = nil;
 // 对方退出频道
 - (void)rtcEngine:(AgoraRtcEngineKit *)engine didOfflineOfUid:(NSUInteger)uid reason:(AgoraUserOfflineReason)reason
 {
+    [[EMClient sharedClient] log:[NSString stringWithFormat:@"didOfflineOfUid uid:%lu,reason:%lu",(unsigned long)uid,reason]];
     {
         if(self.modal.currentCall.callType == EaseCallTypeMulti) {
             [[self getMultiVC] removeRemoteViewForUser:[NSNumber numberWithUnsignedInteger:uid]];
-            AgoraUserInfo* usrInfo = [self.modal.currentCall.remoteUsers objectForKey:[NSNumber numberWithUnsignedInteger:uid]];
-            if(usrInfo) {
-                [self.modal.currentCall.remoteUserAccounts removeObject:usrInfo.userAccount];
-            }
+            [self.modal.currentCall.allUserAccounts removeObjectForKey:[NSNumber numberWithUnsignedInteger:uid]];
         }else{
             [self callBackCallEnd:EaseCallEndReasonHangup];
             self.modal.state = EaseCallState_Idle;
@@ -1001,21 +1026,27 @@ static EaseCallManager *easeCallManager = nil;
 // 对方加入频道
 - (void)rtcEngine:(AgoraRtcEngineKit * _Nonnull)engine didJoinedOfUid:(NSUInteger)uid elapsed:(NSInteger)elapsed
 {
-    NSLog(@"didJoinedOfUid:%lu",(unsigned long)uid);
+    [[EMClient sharedClient] log:[NSString stringWithFormat:@"didJoinedOfUid:%lu",(unsigned long)uid]];
     if(self.modal.currentCall.callType == EaseCallTypeMulti) {
         UIView *view = [UIView new];
         [[self getMultiVC] addRemoteView:view member:[NSNumber numberWithUnsignedInteger:uid] enableVideo:YES];
-        AgoraUserInfo*userInfo = [self.modal.currentCall.remoteUsers objectForKey:[NSNumber numberWithUnsignedInteger:uid]];
-        if(userInfo) {
-            if([self.callTimerDic objectForKey:userInfo.userAccount])
+        NSString*username = [self.modal.currentCall.allUserAccounts objectForKey:[NSNumber numberWithUnsignedInteger:uid]];
+        if(username.length > 0) {
+            if([self.callTimerDic objectForKey:username])
             {
-                [self _stopCallTimer:userInfo.userAccount];
+                [self _stopCallTimer:username];
             }
-            [[self getMultiVC] removePlaceHolderForMember:userInfo.userAccount];
-            [[self getMultiVC] setRemoteViewNickname:[self getNicknameFromUid:userInfo.userAccount] headImage:[self getHeadImageFromUid:userInfo.userAccount] uId:[NSNumber numberWithUnsignedInteger:uid]];
+            [[self getMultiVC] removePlaceHolderForMember:username];
+            [[self getMultiVC] setRemoteViewNickname:[self getNicknameByUserName:username] headImage:[self getHeadImageByUserName:username] uId:[NSNumber numberWithUnsignedInteger:uid]];
         }
     }else{
         [self getSingleVC].isConnected = YES;
+        [self _stopCallTimer:self.modal.currentCall.remoteUserAccount];
+        [self.modal.currentCall.allUserAccounts setObject:self.modal.currentCall.remoteUserAccount forKey:[NSNumber numberWithUnsignedInteger:uid]];
+    }
+    if([self.delegate respondsToSelector:@selector(remoteUserDidJoinChannel:uid:username:)]){
+        NSString* username = [self.modal.currentCall.allUserAccounts objectForKey:[NSNumber numberWithUnsignedInteger:uid]];
+        [self.delegate remoteUserDidJoinChannel:self.modal.currentCall.channelName uid:uid username:username];
     }
 }
 
@@ -1041,6 +1072,7 @@ static EaseCallManager *easeCallManager = nil;
 - (void)rtcEngine:(AgoraRtcEngineKit *)engine firstRemoteVideoDecodedOfUid:(NSUInteger)uid size:(CGSize)size elapsed:(NSInteger)elapsed
 {
     [self setupRemoteVideoView:uid];
+    //[[EMClient sharedClient] log:[NSString stringWithFormat:@"firstRemoteVideoDecodedOfUid:%lu",uid]];
 }
 
 - (void)rtcEngine:(AgoraRtcEngineKit *)engine firstRemoteAudioFrameOfUid:(NSUInteger)uid elapsed:(NSInteger)elapsed
@@ -1050,6 +1082,7 @@ static EaseCallManager *easeCallManager = nil;
 
 - (void)rtcEngine:(AgoraRtcEngineKit *)engine remoteVideoStateChangedOfUid:(NSUInteger)uid state:(AgoraVideoRemoteState)state reason:(AgoraVideoRemoteStateReason)reason elapsed:(NSInteger)elapsed
 {
+    NSLog(@"staate:%d,reason:%d",state,reason);
     if(reason == AgoraVideoRemoteStateReasonRemoteMuted && self.modal.currentCall.callType == EaseCallType1v1Video) {
         __weak typeof(self) weakself = self;
         dispatch_async(dispatch_get_main_queue(), ^{
@@ -1080,25 +1113,6 @@ static EaseCallManager *easeCallManager = nil;
     }
 }
 
-// 对方account更新
-- (void)rtcEngine:(AgoraRtcEngineKit * _Nonnull)engine didUpdatedUserInfo:(AgoraUserInfo * _Nonnull)userInfo withUid:(NSUInteger)uid;
-{
-    NSLog(@"didUpdatedUserInfo uid:%lu,account:%@",(unsigned long)uid,userInfo.userAccount);
-    if(self.modal.currentCall.callType == EaseCallTypeMulti) {
-//        if([[self getMultiVC].streamViewsDic objectForKey:[NSNumber numberWithUnsignedInteger:uid]]) {
-//            [self _stopCallTimer:userInfo.userAccount];
-//        }
-        [self.modal.currentCall.remoteUsers setObject:userInfo forKey:[NSNumber numberWithUnsignedInteger:uid]];
-        [[self getMultiVC] removePlaceHolderForMember:userInfo.userAccount];
-        [self.modal.currentCall.remoteUserAccounts addObject:userInfo.userAccount];
-        [[self getMultiVC] setRemoteViewNickname:[self getNicknameFromUid:userInfo.userAccount] headImage:[self getHeadImageFromUid:userInfo.userAccount] uId:[NSNumber numberWithUnsignedInteger:uid]];
-    }else{
-        [self _stopCallTimer:userInfo.userAccount];
-        self.modal.currentCall.remoteUserInfo = userInfo;
-        self.modal.currentCall.remoteUserAccount = userInfo.userAccount;
-    }
-}
-
 #pragma mark - 提供delegate
 
 - (void)callBackCallEnd:(EaseCallEndReason)reason
@@ -1126,15 +1140,17 @@ static EaseCallManager *easeCallManager = nil;
 #pragma mark - 获取token
 - (void)fetchToken {
     if(self.config.enableRTCTokenValidate) {
-        if([self.delegate respondsToSelector:@selector(callDidRequestRTCTokenForAppId:channelName:account:)]) {
-            [self.delegate callDidRequestRTCTokenForAppId:self.config.agoraAppId channelName:self.modal.currentCall.channelName account:[EMClient sharedClient].currentUsername];
+        if([self.delegate respondsToSelector:@selector(callDidRequestRTCTokenForAppId:channelName:account:uid:)]) {
+            self.modal.agoraUid = arc4random();
+            [self.delegate callDidRequestRTCTokenForAppId:self.config.agoraAppId channelName:self.modal.currentCall.channelName account:[EMClient sharedClient].currentUsername uid:self.config.agoraUid];
         }else{
             NSLog(@"Warning: You have not implement interface callDidRequestRTCTokenForAppId:channelName:account:!!!!");
         }
     }else{
-        [self setRTCToken:nil channelName:self.modal.currentCall.channelName];
+        [self setRTCToken:nil channelName:self.modal.currentCall.channelName uid:arc4random()];
     }
 }
+
 @end
 
 
@@ -1190,7 +1206,13 @@ static EaseCallManager *easeCallManager = nil;
 -(void) inviteAction
 {
     if(self.delegate && [self.delegate respondsToSelector:@selector(multiCallDidInvitingWithCurVC:excludeUsers:ext:)]){
-        NSMutableArray* array = self.modal.currentCall.remoteUserAccounts;
+        NSMutableArray* array = [NSMutableArray array];
+        NSArray<NSNumber*>* uids = [[self getMultiVC].streamViewsDic allKeys];
+        for (NSNumber* uid in uids) {
+            NSString* username = [self.modal.currentCall.allUserAccounts objectForKey:uid];
+            if(username.length > 0)
+               [array addObject:username];
+        }
         NSArray* invitingMems = [self.callTimerDic allKeys];
         [array addObjectsFromArray:invitingMems];
         [self.delegate multiCallDidInvitingWithCurVC:self.callVC excludeUsers:array ext:self.modal.currentCall.ext];
@@ -1209,27 +1231,36 @@ static EaseCallManager *easeCallManager = nil;
 {
     [self.agoraKit setEnableSpeakerphone:aEnable];
 }
--(NSString*) getNicknameFromUid:(NSString*)uId
+-(NSString*) getNicknameByUserName:(NSString*)aUserName
 {
-    if([uId length] > 0){
-        EaseCallUser*user = [self.config.users objectForKey:uId];
-        if(user) {
+    if([aUserName length] > 0){
+        EaseCallUser*user = [self.config.users objectForKey:aUserName];
+        if(user && user.nickName.length > 0) {
             return user.nickName;
         }
     }
-    return uId;
+    return aUserName;
 }
--(NSURL*) getHeadImageFromUid:(NSString *)uId
+-(NSURL*) getHeadImageByUserName:(NSString *)aUserName
 {
-    if([uId length] > 0){
-        EaseCallUser*user = [self.config.users objectForKey:uId];
-        if(user) {
+    if([aUserName length] > 0){
+        EaseCallUser*user = [self.config.users objectForKey:aUserName];
+        if(user && user.headImage.absoluteString.length > 0) {
             return user.headImage;
         }
     }
     return self.config.defaultHeadImage;
 }
 
+-(NSString*)getUserNameByUid:(NSNumber *)uId
+{
+    if(self.modal.currentCall && self.modal.currentCall.allUserAccounts.count > 0) {
+        NSString* username = [self.modal.currentCall.allUserAccounts objectForKey:uId];
+        if(username.length > 0)
+            return username;
+    }
+    return nil;
+}
 
 - (void)setupRemoteVideoView:(NSUInteger)uid
 {
@@ -1260,19 +1291,30 @@ static EaseCallManager *easeCallManager = nil;
     }
     [self.agoraKit setupLocalVideo:canvas];
     [self.agoraKit startPreview];
-    
+    [self.agoraKit setChannelProfile:AgoraChannelProfileLiveBroadcasting];
+    [self.agoraKit setClientRole:AgoraClientRoleBroadcaster];
 }
 
 - (void)joinChannel
 {
     __weak typeof(self) weakself = self;
     dispatch_async(dispatch_get_main_queue(), ^{
-        [weakself.agoraKit joinChannelByUserAccount:weakself.modal.curUserAccount token:weakself.modal.agoraRTCToken channelId:weakself.modal.currentCall.channelName joinSuccess:^(NSString * _Nonnull channel, NSUInteger uid, NSInteger elapsed){
-            NSLog(@"joinChannel Success!! channel:%@",channel);
+        if(weakself.modal.hasJoinedChannel)
+            [weakself.agoraKit leaveChannel:nil];
+        [weakself.agoraKit joinChannelByToken:weakself.modal.agoraRTCToken channelId:weakself.modal.currentCall.channelName info:@"" uid:self.modal.agoraUid joinSuccess:^(NSString * _Nonnull channel, NSUInteger uid, NSInteger elapsed) {
+            NSLog(@"join success");
+            if([self.delegate respondsToSelector:@selector(callDidJoinChannel:uid:)]) {
+                [self.delegate callDidJoinChannel:channel uid:uid];
+            }
+            weakself.modal.hasJoinedChannel = YES;
+            [weakself.modal.currentCall.allUserAccounts setObject:[EMClient sharedClient].currentUsername forKey:[NSNumber numberWithUnsignedInteger:uid]];
+            if(self.modal.currentCall.callType == EaseCallTypeMulti) {
+                [self enableVideo:NO];
+            }
         }];
+        
         [weakself speakeOut:YES];
     });
-    
 }
 
 -(void) switchToVoice

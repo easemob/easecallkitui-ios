@@ -21,6 +21,15 @@
     }
     return self;
 }
++(instancetype)userWithNickName:(NSString*)aNickName image:(NSURL*)aUrl
+{
+    EaseCallUser* user = [[EaseCallUser alloc] init];
+    if(aNickName.length > 0)
+        user.nickName = aNickName;
+    if(aUrl && aUrl.absoluteString.length > 0)
+        user.headImage = aUrl;
+    return user;
+}
 @end
 
 @interface EaseCallConfig ()
@@ -51,7 +60,6 @@
     NSURL* url = [bundle URLForResource:path withExtension:@"png"];
     _defaultHeadImage = url;
     _agoraAppId = @"15cb0d28b87b425ea613fc46f7c9f974";
-
 }
 
 - (AgoraVideoEncoderConfiguration*)encoderConfiguration
@@ -63,6 +71,20 @@
                                                                      orientationMode:AgoraVideoOutputOrientationModeAdaptative];
     }
     return _encoderConfiguration;
+}
+
+- (void)setUsers:(NSMutableDictionary<NSString *,EaseCallUser *> *)users
+{
+    _users = [users mutableCopy];
+    [[NSNotificationCenter defaultCenter] postNotificationName:@"EaseCallUserUpdated" object:nil];
+}
+
+- (void)setUser:(NSString*)aUser info:(EaseCallUser*)aInfo
+{
+    if(aUser.length > 0 && aInfo) {
+        [self.users setObject:aInfo forKey:aUser];
+        [[NSNotificationCenter defaultCenter] postNotificationName:@"EaseCallUserUpdated" object:nil];
+    }
 }
 
 @end

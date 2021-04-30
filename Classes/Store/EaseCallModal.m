@@ -9,19 +9,13 @@
 #import "EaseCallModal.h"
 
 @implementation ECCall
-- (NSMutableDictionary*)remoteUsers
+
+- (NSMutableDictionary*)allUserAccounts
 {
-    if(!_remoteUsers) {
-        _remoteUsers = [NSMutableDictionary dictionary];
+    if(!_allUserAccounts) {
+        _allUserAccounts = [NSMutableDictionary dictionary];
     }
-    return _remoteUsers;
-}
-- (NSMutableArray*)remoteUserAccounts
-{
-    if(!_remoteUserAccounts) {
-        _remoteUserAccounts = [NSMutableArray array];
-    }
-    return _remoteUserAccounts;
+    return _allUserAccounts;
 }
 @end
 
@@ -37,6 +31,7 @@
     if(self) {
         self.delegate = delegate;
         self.currentCall = nil;
+        self.hasJoinedChannel = NO;
     }
     return self;
 }

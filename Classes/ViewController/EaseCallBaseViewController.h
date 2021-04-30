@@ -29,6 +29,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic,strong) UILabel* hangupLabel;
 @property (nonatomic,strong) UILabel* acceptLabel;
 @property (nonatomic,strong) UIButton* miniButton;
+@property (nonatomic,strong) UIView* contentView;
 @property (nonatomic) EaseCallStreamView* floatingView;
 @property (nonatomic) BOOL isMini;
 
@@ -38,6 +39,7 @@ NS_ASSUME_NONNULL_BEGIN
 - (void)startTimer;
 - (void)answerAction;
 - (void)miniAction;
+- (void)usersInfoUpdated;
 @end
 
 NS_ASSUME_NONNULL_END
