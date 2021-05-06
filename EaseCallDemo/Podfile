@@ -1,0 +1,11 @@
+use_frameworks!
+platform :ios, '9.0'
+
+# Import CocoaPods sources
+source 'https://github.com/CocoaPods/Specs.git'
+
+target 'EaseCallDemo' do
+  pod 'WHToast'
+  pod 'MBProgressHUD', '1.2.0'
+  pod 'EaseCallKit',  :path => "../"
+end

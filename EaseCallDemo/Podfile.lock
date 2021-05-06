@@ -1,0 +1,45 @@
+PODS:
+  - AgoraRtcEngine_iOS (3.3.0)
+  - EaseCallKit (1.0.0):
+    - AgoraRtcEngine_iOS
+    - HyphenateLite (~> 3.7.4)
+    - Masonry
+    - SDWebImage (~> 3.7.2)
+  - HyphenateLite (3.7.4)
+  - Masonry (1.1.0)
+  - MBProgressHUD (1.2.0)
+  - SDWebImage (3.7.6):
+    - SDWebImage/Core (= 3.7.6)
+  - SDWebImage/Core (3.7.6)
+  - WHToast (0.0.7)
+
+DEPENDENCIES:
+  - EaseCallKit (from `../`)
+  - MBProgressHUD (= 1.2.0)
+  - WHToast
+
+SPEC REPOS:
+  https://github.com/CocoaPods/Specs.git:
+    - AgoraRtcEngine_iOS
+    - HyphenateLite
+    - Masonry
+    - MBProgressHUD
+    - SDWebImage
+    - WHToast
+
+EXTERNAL SOURCES:
+  EaseCallKit:
+    :path: "../"
+
+SPEC CHECKSUMS:
+  AgoraRtcEngine_iOS: 1a0adbf959ab5175b700c8bab30b1346fc27ef1a
+  EaseCallKit: 335525e84cbea6ca0637f52e3cb02cb9df4201ef
+  HyphenateLite: 7bf338541cf52d4977d9adb90290d2d9ac72a441
+  Masonry: 678fab65091a9290e40e2832a55e7ab731aad201
+  MBProgressHUD: 3ee5efcc380f6a79a7cc9b363dd669c5e1ae7406
+  SDWebImage: c325cf02c30337336b95beff20a13df489ec0ec9
+  WHToast: 11a17a3f09f5f733e32bd6f3338919a448cbb719
+
+PODFILE CHECKSUM: 76af0b33d2a4b1527194750aff61ad299412e857
+
+COCOAPODS: 1.10.0

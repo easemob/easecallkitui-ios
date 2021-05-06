@@ -40,12 +40,8 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic) BOOL isCaller;
 // 自己在频道中的声网ID
 @property (nonatomic) NSInteger uid;
-// 多人通话使用，会议中的人员使用的声网账户
-@property (nonatomic,strong) NSMutableDictionary* remoteUsers;
-// 多人通话使用，会议中的人员使用的环信ID
-@property (nonatomic,strong) NSMutableArray* remoteUserAccounts;
-// 单人通话使用，对方的声网账户
-@property (nonatomic,strong) AgoraUserInfo* remoteUserInfo;
+// 多人通话使用，会议中的人员使用的声网uid与环信id映射表<声网uid,环信ID>
+@property (nonatomic,strong) NSMutableDictionary<NSNumber*,NSString*>* allUserAccounts;
 // 频道名称
 @property (nonatomic,strong) NSString* channelName;
 // 扩展字段
@@ -65,6 +61,10 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic,strong) NSString* agoraRTCToken;
 // 通话的呼叫状态
 @property (nonatomic) EaseCallState state;
+// 自己是否加入频道成功
+@property (nonatomic) BOOL hasJoinedChannel;
+// 使用的声网uid
+@property (nonatomic) NSInteger agoraUid;
 
 - (instancetype)initWithDelegate:(id<EaseCallModalDelegate>)delegate;
 
