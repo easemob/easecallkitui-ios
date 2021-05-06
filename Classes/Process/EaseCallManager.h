@@ -46,7 +46,16 @@
  * @param aChannelName 呼叫使用的频道名称
  * @param aUserAccount 用户使用的环信账户
  */
-- (void)callDidRequestRTCTokenForAppId:(NSString*_Nonnull)aAppId channelName:(NSString*_Nonnull)aChannelName account:(NSString*_Nonnull)aUserAccount;
+- (void)callDidRequestRTCTokenForAppId:(NSString*_Nonnull)aAppId channelName:(NSString*_Nonnull)aChannelName account:(NSString*_Nonnull)aUserAccount uid:(NSInteger)aAgoraUid;
+/**
+ * 通话中对方加入会议时触发该回调
+ */
+-(void)remoteUserDidJoinChannel:( NSString*_Nonnull)aChannelName uid:(NSInteger)aUid username:(NSString*_Nullable)aUserName;
+
+/**
+ * 通话中自己加入会议成功时触发该回调
+ */
+- (void)callDidJoinChannel:(NSString*_Nonnull)aChannelName uid:(NSUInteger)aUid;
 @end
 
 @interface EaseCallManager : NSObject
@@ -87,6 +96,13 @@
  * 设置声网频道及token
  * @param aToken         声网token
  * @param aChannelName              token对应的频道名称
+ * @param aUid 声网账户
  */
-- (void)setRTCToken:(NSString*_Nullable)aToken channelName:(NSString*_Nonnull)aChannelName;
+- (void)setRTCToken:(NSString*_Nullable)aToken channelName:(NSString*_Nonnull)aChannelName uid:(NSUInteger)aUid;
+/**
+ * 设置用户环信ID与声网账户的映射表
+ * @param aUsers         用户环信ID与声网账户的映射表
+ * @param aChannel              对应的频道名称
+ */
+- (void)setUsers:(NSDictionary<NSNumber*,NSString*>*_Nonnull)aUsers channelName:(NSString*_Nonnull)aChannel;
 @end

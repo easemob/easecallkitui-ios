@@ -33,13 +33,13 @@
         self.remoteView = [[EaseCallStreamView alloc] init];
         [self setRemoteDisplayView:[UIView new] enableVideo:YES];
     }
-    self.view.backgroundColor = [UIColor grayColor];
-    NSURL* remoteUrl = [[EaseCallManager sharedManager] getHeadImageFromUid:self.remoteUid];
+    self.contentView.backgroundColor = [UIColor grayColor];
+    NSURL* remoteUrl = [[EaseCallManager sharedManager] getHeadImageByUserName:self.remoteUid];
     self.remoteHeadView = [[UIImageView alloc] init];
-    [self.view addSubview:self.remoteHeadView];
+    [self.contentView addSubview:self.remoteHeadView];
     [self.remoteHeadView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.width.height.equalTo(@80);
-        make.centerX.equalTo(self.view);
+        make.centerX.equalTo(self.contentView);
         make.top.equalTo(@100);
     }];
     [self.remoteHeadView sd_setImageWithURL:remoteUrl];
@@ -49,21 +49,21 @@
     self.remoteNameLable.font = [UIFont systemFontOfSize:24];
     self.remoteNameLable.textColor = [UIColor whiteColor];
     self.remoteNameLable.textAlignment = NSTextAlignmentRight;
-    self.remoteNameLable.text = [[EaseCallManager sharedManager] getNicknameFromUid:self.remoteUid];
-    [self.view addSubview:self.remoteNameLable];
+    self.remoteNameLable.text = [[EaseCallManager sharedManager] getNicknameByUserName:self.remoteUid];
+    [self.contentView addSubview:self.remoteNameLable];
     [self.remoteNameLable mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.equalTo(self.viewRoundHead.mas_bottom).offset(40);
-        make.centerX.equalTo(self.view);
+        make.centerX.equalTo(self.contentView);
     }];
     self.statusLable = [[UILabel alloc] init];
     self.statusLable.backgroundColor = [UIColor clearColor];
     self.statusLable.font = [UIFont systemFontOfSize:15];
     self.statusLable.textColor = [UIColor colorWithWhite:1.0 alpha:0.5];
     self.statusLable.textAlignment = NSTextAlignmentRight;
-    [self.view addSubview:self.statusLable];
+    [self.contentView addSubview:self.statusLable];
     [self.statusLable mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.equalTo(self.remoteNameLable.mas_bottom).with.offset(5);
-        make.centerX.equalTo(self.view);
+        make.centerX.equalTo(self.contentView);
     }];
     
     self.switchToVoiceLable = [[UILabel alloc] init];
@@ -72,7 +72,7 @@
     self.switchToVoiceLable.textColor = [UIColor whiteColor];
     self.switchToVoiceLable.textAlignment = NSTextAlignmentCenter;
     self.switchToVoiceLable.text = @"转音频";
-    [self.view addSubview:self.switchToVoiceLable];
+    [self.contentView addSubview:self.switchToVoiceLable];
     if(self.isCaller) {
         [self.switchToVoiceLable mas_makeConstraints:^(MASConstraintMaker *make) {
             make.bottom.equalTo(self.hangupButton.mas_top).with.offset(-5);
@@ -90,7 +90,7 @@
     [self.switchToVoice setTintColor:[UIColor whiteColor]];
     [self.switchToVoice setImage:[UIImage imageNamedFromBundle:@"Audio-mute"] forState:UIControlStateNormal];
     [self.switchToVoice addTarget:self action:@selector(switchToVoiceAction) forControlEvents:UIControlEventTouchUpInside];
-    [self.view addSubview:self.switchToVoice];
+    [self.contentView addSubview:self.switchToVoice];
     [self.switchToVoice mas_makeConstraints:^(MASConstraintMaker *make) {
             make.width.height.equalTo(@40);
             make.centerX.equalTo(self.switchToVoiceLable);
@@ -120,7 +120,7 @@
     self.viewRoundHead.layer.shadowOpacity = 1;
     self.viewRoundHead.layer.shadowRadius = 15;
     self.viewRoundHead.layer.cornerRadius = 119;
-    [self.view addSubview:self.viewRoundHead];
+    [self.contentView addSubview:self.viewRoundHead];
     [self.viewRoundHead mas_makeConstraints:^(MASConstraintMaker *make) {
             make.center.equalTo(self.remoteHeadView);
             make.width.height.equalTo(@238);
@@ -152,7 +152,7 @@
             make.width.height.equalTo(@129);
     }];
     
-    [self.view sendSubviewToBack:self.viewRoundHead];
+    [self.contentView sendSubviewToBack:self.viewRoundHead];
     
     _tipLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 325, 330, 30)];
     _tipLabel.backgroundColor = [UIColor blackColor];
@@ -161,7 +161,7 @@
     _tipLabel.textAlignment = NSTextAlignmentCenter;
     _tipLabel.textColor = [UIColor whiteColor];
     _tipLabel.alpha = 0.0;
-    [self.view addSubview:_tipLabel];
+    [self.contentView addSubview:_tipLabel];
 }
 
 - (void)switchToVoiceAction
@@ -200,7 +200,7 @@
         // 音频
         [self.remoteHeadView mas_remakeConstraints:^(MASConstraintMaker *make) {
             make.width.height.equalTo(@80);
-            make.centerX.equalTo(self.view);
+            make.centerX.equalTo(self.contentView);
             make.top.equalTo(@230);
         }];
         self.switchToVoice.hidden = YES;
@@ -216,7 +216,7 @@
         [self.answerButton setImage:[UIImage imageNamedFromBundle:@"answer"] forState:UIControlStateNormal];
         [self.remoteNameLable mas_remakeConstraints:^(MASConstraintMaker *make) {
             make.top.equalTo(self.viewRoundHead.mas_bottom).with.offset(30);
-            make.centerX.equalTo(self.view);
+            make.centerX.equalTo(self.contentView);
         }];
         if(_isConnected) {
             // 接通
@@ -231,21 +231,21 @@
             self.remoteHeadView.hidden = NO;
             self.statusLable.hidden = YES;
             [self.hangupButton mas_remakeConstraints:^(MASConstraintMaker *make) {
-                make.centerX.equalTo(self.view);
+                make.centerX.equalTo(self.contentView);
                 make.width.height.equalTo(@60);
-                make.bottom.equalTo(self.view).with.offset(-40);
+                make.bottom.equalTo(self.contentView).with.offset(-40);
             }];
             [self.microphoneButton mas_remakeConstraints:^(MASConstraintMaker *make) {
 //                    make.bottom.equalTo(self.hangupButton);
 //                    make.width.height.equalTo(self.hangupButton);
-                make.bottom.equalTo(self.view).with.offset(-40);
+                make.bottom.equalTo(self.contentView).with.offset(-40);
                 make.left.equalTo(@40);
             }];
             [self.speakerButton mas_remakeConstraints:^(MASConstraintMaker *make) {
 //                    make.bottom.equalTo(self.hangupButton);
 //                    make.width.height.equalTo(self.hangupButton);
-                make.bottom.equalTo(self.view).with.offset(-40);
-                make.right.equalTo(self.view).with.offset(-40);
+                make.bottom.equalTo(self.contentView).with.offset(-40);
+                make.right.equalTo(self.contentView).with.offset(-40);
             }];
         }else{
             self.statusLable.hidden = NO;
@@ -261,21 +261,21 @@
                 self.answerButton.hidden = YES;
                 self.acceptLabel.hidden = YES;
                 [self.hangupButton mas_remakeConstraints:^(MASConstraintMaker *make) {
-                    make.centerX.equalTo(self.view);
+                    make.centerX.equalTo(self.contentView);
                     make.width.height.equalTo(@60);
-                    make.bottom.equalTo(self.view).with.offset(-40);
+                    make.bottom.equalTo(self.contentView).with.offset(-40);
                 }];
                 [self.microphoneButton mas_remakeConstraints:^(MASConstraintMaker *make) {
 //                    make.bottom.equalTo(self.hangupButton);
 //                    make.width.height.equalTo(self.hangupButton);
-                    make.bottom.equalTo(self.view).with.offset(-40);
+                    make.bottom.equalTo(self.contentView).with.offset(-40);
                     make.left.equalTo(@40);
                 }];
                 [self.speakerButton mas_remakeConstraints:^(MASConstraintMaker *make) {
 //                    make.bottom.equalTo(self.hangupButton);
 //                    make.width.height.equalTo(self.hangupButton);
-                    make.bottom.equalTo(self.view).with.offset(-40);
-                    make.right.equalTo(self.view).with.offset(-40);
+                    make.bottom.equalTo(self.contentView).with.offset(-40);
+                    make.right.equalTo(self.contentView).with.offset(-40);
                 }];
                 
             }else{
@@ -302,7 +302,7 @@
         self.viewRoundHead.hidden = YES;
         [self.remoteHeadView mas_remakeConstraints:^(MASConstraintMaker *make) {
             make.width.height.equalTo(@80);
-            make.centerX.equalTo(self.view);
+            make.centerX.equalTo(self.contentView);
             make.top.equalTo(@100);
         }];
         [self.remoteNameLable mas_updateConstraints:^(MASConstraintMaker *make) {
@@ -322,9 +322,9 @@
             self.switchToVoice.hidden = NO;
             self.switchToVoiceLable.hidden = NO;
             [self.hangupButton mas_remakeConstraints:^(MASConstraintMaker *make) {
-                make.centerX.equalTo(self.view);
+                make.centerX.equalTo(self.contentView);
                 make.width.height.equalTo(@60);
-                make.bottom.equalTo(self.view).with.offset(-40);
+                make.bottom.equalTo(self.contentView).with.offset(-40);
             }];
             [self.switchToVoiceLable mas_remakeConstraints:^(MASConstraintMaker *make) {
                 make.left.equalTo(@60);
@@ -336,8 +336,8 @@
                 make.width.height.equalTo(@60);
             }];
             [self.switchCameraButton mas_remakeConstraints:^(MASConstraintMaker *make) {
-                            make.bottom.equalTo(self.view).with.offset(-40);
-                            make.right.equalTo(self.view).with.offset(-40);
+                            make.bottom.equalTo(self.contentView).with.offset(-40);
+                            make.right.equalTo(self.contentView).with.offset(-40);
             }];
         }else{
             // 未接通
@@ -352,7 +352,7 @@
                 self.switchToVoice.hidden = NO;
                 self.switchToVoiceLable.hidden = NO;
                 [self.hangupButton mas_updateConstraints:^(MASConstraintMaker *make) {
-                    make.centerX.equalTo(self.view);
+                    make.centerX.equalTo(self.contentView);
                 }];
                 self.localView.hidden = NO;
             }else{
@@ -378,13 +378,13 @@
 - (void)setLocalView:(EaseCallStreamView *)localView
 {
     _localView = localView;
-    [self.view addSubview:_localView];
-    [self.view sendSubviewToBack:_localView];
-    [self.localView.bgView sd_setImageWithURL:[[EaseCallManager sharedManager] getHeadImageFromUid:[EMClient sharedClient].currentUsername]];
+    [self.contentView addSubview:_localView];
+    [self.contentView sendSubviewToBack:_localView];
+    [self.localView.bgView sd_setImageWithURL:[[EaseCallManager sharedManager] getHeadImageByUserName:[EMClient sharedClient].currentUsername]];
     //self.localView.nameLabel.text = [[EaseCallManager sharedManager] getNickNameFromUID:[EMClient sharedClient].currentUsername];
     localView.delegate = self;
     [_localView mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.edges.equalTo(self.view);
+        make.edges.equalTo(self.contentView);
     }];
     [self.enableCameraButton setEnabled:YES];
     [self.switchCameraButton setEnabled:YES];
@@ -404,12 +404,12 @@
 {
     _remoteView = remoteView;
     remoteView.delegate = self;
-    [self.view addSubview:_remoteView];
+    [self.contentView addSubview:_remoteView];
     [_remoteView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.width.equalTo(@80);
         make.height.equalTo(@100);
-        make.right.equalTo(self.view).with.offset(-40);
-        make.top.equalTo(self.view).with.offset(70);
+        make.right.equalTo(self.contentView).with.offset(-40);
+        make.top.equalTo(self.contentView).with.offset(70);
     }];
     [self updatePos];
 }
@@ -420,7 +420,7 @@
     self.answerButton.hidden = YES;
     self.acceptLabel.hidden = YES;
     [self.hangupButton mas_updateConstraints:^(MASConstraintMaker *make) {
-                make.centerX.equalTo(self.view);
+                make.centerX.equalTo(self.contentView);
     }];
 }
 
@@ -473,16 +473,16 @@
         return;
     }
     if(aVideoView.frame.size.width == 80) {
-        [self.view sendSubviewToBack:aVideoView];
+        [self.contentView sendSubviewToBack:aVideoView];
         EaseCallStreamView *otherView = aVideoView == self.localView?self.remoteView:self.localView;
         [otherView mas_remakeConstraints:^(MASConstraintMaker *make) {
             make.width.equalTo(@80);
             make.height.equalTo(@100);
-            make.right.equalTo(self.view).with.offset(-40);
-            make.top.equalTo(self.view).with.offset(70);
+            make.right.equalTo(self.contentView).with.offset(-40);
+            make.top.equalTo(self.contentView).with.offset(70);
         }];
         [aVideoView mas_remakeConstraints:^(MASConstraintMaker *make) {
-            make.edges.equalTo(self.view);
+            make.edges.equalTo(self.contentView);
         }];
         
     }
@@ -514,7 +514,7 @@
             view.delegate = self;
             [view addSubview:aDisplayView];
             view.enableVideo = aEnableVideo;
-            [view.bgView sd_setImageWithURL:[[EaseCallManager sharedManager] getHeadImageFromUid:weakself.remoteUid]];
+            [view.bgView sd_setImageWithURL:[[EaseCallManager sharedManager] getHeadImageByUserName:weakself.remoteUid]];
             [aDisplayView mas_makeConstraints:^(MASConstraintMaker *make) {
                 make.edges.equalTo(view);
             }];
@@ -577,5 +577,11 @@
     if(self.type == EaseCallType1v1Video && isConnected)
         [self streamViewDidTap:self.remoteView];
     [self updatePos];
+}
+
+- (void)usersInfoUpdated
+{
+    [super usersInfoUpdated];
+    self.remoteNameLable.text = [[EaseCallManager sharedManager] getNicknameByUserName:self.remoteUid];
 }
 @end

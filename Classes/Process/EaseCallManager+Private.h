@@ -16,8 +16,9 @@
 -(void) enableVideo:(BOOL)aEnable;
 -(void) muteAudio:(BOOL)aMuted;
 -(void) speakeOut:(BOOL)aEnable;
--(NSString*) getNicknameFromUid:(NSString*)uId;
--(NSURL*) getHeadImageFromUid:(NSString*)uId;
+-(NSString*) getNicknameByUserName:(NSString*)aUserName;
+-(NSURL*) getHeadImageByUserName:(NSString*)aUserName;
+-(NSString*) getUserNameByUid:(NSNumber*)uId;
 - (void)setupLocalVideo;
 - (void)setupRemoteVideoView:(NSUInteger)uid;
 - (void)joinChannel;
