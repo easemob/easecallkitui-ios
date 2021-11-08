@@ -55,7 +55,7 @@ NS_ASSUME_NONNULL_BEGIN
  * encoderConfiguration    声网RTC Video配置
  */
 @property (nonatomic,strong) AgoraVideoEncoderConfiguration *encoderConfiguration;
-@property (nonatomic) NSUInteger* agoraUid;
+@property (nonatomic) NSUInteger agoraUid;
 
 - (void)setUser:(NSString*)aUser info:(EaseCallUser*)aInfo;
 @end

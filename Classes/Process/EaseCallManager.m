@@ -156,7 +156,7 @@ static EaseCallManager *easeCallManager = nil;
         if(weakself.modal.currentCall && weakself.callVC) {
             NSLog(@"inviteUsers in group");
             for(NSString* uId in aUsers) {
-                if([weakself.modal.currentCall.allUserAccounts.allKeys containsObject:uId])
+                if([weakself.modal.currentCall.allUserAccounts.allValues containsObject:uId])
                     continue;
                 [weakself sendInviteMsgToCallee:uId type:weakself.modal.currentCall.callType callId:weakself.modal.currentCall.callId channelName:weakself.modal.currentCall.channelName ext:aExt completion:nil];
                 [weakself _startCallTimer:uId];
@@ -296,6 +296,28 @@ static EaseCallManager *easeCallManager = nil;
     self.bNeedSwitchToVoice = NO;
 }
 
+-(UIWindow*) getKeyWindow
+{
+    if(@available(iOS 13.0, *)) {
+        for(UIWindowScene* scene in [UIApplication sharedApplication].connectedScenes) {
+            if(scene.activationState == UISceneActivationStateForegroundActive) {
+                if(@available(iOS 15.0, *)) {
+                    return scene.keyWindow;
+                }else{
+                    for(UIWindow* window in scene.windows) {
+                        if(window.isKeyWindow) {
+                            return window;
+                        }
+                    }
+                }
+            }
+        }
+    }else{
+        return [UIApplication sharedApplication].keyWindow;
+    }
+    return nil;
+}
+
 - (void)refreshUIOutgoing
 {
     if(self.modal.currentCall) {
@@ -304,7 +326,10 @@ static EaseCallManager *easeCallManager = nil;
             self.callVC = [[EaseCallSingleViewController alloc] initWithisCaller:self.modal.currentCall.isCaller type:self.modal.currentCall.callType remoteName:self.modal.currentCall.remoteUserAccount];
         self.callVC.modalPresentationStyle = UIModalPresentationFullScreen;
         __weak typeof(self) weakself = self;
-        UIViewController* rootVC = [[UIApplication sharedApplication].delegate window].rootViewController;
+        UIWindow* keyWindow = [self getKeyWindow];
+        if(!keyWindow)
+            return;
+        UIViewController* rootVC = keyWindow.rootViewController;
         [rootVC presentViewController:self.callVC animated:NO completion:^{
             if(weakself.modal.currentCall.callType == EaseCallType1v1Video)
                 [weakself setupLocalVideo];
@@ -319,7 +344,10 @@ static EaseCallManager *easeCallManager = nil;
         if(self.modal.currentCall.callType == EaseCallTypeMulti && self.modal.currentCall.isCaller) {
             self.callVC = [[EaseCallMultiViewController alloc] init];
             self.callVC.modalPresentationStyle = UIModalPresentationFullScreen;
-            UIViewController* rootVC = [[UIApplication sharedApplication].delegate window].rootViewController;
+            UIWindow* keyWindow = [self getKeyWindow];
+            if(!keyWindow)
+                return;
+            UIViewController* rootVC = keyWindow.rootViewController;
             __weak typeof(self) weakself = self;
             [rootVC presentViewController:self.callVC animated:NO completion:^{
                 [weakself setupLocalVideo];
@@ -342,7 +370,10 @@ static EaseCallManager *easeCallManager = nil;
             self.callVC = [[EaseCallMultiViewController alloc] init];
             [self getMultiVC].inviterId = self.modal.currentCall.remoteUserAccount;
             self.callVC.modalPresentationStyle = UIModalPresentationFullScreen;
-            UIViewController* rootVC = [[UIApplication sharedApplication].delegate window].rootViewController;
+            UIWindow* keyWindow = [self getKeyWindow];
+            if(!keyWindow)
+                return;
+            UIViewController* rootVC = keyWindow.rootViewController;
             if(rootVC.presentationController && rootVC.presentationController.presentedViewController)
                 [rootVC.presentationController.presentedViewController dismissViewControllerAnimated:NO completion:nil];
                 
@@ -1339,4 +1370,5 @@ static EaseCallManager *easeCallManager = nil;
 {
     [self sendVideoToVoiceMsg:self.modal.currentCall.remoteUserAccount callId:self.modal.currentCall.callId];
 }
+
 @end
