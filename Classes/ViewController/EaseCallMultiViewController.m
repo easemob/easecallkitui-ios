@@ -443,7 +443,7 @@
             streamView.nameLabel.text = [[EaseCallManager sharedManager] getNicknameByUserName:aUserName];
             NSURL* url = [[EaseCallManager sharedManager] getHeadImageByUserName:aUserName];
             NSURL* curUrl = [streamView.bgView sd_imageURL];
-            if(url && ![self isEquivalent:url with:curUrl]) {
+            if(!curUrl || (url && ![self isEquivalent:url with:curUrl])) {
                 [streamView.bgView sd_setImageWithURL:url completed:^(UIImage * _Nullable image, NSError * _Nullable error, SDImageCacheType cacheType, NSURL * _Nullable imageURL) {
                     
                 }];
