@@ -10,6 +10,7 @@
 #import <Masonry/Masonry.h>
 #import <SDWebImage/UIImageView+WebCache.h>
 #import "UIImage+Ext.h"
+#import "EaseCallLocalizable.h"
 
 @interface EaseCallSingleViewController ()<EaseCallStreamViewDelegate>
 @property (nonatomic) NSString* remoteUid;
@@ -71,7 +72,7 @@
     self.switchToVoiceLable.font = [UIFont systemFontOfSize:11];
     self.switchToVoiceLable.textColor = [UIColor whiteColor];
     self.switchToVoiceLable.textAlignment = NSTextAlignmentCenter;
-    self.switchToVoiceLable.text = @"转音频";
+    self.switchToVoiceLable.text = EaseCallLocalizableString(@"switchvoice",nil);
     [self.contentView addSubview:self.switchToVoiceLable];
     if(self.isCaller) {
         [self.switchToVoiceLable mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -98,12 +99,12 @@
     }];
     
     if(self.isCaller) {
-        self.statusLable.text = @"正在等待对方接受邀请";
+        self.statusLable.text = EaseCallLocalizableString(@"waitforanswer",nil);
         self.answerButton.hidden = YES;
         self.acceptLabel.hidden = YES;
     }else
     {
-        self.statusLable.text = @"邀请你进行音视频通话";
+        self.statusLable.text = EaseCallLocalizableString(@"receiveCallInviteprompt",nil);
         self.localView.hidden = YES;
         self.remoteView.hidden = YES;
     }
@@ -450,9 +451,9 @@
         }];
     }
     if(self.isConnected) {
-        self.floatingView.nameLabel.text = @"通话中";
+        self.floatingView.nameLabel.text = EaseCallLocalizableString(@"Call in progress",nil);
     }else{
-        self.floatingView.nameLabel.text = @"等待接听";
+        self.floatingView.nameLabel.text = EaseCallLocalizableString(@"waitforanswer",nil);
         self.floatingView.enableVideo = NO;
     }
 }
@@ -522,7 +523,7 @@
     };
     if(self.isMini) {
         setDisplayView(self.floatingView);
-        self.floatingView.nameLabel.text = @"通话中";
+        self.floatingView.nameLabel.text = EaseCallLocalizableString(@"Call in progress",nil);
         return;
     }else{
         setDisplayView(self.remoteView);
@@ -546,9 +547,9 @@
 {
     NSString* msg = @"";
     if(aEnableVoice)
-        msg = @"对方打开了音频";
+        msg = EaseCallLocalizableString(@"remoteUnmute",nil);
     else
-        msg = @"对方关闭了音频";
+        msg = EaseCallLocalizableString(@"remoteMute",nil);
     _tipLabel.alpha = 1.0;
     self.tipLabel.text = msg;
     [UIView animateWithDuration:3 animations:^{
@@ -571,7 +572,7 @@
         [self startTimer];
         if(self.isMini && self.type == EaseCallType1v1Video) {
             self.floatingView.enableVideo = YES;
-            self.floatingView.nameLabel.text = @"通话中";
+            self.floatingView.nameLabel.text = EaseCallLocalizableString(@"Call in progress",nil);
         }
     }
     if(self.type == EaseCallType1v1Video && isConnected)

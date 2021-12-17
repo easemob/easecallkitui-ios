@@ -10,6 +10,7 @@
 #import "EaseCallManager+Private.h"
 #import <Masonry/Masonry.h>
 #import "UIImage+Ext.h"
+#import "EaseCallLocalizable.h"
 
 @interface EaseCallBaseViewController ()
 
@@ -145,7 +146,7 @@
     self.hangupLabel.font = [UIFont systemFontOfSize:11];
     self.hangupLabel.textColor = [UIColor whiteColor];
     self.hangupLabel.textAlignment = NSTextAlignmentCenter;
-    self.hangupLabel.text = @"挂断";
+    self.hangupLabel.text = EaseCallLocalizableString(@"Huangup",nil);
     [self.contentView addSubview:self.hangupLabel];
     [self.hangupLabel mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.equalTo(self.hangupButton.mas_bottom).with.offset(5);
@@ -156,7 +157,7 @@
     self.acceptLabel.font = [UIFont systemFontOfSize:11];
     self.acceptLabel.textColor = [UIColor whiteColor];
     self.acceptLabel.textAlignment = NSTextAlignmentCenter;
-    self.acceptLabel.text = @"接听";
+    self.acceptLabel.text = EaseCallLocalizableString(@"Answer",nil);
     [self.contentView addSubview:self.acceptLabel];
     [self.acceptLabel mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.equalTo(self.answerButton.mas_bottom).with.offset(5);
@@ -167,7 +168,7 @@
     self.microphoneLabel.font = [UIFont systemFontOfSize:11];
     self.microphoneLabel.textColor = [UIColor whiteColor];
     self.microphoneLabel.textAlignment = NSTextAlignmentCenter;
-    self.microphoneLabel.text = @"静音";
+    self.microphoneLabel.text = EaseCallLocalizableString(@"Mute",nil);
     [self.contentView addSubview:self.microphoneLabel];
     [self.microphoneLabel mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.equalTo(self.microphoneButton.mas_bottom).with.offset(5);
@@ -178,7 +179,7 @@
     self.speakerLabel.font = [UIFont systemFontOfSize:11];
     self.speakerLabel.textColor = [UIColor whiteColor];
     self.speakerLabel.textAlignment = NSTextAlignmentCenter;
-    self.speakerLabel.text = @"免提";
+    self.speakerLabel.text = EaseCallLocalizableString(@"Hands-free",nil);
     [self.contentView addSubview:self.speakerLabel];
     [self.speakerLabel mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.equalTo(self.speakerButton.mas_bottom).with.offset(5);
@@ -189,7 +190,7 @@
     self.enableCameraLabel.font = [UIFont systemFontOfSize:11];
     self.enableCameraLabel.textColor = [UIColor whiteColor];
     self.enableCameraLabel.textAlignment = NSTextAlignmentCenter;
-    self.enableCameraLabel.text = @"摄像头";
+    self.enableCameraLabel.text = EaseCallLocalizableString(@"Camera",nil);
     [self.contentView addSubview:self.enableCameraLabel];
     [self.enableCameraLabel mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.equalTo(self.enableCameraButton.mas_bottom).with.offset(5);
@@ -200,7 +201,7 @@
     self.switchCameraLabel.font = [UIFont systemFontOfSize:11];
     self.switchCameraLabel.textColor = [UIColor whiteColor];
     self.switchCameraLabel.textAlignment = NSTextAlignmentCenter;
-    self.switchCameraLabel.text = @"切换摄像头";
+    self.switchCameraLabel.text = EaseCallLocalizableString(@"SwitchCamera",nil);
     [self.contentView addSubview:self.switchCameraLabel];
     [self.switchCameraLabel mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.equalTo(self.switchCameraButton.mas_bottom).with.offset(5);

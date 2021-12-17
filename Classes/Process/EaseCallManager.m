@@ -15,6 +15,7 @@
 #import <Masonry/Masonry.h>
 #import "EaseCallModal.h"
 #import <CommonCrypto/CommonDigest.h>
+#import "EaseCallLocalizable.h"
 
 static NSString* kAction = @"action";
 static NSString* kChannelName = @"channelName";
@@ -466,12 +467,12 @@ static EaseCallManager *easeCallManager = nil;
 {
     if([aUid length] == 0 || [aCallId length] == 0 || [aChannelName length] == 0)
         return;
-    NSString* strType = @"语音";
+    NSString* strType = EaseCallLocalizableString(@"voice", nil);
     if(aType == EaseCallTypeMulti)
-        strType = @"多人视频";
+        strType = EaseCallLocalizableString(@"conferenece", nil);
     if(aType == EaseCallType1v1Video)
-        strType = @"视频";
-    EMTextMessageBody* msgBody = [[EMTextMessageBody alloc] initWithText:[NSString stringWithFormat: @"邀请您进行%@通话",strType]];
+        strType = EaseCallLocalizableString(@"video", nil);
+    EMTextMessageBody* msgBody = [[EMTextMessageBody alloc] initWithText:[NSString stringWithFormat: EaseCallLocalizableString(@"inviteInfo", nil),strType]];
     NSMutableDictionary* ext = [@{kMsgType:kMsgTypeValue,kAction:kInviteAction,kCallId:aCallId,kCallType:[NSNumber numberWithInt:(int)aType],kCallerDevId:self.modal.curDevId,kChannelName:aChannelName,kTs:[self getTs]} mutableCopy];
     if(aExt && aExt.count > 0) {
         [ext setValue:aExt forKey:kExt];
