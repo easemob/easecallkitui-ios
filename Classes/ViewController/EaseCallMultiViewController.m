@@ -14,6 +14,7 @@
 #import <SDWebImage/UIImageView+WebCache.h>
 #import <SDWebImage/UIView+WebCache.h>
 #import "UIImage+Ext.h"
+#import "EaseCallLocalizable.h"
 
 @interface EaseCallMultiViewController ()<EaseCallStreamViewDelegate>
 @property (nonatomic) UIButton* inviteButton;
@@ -80,7 +81,7 @@
             self.statusLable.font = [UIFont systemFontOfSize:15];
             self.statusLable.textColor = [UIColor colorWithWhite:1.0 alpha:0.5];
             self.statusLable.textAlignment = NSTextAlignmentRight;
-            self.statusLable.text = @"邀请你进行音视频会话";
+            self.statusLable.text = EaseCallLocalizableString(@"receiveCallInviteprompt",nil);
             self.answerButton.hidden = NO;
             self.acceptLabel.hidden = NO;
             [self.contentView addSubview:self.statusLable];
@@ -429,9 +430,9 @@
     self.floatingView.enableVideo = NO;
     self.floatingView.delegate = self;
     if(self.isJoined) {
-        self.floatingView.nameLabel.text = @"通话中";
+        self.floatingView.nameLabel.text = EaseCallLocalizableString(@"Call in progress",nil);
     }else{
-        self.floatingView.nameLabel.text = @"等待接听";
+        self.floatingView.nameLabel.text = EaseCallLocalizableString(@"waitforanswer",nil);
     }
 }
 
