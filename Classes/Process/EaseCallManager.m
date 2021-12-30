@@ -384,7 +384,10 @@ static EaseCallManager *easeCallManager = nil;
         }else{
             self.callVC = [[EaseCallSingleViewController alloc] initWithisCaller:NO type:self.modal.currentCall.callType remoteName:self.modal.currentCall.remoteUserAccount];
             self.callVC.modalPresentationStyle = UIModalPresentationFullScreen;
-            UIViewController* rootVC = [[UIApplication sharedApplication].delegate window].rootViewController;
+            UIWindow* keyWindow = [self getKeyWindow];
+            if(!keyWindow)
+                return;
+            UIViewController* rootVC = keyWindow.rootViewController;
             if(rootVC.presentationController && rootVC.presentationController.presentedViewController)
                 [rootVC.presentationController.presentedViewController dismissViewControllerAnimated:NO completion:nil];
             [rootVC presentViewController:self.callVC animated:NO completion:^{
