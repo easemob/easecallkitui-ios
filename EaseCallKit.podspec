@@ -1,6 +1,6 @@
 Pod::Spec.new do |s|
     s.name             = 'EaseCallKit'
-    s.version          = '3.8.8'
+    s.version          = '3.8.9'
     s.summary          = 'A Ease Call UIKit'
     s.description      = <<-DESC
         ‘‘一套使用环信IM以及声网SDK实现音视频呼叫的UI库，可以实现单人语音、视频呼叫，以及多人音视频通话’’
@@ -11,7 +11,7 @@ Pod::Spec.new do |s|
     s.source           = { :git => 'https://github.com/easemob/easecallkitui-ios.git', :tag => s.version.to_s }
     s.frameworks = 'UIKit'
     s.libraries = 'stdc++'
-    s.ios.deployment_target = '9.0'
+    s.ios.deployment_target = '10.0'
     s.source_files = 'Classes/**/*.{h,m,strings}'
     s.public_header_files = [
       'Classes/Process/EaseCallManager.h',
