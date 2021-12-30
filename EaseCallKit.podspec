@@ -6,7 +6,7 @@ Pod::Spec.new do |s|
         ‘‘一套使用环信IM以及声网SDK实现音视频呼叫的UI库，可以实现单人语音、视频呼叫，以及多人音视频通话’’
     DESC
     s.homepage = 'https://www.easemob.com'
-    s.license          = { :type => 'MIT', :file => 'LICENSE' }
+    s.license          = 'MIT'
     s.author           = { 'easemob' => 'dev@easemob.com' }
     s.source           = { :git => 'https://github.com/easemob/easecallkitui-ios.git', :tag => s.version.to_s }
     s.frameworks = 'UIKit'
