@@ -7,7 +7,6 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		4D30261E8736318BB7BC58F4 /* Pods_EaseCallDemo.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4F7A5893A3FCEABE47D0FDFC /* Pods_EaseCallDemo.framework */; };
 		902DA81E25DFA93D0098E6DF /* LoginViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 902DA81D25DFA93D0098E6DF /* LoginViewController.m */; };
 		902DA82225DFA9B80098E6DF /* UIStoryboard+Category.m in Sources */ = {isa = PBXBuildFile; fileRef = 902DA82125DFA9B80098E6DF /* UIStoryboard+Category.m */; };
 		902DA82525DFAA4E0098E6DF /* HomeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 902DA82425DFAA4E0098E6DF /* HomeViewController.m */; };
@@ -25,8 +24,6 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		20C5F65DD148A5D7C5F9AD77 /* Pods-EaseCallDemo.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-EaseCallDemo.release.xcconfig"; path = "../EaseCallDemo/Pods/Target Support Files/Pods-EaseCallDemo/Pods-EaseCallDemo.release.xcconfig"; sourceTree = "<group>"; };
-		4F7A5893A3FCEABE47D0FDFC /* Pods_EaseCallDemo.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_EaseCallDemo.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		902DA81C25DFA93D0098E6DF /* LoginViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = LoginViewController.h; sourceTree = "<group>"; };
 		902DA81D25DFA93D0098E6DF /* LoginViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = LoginViewController.m; sourceTree = "<group>"; };
 		902DA82025DFA9B80098E6DF /* UIStoryboard+Category.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "UIStoryboard+Category.h"; sourceTree = "<group>"; };
@@ -50,7 +47,6 @@
 		907CCB2525DE7ADF009AD53F /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		907CCB2725DE7ADF009AD53F /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		907CCB2825DE7ADF009AD53F /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
-		9A1BFEAED0E533B70A703537 /* Pods-EaseCallDemo.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-EaseCallDemo.debug.xcconfig"; path = "../EaseCallDemo/Pods/Target Support Files/Pods-EaseCallDemo/Pods-EaseCallDemo.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -58,23 +54,12 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				4D30261E8736318BB7BC58F4 /* Pods_EaseCallDemo.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		862D18EEE3A54626883F3B4B /* Pods */ = {
-			isa = PBXGroup;
-			children = (
-				9A1BFEAED0E533B70A703537 /* Pods-EaseCallDemo.debug.xcconfig */,
-				20C5F65DD148A5D7C5F9AD77 /* Pods-EaseCallDemo.release.xcconfig */,
-			);
-			name = Pods;
-			path = ../Pods;
-			sourceTree = "<group>";
-		};
 		902DA81A25DFA92D0098E6DF /* Classes */ = {
 			isa = PBXGroup;
 			children = (
@@ -125,7 +110,6 @@
 			children = (
 				907CCB1525DE7ADC009AD53F /* EaseCallDemo */,
 				907CCB1425DE7ADC009AD53F /* Products */,
-				862D18EEE3A54626883F3B4B /* Pods */,
 				B9B6DCE0E351CF7916E03507 /* Frameworks */,
 			);
 			sourceTree = "<group>";
@@ -157,7 +141,6 @@
 		B9B6DCE0E351CF7916E03507 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				4F7A5893A3FCEABE47D0FDFC /* Pods_EaseCallDemo.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -425,7 +408,6 @@
 		};
 		907CCB2D25DE7ADF009AD53F /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 9A1BFEAED0E533B70A703537 /* Pods-EaseCallDemo.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
@@ -447,7 +429,6 @@
 		};
 		907CCB2E25DE7ADF009AD53F /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 20C5F65DD148A5D7C5F9AD77 /* Pods-EaseCallDemo.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
