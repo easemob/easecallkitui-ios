@@ -21,7 +21,7 @@ Pod::Spec.new do |s|
       'Classes/EaseCallUIKit.h',
     ]
     s.resources = 'Assets/EaseCall.bundle'
-    #s.dependency 'HyphenateChat'
+    s.dependency 'HyphenateChat'
     s.dependency 'Masonry'
     s.dependency 'AgoraRtcEngine_iOS'
     s.dependency 'SDWebImage'
