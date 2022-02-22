@@ -21,8 +21,13 @@ Pod::Spec.new do |s|
       'Classes/EaseCallUIKit.h',
     ]
     s.resources = 'Assets/EaseCall.bundle'
-    s.dependency 'HyphenateChat'
+    s.dependency 'HyphenateChat', '>= 3.9.0'
     s.dependency 'Masonry'
     s.dependency 'AgoraRtcEngine_iOS'
     s.dependency 'SDWebImage'
+
+    s.pod_target_xcconfig = { 'EXCLUDED_ARCHS[sdk=iphonesimulator*]' => 'arm64',
+                              'VALID_ARCHS' => 'arm64 armv7 x86_64'
+                            }
+    s.user_target_xcconfig = { 'EXCLUDED_ARCHS[sdk=iphonesimulator*]' => 'arm64' }
 end
