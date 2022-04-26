@@ -37,10 +37,10 @@ pod install
     - View [音视频视图]
     - ViewController [通话界面视图控制器]
 
-## Pod集成(暂时)
+## Pod集成
 
 ```
-pod 'EaseCallKit', :git => 'https://github.com/lixm1988/easecallkitui-ios.git', :branch => 'dev'
+pod 'EaseCallKit'
 ```
 引入头文件:  
 

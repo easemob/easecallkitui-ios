@@ -384,7 +384,10 @@ static EaseCallManager *easeCallManager = nil;
         }else{
             self.callVC = [[EaseCallSingleViewController alloc] initWithisCaller:NO type:self.modal.currentCall.callType remoteName:self.modal.currentCall.remoteUserAccount];
             self.callVC.modalPresentationStyle = UIModalPresentationFullScreen;
-            UIViewController* rootVC = [[UIApplication sharedApplication].delegate window].rootViewController;
+            UIWindow* keyWindow = [self getKeyWindow];
+            if(!keyWindow)
+                return;
+            UIViewController* rootVC = keyWindow.rootViewController;
             if(rootVC.presentationController && rootVC.presentationController.presentedViewController)
                 [rootVC.presentationController.presentedViewController dismissViewControllerAnimated:NO completion:nil];
             [rootVC presentViewController:self.callVC animated:NO completion:^{
@@ -444,7 +447,7 @@ static EaseCallManager *easeCallManager = nil;
 {
     __weak typeof(self) weakself = self;
     dispatch_async(weakself.workQueue, ^{
-        for (EMMessage *msg in aMessages) {
+        for (EMChatMessage *msg in aMessages) {
             [weakself _parseMsg:msg];
         }
     });
@@ -454,7 +457,7 @@ static EaseCallManager *easeCallManager = nil;
 {
     __weak typeof(self) weakself = self;
     dispatch_async(weakself.workQueue, ^{
-        for (EMMessage *msg in aCmdMessages) {
+        for (EMChatMessage *msg in aCmdMessages) {
             [weakself _parseMsg:msg];
         }
     });
@@ -483,9 +486,9 @@ static EaseCallManager *easeCallManager = nil;
 //    if(aType == EaseCallType1v1Video) {
 //        [ext setObject:EMCOMMUNICATE_TYPE_VIDEO forKey:EMCOMMUNICATE_TYPE];
 //    }
-    EMMessage* msg = [[EMMessage alloc] initWithConversationID:aUid from:self.modal.curUserAccount to:aUid body:msgBody ext:ext];
+    EMChatMessage* msg = [[EMChatMessage alloc] initWithConversationID:aUid from:self.modal.curUserAccount to:aUid body:msgBody ext:ext];
     __weak typeof(self) weakself = self;
-    [[[EMClient sharedClient] chatManager] sendMessage:msg progress:nil completion:^(EMMessage *message, EMError *error) {
+    [[[EMClient sharedClient] chatManager] sendMessage:msg progress:nil completion:^(EMChatMessage *message, EMError *error) {
         if(aCompletionBlock)
             aCompletionBlock(weakself.modal.currentCall.callId,nil);
         if(error) {
@@ -502,9 +505,9 @@ static EaseCallManager *easeCallManager = nil;
     EMCmdMessageBody* msgBody = [[EMCmdMessageBody alloc] initWithAction:@"rtcCall"];
     msgBody.isDeliverOnlineOnly = YES;
     NSDictionary* ext = @{kMsgType:kMsgTypeValue,kAction:kAlertAction,kCallId:aCallId,kCalleeDevId:self.modal.curDevId,kCallerDevId:aDevId,kTs:[self getTs]};
-    EMMessage* msg = [[EMMessage alloc] initWithConversationID:aCallerUid from:self.modal.curUserAccount to:aCallerUid body:msgBody ext:ext];
+    EMChatMessage* msg = [[EMChatMessage alloc] initWithConversationID:aCallerUid from:self.modal.curUserAccount to:aCallerUid body:msgBody ext:ext];
     __weak typeof(self) weakself = self;
-    [[[EMClient sharedClient] chatManager] sendMessage:msg progress:nil completion:^(EMMessage *message, EMError *error) {
+    [[[EMClient sharedClient] chatManager] sendMessage:msg progress:nil completion:^(EMChatMessage *message, EMError *error) {
         if(error) {
             [weakself callBackError:EaseCallErrorTypeIM code:error.code description:error.errorDescription];
         }
@@ -519,9 +522,9 @@ static EaseCallManager *easeCallManager = nil;
     EMCmdMessageBody* msgBody = [[EMCmdMessageBody alloc] initWithAction:@"rtcCall"];
     msgBody.isDeliverOnlineOnly = YES;
     NSDictionary* ext = @{kMsgType:kMsgTypeValue,kAction:kConfirmRingAction,kCallId:aCallId,kCallerDevId:self.modal.curDevId,kCallStatus:[NSNumber numberWithBool:aIsCallValid],kTs:[self getTs],kCalleeDevId:aCalleeDevId};
-    EMMessage* msg = [[EMMessage alloc] initWithConversationID:aUid from:self.modal.curUserAccount to:aUid body:msgBody ext:ext];
+    EMChatMessage* msg = [[EMChatMessage alloc] initWithConversationID:aUid from:self.modal.curUserAccount to:aUid body:msgBody ext:ext];
     __weak typeof(self) weakself = self;
-    [[[EMClient sharedClient] chatManager] sendMessage:msg progress:nil completion:^(EMMessage *message, EMError *error) {
+    [[[EMClient sharedClient] chatManager] sendMessage:msg progress:nil completion:^(EMChatMessage *message, EMError *error) {
         if(error) {
             [weakself callBackError:EaseCallErrorTypeIM code:error.code description:error.errorDescription];
         }
@@ -535,9 +538,9 @@ static EaseCallManager *easeCallManager = nil;
         return;
     EMCmdMessageBody* msgBody = [[EMCmdMessageBody alloc] initWithAction:@"rtcCall"];
     NSDictionary* ext = @{kMsgType:kMsgTypeValue,kAction:kCancelCallAction,kCallId:aCallId,kCallerDevId:self.modal.curDevId,kTs:[self getTs]};
-    EMMessage* msg = [[EMMessage alloc] initWithConversationID:aUid from:self.modal.curUserAccount to:aUid body:msgBody ext:ext];
+    EMChatMessage* msg = [[EMChatMessage alloc] initWithConversationID:aUid from:self.modal.curUserAccount to:aUid body:msgBody ext:ext];
     __weak typeof(self) weakself = self;
-    [[[EMClient sharedClient] chatManager] sendMessage:msg progress:nil completion:^(EMMessage *message, EMError *error) {
+    [[[EMClient sharedClient] chatManager] sendMessage:msg progress:nil completion:^(EMChatMessage *message, EMError *error) {
         if(error) {
             [weakself callBackError:EaseCallErrorTypeIM code:error.code description:error.errorDescription];
         }
@@ -554,9 +557,9 @@ static EaseCallManager *easeCallManager = nil;
     NSMutableDictionary* ext = [@{kMsgType:kMsgTypeValue,kAction:kAnswerCallAction,kCallId:aCallId,kCalleeDevId:self.modal.curDevId,kCallerDevId:aDevId,kCallResult:aResult,kTs:[self getTs]} mutableCopy];
     if(self.modal.currentCall.callType == EaseCallType1v1Audio && self.bNeedSwitchToVoice)
         [ext setObject:[NSNumber numberWithBool:YES] forKey:kVideoToVoice];
-    EMMessage* msg = [[EMMessage alloc] initWithConversationID:aCallerUid from:self.modal.curUserAccount to:aCallerUid body:msgBody ext:ext];
+    EMChatMessage* msg = [[EMChatMessage alloc] initWithConversationID:aCallerUid from:self.modal.curUserAccount to:aCallerUid body:msgBody ext:ext];
     __weak typeof(self) weakself = self;
-    [[[EMClient sharedClient] chatManager] sendMessage:msg progress:nil completion:^(EMMessage *message, EMError *error) {
+    [[[EMClient sharedClient] chatManager] sendMessage:msg progress:nil completion:^(EMChatMessage *message, EMError *error) {
         if(error) {
             [weakself callBackError:EaseCallErrorTypeIM code:error.code description:error.errorDescription];
         }
@@ -572,9 +575,9 @@ static EaseCallManager *easeCallManager = nil;
     EMCmdMessageBody* msgBody = [[EMCmdMessageBody alloc] initWithAction:@"rtcCall"];
     msgBody.isDeliverOnlineOnly = YES;
     NSMutableDictionary* ext = [@{kMsgType:kMsgTypeValue,kAction:kConfirmCalleeAction,kCallId:aCallId,kCallerDevId:self.modal.curDevId,kCalleeDevId:aDevId,kCallResult:aResult,kTs:[self getTs]} mutableCopy];
-    EMMessage* msg = [[EMMessage alloc] initWithConversationID:aUid from:self.modal.curUserAccount to:aUid body:msgBody ext:ext];
+    EMChatMessage* msg = [[EMChatMessage alloc] initWithConversationID:aUid from:self.modal.curUserAccount to:aUid body:msgBody ext:ext];
     __weak typeof(self) weakself = self;
-    [[[EMClient sharedClient] chatManager] sendMessage:msg progress:nil completion:^(EMMessage *message, EMError *error) {
+    [[[EMClient sharedClient] chatManager] sendMessage:msg progress:nil completion:^(EMChatMessage *message, EMError *error) {
         if(error) {
             [weakself callBackError:EaseCallErrorTypeIM code:error.code description:error.errorDescription];
         }
@@ -591,9 +594,9 @@ static EaseCallManager *easeCallManager = nil;
         return;
     EMCmdMessageBody* msgBody = [[EMCmdMessageBody alloc] initWithAction:@"rtcCall"];
     NSDictionary* ext = @{kMsgType:kMsgTypeValue,kAction:kVideoToVoice,kCallId:aCallId,kTs:[self getTs]};
-    EMMessage* msg = [[EMMessage alloc] initWithConversationID:aUid from:self.modal.curUserAccount to:aUid body:msgBody ext:ext];
+    EMChatMessage* msg = [[EMChatMessage alloc] initWithConversationID:aUid from:self.modal.curUserAccount to:aUid body:msgBody ext:ext];
     __weak typeof(self) weakself = self;
-    [[[EMClient sharedClient] chatManager] sendMessage:msg progress:nil completion:^(EMMessage *message, EMError *error) {
+    [[[EMClient sharedClient] chatManager] sendMessage:msg progress:nil completion:^(EMChatMessage *message, EMError *error) {
         if(error) {
             [weakself callBackError:EaseCallErrorTypeIM code:error.code description:error.errorDescription];
         }
@@ -607,7 +610,7 @@ static EaseCallManager *easeCallManager = nil;
 
 #pragma mark - 解析消息信令
 
-- (void)_parseMsg:(EMMessage*)aMsg
+- (void)_parseMsg:(EMChatMessage*)aMsg
 {
     if(![aMsg.to isEqualToString:[EMClient sharedClient].currentUsername])
         return;
