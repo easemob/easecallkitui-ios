@@ -1,6 +1,6 @@
 Pod::Spec.new do |s|
     s.name             = 'EaseCallKit'
-    s.version          = '3.9.2'
+    s.version          = '3.9.3'
     s.summary          = 'A Ease Call UIKit'
     s.description      = <<-DESC
         ‘‘一套使用环信IM以及声网SDK实现音视频呼叫的UI库，可以实现单人语音、视频呼叫，以及多人音视频通话’’
