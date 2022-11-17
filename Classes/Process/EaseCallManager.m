@@ -313,10 +313,8 @@ static EaseCallManager *easeCallManager = nil;
                 }
             }
         }
-    }else{
-        return [UIApplication sharedApplication].keyWindow;
     }
-    return nil;
+    return [UIApplication sharedApplication].keyWindow;
 }
 
 - (void)refreshUIOutgoing
