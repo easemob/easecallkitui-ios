@@ -91,7 +91,7 @@ static EaseCallManager *easeCallManager = nil;
         self.agoraKit = [AgoraRtcEngineKit sharedEngineWithAppId:self.config.agoraAppId delegate:self];
         [self.agoraKit setChannelProfile:AgoraChannelProfileLiveBroadcasting];
         [self.agoraKit setClientRole:AgoraClientRoleBroadcaster];
-        [self.agoraKit enableAudioVolumeIndication:1000 smooth:5 report_vad:NO];
+        [self.agoraKit enableAudioVolumeIndication:1000 smooth:5 reportVad:NO];
     }
     
     self.modal.curUserAccount = [[EMClient sharedClient] currentUsername];
@@ -240,7 +240,6 @@ static EaseCallManager *easeCallManager = nil;
 
 - (void)clearRes
 {
-    NSLog(@"cleraRes");
     if(self.modal.currentCall)
     {
         if(self.modal.currentCall.callType != EaseCallType1v1Audio)
@@ -252,8 +251,7 @@ static EaseCallManager *easeCallManager = nil;
             dispatch_async(self.workQueue, ^{
                 self.modal.hasJoinedChannel = NO;
                 [self.agoraKit leaveChannel:^(AgoraChannelStats * _Nonnull stat) {
-                    NSLog(@"leaveChannel");
-                    //[[EMClient sharedClient] log:@"leaveChannel"];
+                    [[EMClient sharedClient] log:@"leaveChannel"];
                 }];
             });
             
@@ -402,6 +400,7 @@ static EaseCallManager *easeCallManager = nil;
     
     // Set up the configuration such as dimension, frame rate, bit rate and orientation
     [self.agoraKit setVideoEncoderConfiguration:self.config.encoderConfiguration];
+    
 }
 
 - (EaseCallSingleViewController*)getSingleVC
@@ -1113,10 +1112,10 @@ static EaseCallManager *easeCallManager = nil;
     NSLog(@"firstRemoteAudioFrameOfUid:%lu",(unsigned long)uid);
 }
 
-- (void)rtcEngine:(AgoraRtcEngineKit *)engine remoteVideoStateChangedOfUid:(NSUInteger)uid state:(AgoraVideoRemoteState)state reason:(AgoraVideoRemoteStateReason)reason elapsed:(NSInteger)elapsed
+- (void)rtcEngine:(AgoraRtcEngineKit * _Nonnull)engine
+     remoteVideoStateChangedOfUid:(NSUInteger)uid state:(AgoraVideoRemoteState)state reason:(AgoraVideoRemoteReason)reason elapsed:(NSInteger)elapsed
 {
-    NSLog(@"staate:%d,reason:%d",state,reason);
-    if(reason == AgoraVideoRemoteStateReasonRemoteMuted && self.modal.currentCall.callType == EaseCallType1v1Video) {
+    if(reason == AgoraVideoRemoteReasonRemoteMuted && self.modal.currentCall.callType == EaseCallType1v1Video) {
         __weak typeof(self) weakself = self;
         dispatch_async(dispatch_get_main_queue(), ^{
             [weakself switchToVoice];
@@ -1335,7 +1334,7 @@ static EaseCallManager *easeCallManager = nil;
         if(weakself.modal.hasJoinedChannel)
             [weakself.agoraKit leaveChannel:nil];
         [weakself.agoraKit joinChannelByToken:weakself.modal.agoraRTCToken channelId:weakself.modal.currentCall.channelName info:@"" uid:self.modal.agoraUid joinSuccess:^(NSString * _Nonnull channel, NSUInteger uid, NSInteger elapsed) {
-            NSLog(@"join success");
+            [EMClient.sharedClient log:[NSString stringWithFormat:@"joinChannel:%@ success",channel]];
             if([self.delegate respondsToSelector:@selector(callDidJoinChannel:uid:)]) {
                 [self.delegate callDidJoinChannel:channel uid:uid];
             }
