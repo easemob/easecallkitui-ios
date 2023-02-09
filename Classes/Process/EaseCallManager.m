@@ -443,7 +443,7 @@ static EaseCallManager *easeCallManager = nil;
 - (void)messagesDidReceive:(NSArray *)aMessages
 {
     __weak typeof(self) weakself = self;
-    dispatch_async(weakself.workQueue, ^{
+    dispatch_async(dispatch_get_main_queue(), ^{
         for (EMChatMessage *msg in aMessages) {
             [weakself _parseMsg:msg];
         }
@@ -453,7 +453,7 @@ static EaseCallManager *easeCallManager = nil;
 - (void)cmdMessagesDidReceive:(NSArray *)aCmdMessages
 {
     __weak typeof(self) weakself = self;
-    dispatch_async(weakself.workQueue, ^{
+    dispatch_async(dispatch_get_main_queue(), ^{
         for (EMChatMessage *msg in aCmdMessages) {
             [weakself _parseMsg:msg];
         }
@@ -684,10 +684,8 @@ static EaseCallManager *easeCallManager = nil;
         //[[EMClient sharedClient] log:[NSString stringWithFormat:@"parseAnswerMsgExt currentCallId:%@,state:%ld",weakself.modal.currentCall.callId,weakself.modal.state]];
         if(weakself.modal.currentCall && [weakself.modal.currentCall.callId isEqualToString:callId] && [weakself.modal.curDevId isEqualToString:callerDevId]) {
             if(weakself.modal.currentCall.callType == EaseCallTypeMulti) {
-                dispatch_async(dispatch_get_main_queue(), ^{
-                    if(![result isEqualToString:kAcceptResult])
-                        [[weakself getMultiVC] removePlaceHolderForMember:from];
-                });
+                if(![result isEqualToString:kAcceptResult])
+                    [[weakself getMultiVC] removePlaceHolderForMember:from];
                 
                 NSTimer* timer = [self.callTimerDic objectForKey:from];
                 if(timer) {
@@ -701,9 +699,7 @@ static EaseCallManager *easeCallManager = nil;
                     if([result isEqualToString:kAcceptResult]) {
                         
                             if(isVideoToVoice && isVideoToVoice.boolValue) {
-                                dispatch_async(dispatch_get_main_queue(), ^{
                                 [weakself switchToVoice];
-                                });
                             }
                             weakself.modal.state = EaseCallState_Answering;
                     }else
@@ -752,12 +748,9 @@ static EaseCallManager *easeCallManager = nil;
                 // 仲裁为自己
                 if([result isEqualToString:kAcceptResult]) {
                     weakself.modal.state = EaseCallState_Answering;
-                    dispatch_async(dispatch_get_main_queue(), ^{
-                        
-                        if(weakself.modal.currentCall.callType != EaseCallType1v1Audio)
-                            [weakself setupLocalVideo];
-                        [weakself fetchToken];
-                    });
+                    if(weakself.modal.currentCall.callType != EaseCallType1v1Audio)
+                        [weakself setupLocalVideo];
+                    [weakself fetchToken];
                 }
             }else{
                 // 已在其他端处理
@@ -774,10 +767,7 @@ static EaseCallManager *easeCallManager = nil;
     };
     void (^parseVideoToVoiceMsg)(NSDictionary*) = ^void (NSDictionary* ext){
         if(weakself.modal.currentCall && [weakself.modal.currentCall.callId isEqualToString:callId]) {
-            dispatch_async(dispatch_get_main_queue(), ^{
-                [weakself switchToVoice];
-            });
-            
+            [weakself switchToVoice];
         }
     };
     if([msgType isEqualToString:kMsgTypeValue]) {
