@@ -1,6 +1,6 @@
 Pod::Spec.new do |s|
     s.name             = 'EaseCallKit'
-    s.version          = '4.0.0'
+    s.version          = '4.4.0'
     s.summary          = 'A Ease Call UIKit'
     s.description      = <<-DESC
         ‘‘一套使用环信IM以及声网SDK实现音视频呼叫的UI库，可以实现单人语音、视频呼叫，以及多人音视频通话’’
@@ -25,9 +25,4 @@ Pod::Spec.new do |s|
     s.dependency 'Masonry'
     s.dependency 'AgoraRtcEngine_iOS/RtcBasic', '~>4.1.1'
     s.dependency 'SDWebImage'
-
-    s.pod_target_xcconfig = { 'EXCLUDED_ARCHS[sdk=iphonesimulator*]' => 'arm64',
-                              'VALID_ARCHS' => 'arm64 armv7 x86_64','ENABLE_BITCODE' => 'NO'
-                            }
-    s.user_target_xcconfig = { 'EXCLUDED_ARCHS[sdk=iphonesimulator*]' => 'arm64','ENABLE_BITCODE' => 'NO' }
 end

@@ -102,17 +102,19 @@
 - (void)setIsTalking:(BOOL)isTalking
 {
     if(isTalking != _isTalking) {
-        if(isTalking) {
-            _statusView.image = [UIImage imageNamedFromBundle:@"talking_green"];
-            if(!self.timeTimer)
-                self.timeTimer = [NSTimer scheduledTimerWithTimeInterval:0.3 target:self selector:@selector(timeTalkingAction:) userInfo:nil repeats:NO];
-            
-        }else{
-            if(self.timeTimer) {
-                [self.timeTimer invalidate];
-                self.timeTimer = nil;
+        dispatch_async(dispatch_get_main_queue(), ^{
+            if(isTalking) {
+                _statusView.image = [UIImage imageNamedFromBundle:@"talking_green"];
+                if(!self.timeTimer)
+                    self.timeTimer = [NSTimer scheduledTimerWithTimeInterval:0.3 target:self selector:@selector(timeTalkingAction:) userInfo:nil repeats:NO];
+                
+            }else{
+                if(self.timeTimer) {
+                    [self.timeTimer invalidate];
+                    self.timeTimer = nil;
+                }
             }
-        }
+        });
     }
     _isTalking = isTalking;
 }
