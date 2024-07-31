@@ -60,6 +60,7 @@
     NSURL* url = [bundle URLForResource:path withExtension:@"png"];
     _defaultHeadImage = url;
     _agoraAppId = @"15cb0d28b87b425ea613fc46f7c9f974";
+    _localConfig = nil;
 }
 
 - (AgoraVideoEncoderConfiguration*)encoderConfiguration

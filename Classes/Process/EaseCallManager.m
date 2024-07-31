@@ -92,6 +92,10 @@ static EaseCallManager *easeCallManager = nil;
         [self.agoraKit setChannelProfile:AgoraChannelProfileLiveBroadcasting];
         [self.agoraKit setClientRole:AgoraClientRoleBroadcaster];
         [self.agoraKit enableAudioVolumeIndication:1000 smooth:5 reportVad:NO];
+        if (self.config.localConfig) {
+            [EMClient.sharedClient log:@"[EaseCallManager] use local access point"];
+            [self.agoraKit setLocalAccessPoint:self.config.localConfig];
+        }
     }
     
     self.modal.curUserAccount = [[EMClient sharedClient] currentUsername];
@@ -104,6 +108,7 @@ static EaseCallManager *easeCallManager = nil;
 
 - (void)setRTCToken:(NSString*_Nullable)aToken channelName:(NSString*)aChannelName uid:(NSUInteger)aUid
 {
+    [EMClient.sharedClient log:[NSString stringWithFormat:@"[EaseCallManager] setRTCToken: channelName:%@,uid:%lu,token.length:%lu",aChannelName,aUid,aToken.length]];
     if(self.modal.currentCall && [self.modal.currentCall.channelName isEqualToString:aChannelName]) {
         self.modal.agoraRTCToken = aToken;
         self.modal.agoraUid = aUid;
@@ -416,7 +421,7 @@ static EaseCallManager *easeCallManager = nil;
 #pragma mark - EaseCallModalDelegate
 - (void)callStateWillChangeTo:(EaseCallState)newState from:(EaseCallState)preState
 {
-    NSLog(@"callState will chageto:%ld from:%ld",newState,(long)preState);
+    [EMClient.sharedClient log:[NSString stringWithFormat:@"callState will chageto:%ld from:%ld",newState,(long)preState]];
     __weak typeof(self) weakself = self;
     dispatch_async(dispatch_get_main_queue(), ^{
         switch (newState) {
@@ -1075,6 +1080,7 @@ static EaseCallManager *easeCallManager = nil;
 // 对方关闭/打开视频
 - (void)rtcEngine:(AgoraRtcEngineKit *)engine didVideoMuted:(BOOL)muted byUid:(NSUInteger)uid
 {
+    [EMClient.sharedClient log:[NSString stringWithFormat:@"[EaseCallManager] didVideoMuted:%d, uid:%lu",muted,uid]];
     if(self.modal.currentCall.callType == EaseCallTypeMulti) {
         [[self getMultiVC] setRemoteEnableVideo:!muted uId:[NSNumber numberWithUnsignedInteger:uid]];
     }
@@ -1083,6 +1089,7 @@ static EaseCallManager *easeCallManager = nil;
 // 对方打开/关闭音频
 - (void)rtcEngine:(AgoraRtcEngineKit * _Nonnull)engine didAudioMuted:(BOOL)muted byUid:(NSUInteger)uid
 {
+    [EMClient.sharedClient log:[NSString stringWithFormat:@"[EaseCallManager] didAudioMuted:%d, uid:%lu",muted,uid]];
     if(self.modal.currentCall.callType == EaseCallTypeMulti) {
         [[self getMultiVC] setRemoteMute:muted uid:[NSNumber numberWithUnsignedInteger:uid]];
     }else{
@@ -1093,6 +1100,7 @@ static EaseCallManager *easeCallManager = nil;
 // 对方发视频流
 - (void)rtcEngine:(AgoraRtcEngineKit *)engine firstRemoteVideoDecodedOfUid:(NSUInteger)uid size:(CGSize)size elapsed:(NSInteger)elapsed
 {
+    [EMClient.sharedClient log:[NSString stringWithFormat:@"[EaseCallManager] firstRemoteVideoDecodedOfUid:%lu",uid]];
     [self setupRemoteVideoView:uid];
     //[[EMClient sharedClient] log:[NSString stringWithFormat:@"firstRemoteVideoDecodedOfUid:%lu",uid]];
 }
@@ -1141,6 +1149,7 @@ static EaseCallManager *easeCallManager = nil;
 {
     __weak typeof(self) weakself = self;
     dispatch_async(dispatch_get_main_queue(), ^{
+        [EMClient.sharedClient log:[NSString stringWithFormat:@"[EaseCallManager] callDidEnd channelName:%@, reason:%ld, time:%d,type:%ld",weakself.modal.currentCall.channelName,reason,weakself.callVC.timeLength,weakself.modal.currentCall.callType]];
         if(weakself.delegate && [weakself.delegate respondsToSelector:@selector(callDidEnd:reason:time:type:)]) {
             [weakself.delegate callDidEnd:weakself.modal.currentCall.channelName reason:reason time:weakself.callVC.timeLength type:weakself.modal.currentCall.callType];
         }
@@ -1149,6 +1158,7 @@ static EaseCallManager *easeCallManager = nil;
 
 - (void)callBackError:(EaseCallErrorType)aErrorType code:(NSInteger)aCode description:(NSString*)aDescription
 {
+    [EMClient.sharedClient log:[NSString stringWithFormat:@"[EaseCallManager] callBackError: errorType:%ld,code:%ld,description:%@",aErrorType,aCode,aDescription]];
     __weak typeof(self) weakself = self;
     dispatch_async(dispatch_get_main_queue(), ^{
         if(weakself.delegate && [weakself.delegate respondsToSelector:@selector(callDidOccurError:)]) {
@@ -1166,9 +1176,10 @@ static EaseCallManager *easeCallManager = nil;
             self.modal.agoraUid = arc4random();
             [self.delegate callDidRequestRTCTokenForAppId:self.config.agoraAppId channelName:self.modal.currentCall.channelName account:[EMClient sharedClient].currentUsername uid:self.config.agoraUid];
         }else{
-            NSLog(@"Warning: You have not implement interface callDidRequestRTCTokenForAppId:channelName:account:!!!!");
+            [EMClient.sharedClient log:@"[EaseCallManager] Warning: You have not implement interface callDidRequestRTCTokenForAppId:channelName:account:!!!!" ];
         }
     }else{
+        [EMClient.sharedClient log:@"[EaseCallManager] joinChannel directly, enableRTCTokenValidate is false"];
         [self setRTCToken:nil channelName:self.modal.currentCall.channelName uid:arc4random()];
     }
 }
@@ -1243,10 +1254,12 @@ static EaseCallManager *easeCallManager = nil;
 
 -(void) enableVideo:(BOOL)aEnable
 {
+    [EMClient.sharedClient log:[NSString stringWithFormat:@"[EaseCallManager] user enableVideo:%d",aEnable]];
     [self.agoraKit muteLocalVideoStream:!aEnable];
 }
 -(void) muteAudio:(BOOL)aMuted
 {
+    [EMClient.sharedClient log:[NSString stringWithFormat:@"[EaseCallManager] user muteAudio:%d",aMuted]];
     [self.agoraKit muteLocalAudioStream:aMuted];
 }
 -(void) speakeOut:(BOOL)aEnable
@@ -1323,15 +1336,16 @@ static EaseCallManager *easeCallManager = nil;
     dispatch_async(dispatch_get_main_queue(), ^{
         if(weakself.modal.hasJoinedChannel)
             [weakself.agoraKit leaveChannel:nil];
+        [EMClient.sharedClient log:[NSString stringWithFormat:@"[EaseCallManager] joinChannel begin"]];
         [weakself.agoraKit joinChannelByToken:weakself.modal.agoraRTCToken channelId:weakself.modal.currentCall.channelName info:@"" uid:self.modal.agoraUid joinSuccess:^(NSString * _Nonnull channel, NSUInteger uid, NSInteger elapsed) {
             [EMClient.sharedClient log:[NSString stringWithFormat:@"joinChannel:%@ success",channel]];
-            if([self.delegate respondsToSelector:@selector(callDidJoinChannel:uid:)]) {
-                [self.delegate callDidJoinChannel:channel uid:uid];
+            if([weakself.delegate respondsToSelector:@selector(callDidJoinChannel:uid:)]) {
+                [weakself.delegate callDidJoinChannel:channel uid:uid];
             }
             weakself.modal.hasJoinedChannel = YES;
             [weakself.modal.currentCall.allUserAccounts setObject:[EMClient sharedClient].currentUsername forKey:[NSNumber numberWithUnsignedInteger:uid]];
-            if(self.modal.currentCall.callType == EaseCallTypeMulti) {
-                [self enableVideo:NO];
+            if(weakself.modal.currentCall.callType == EaseCallTypeMulti) {
+                [weakself enableVideo:NO];
             }
         }];
         
