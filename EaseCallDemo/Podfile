@@ -1,5 +1,5 @@
 use_frameworks!
-platform :ios, '9.0'
+platform :ios, '10.0'
 
 # Import CocoaPods sources
 source 'https://github.com/CocoaPods/Specs.git'
@@ -9,3 +9,20 @@ target 'EaseCallDemo' do
   pod 'MBProgressHUD', '1.2.0'
   pod 'EaseCallKit',  :path => "../"
 end
+
+pre_install do |installer|
+  # 定义 AgoraRtcEngine_iOS framework 的路径
+  rtc_pod_path = File.join(installer.sandbox.root, 'AgoraRtcEngine_iOS')
+
+  # aosl.xcframework 的完整路径
+  aosl_xcframework_path = File.join(rtc_pod_path, 'aosl.xcframework')
+
+  # 检查文件是否存在，如果存在则删除
+  if File.exist?(aosl_xcframework_path)
+    puts "Deleting aosl.xcframework from #{aosl_xcframework_path}"
+    FileUtils.rm_rf(aosl_xcframework_path)
+  else
+    puts "aosl.xcframework not found, skipping deletion."
+  end
+end
+
