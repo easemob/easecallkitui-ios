@@ -18,7 +18,7 @@ EaseCallKitUI是一套可以让用户快速集成1v1语言、视频通话以及�
 打开终端，运行命令
 
 ```
-cd ./EaseCallKitUI
+cd ./EaseCallDemo
 
 pod install
 
