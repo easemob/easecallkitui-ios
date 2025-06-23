@@ -9,7 +9,7 @@
 #import <EaseCallKit/EaseCallUIKit.h>
 #import <HyphenateChat/HyphenateChat.h>
 
-#define AGORA_APP_ID @"15cb0d28b87b425ea613fc46f7c9f974"
+#define AGORA_APP_ID <#Your Agora App ID#>
 
 @interface HomeViewController ()<EaseCallDelegate>
 
