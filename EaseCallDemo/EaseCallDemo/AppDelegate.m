@@ -10,7 +10,7 @@
 #import <HyphenateChat/HyphenateChat.h>
 #import "UIStoryboard+Category.h"
 
-#define EASEMOB_APP_KEY @"easemob-demo#easeim"
+#define EASEMOB_APP_KEY @"easemob-demo#chatdemoui"
 
 
 
@@ -39,7 +39,7 @@
     EMOptions *options = [EMOptions optionsWithAppkey:EASEMOB_APP_KEY];
     options.enableConsoleLog = YES;
     // 为了方便演示，设置自动同意好友申请。
-    options.isAutoAcceptFriendInvitation = YES;
+    options.autoAcceptFriendInvitation = YES;
     [EMClient.sharedClient initializeSDKWithOptions:options];
 }
 
