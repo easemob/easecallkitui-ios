@@ -65,6 +65,11 @@ NS_ASSUME_NONNULL_BEGIN
  */
 @property (nonatomic,strong) AgoraLocalAccessPointConfiguration* _Nullable localConfig;
 
+/*
+ * enableOutputLog  是否输出日志(输出日志到 环信IM日志中)
+ */
+@property (nonatomic)bool enableOutputLog;
+
 - (void)setUser:(NSString*)aUser info:(EaseCallUser*)aInfo;
 @end
 

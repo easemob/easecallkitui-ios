@@ -16,6 +16,7 @@
 #import "EaseCallModal.h"
 #import <CommonCrypto/CommonDigest.h>
 #import "EaseCallLocalizable.h"
+#import "EaseCallCommon.h"
 
 static NSString* kAction = @"action";
 static NSString* kChannelName = @"channelName";
@@ -194,6 +195,18 @@ static EaseCallManager *easeCallManager = nil;
 }
 
 - (void)startSingleCallWithUId:(NSString*)uId type:(EaseCallType)aType ext:(NSDictionary*)aExt completion:(void (^)(NSString* callId,EaseCallError*))aCompletionBlock {
+    
+    if (self.config.enableOutputLog){
+        NSString *callTypeString = @"";
+        if (aType == EaseCallType1v1Audio){
+            callTypeString = @"一对一音频";
+        }else if (aType == EaseCallType1v1Video) {
+            callTypeString = @"一对一视频";
+        }else{
+            callTypeString = @"其他";
+        }
+        [EaseCallCommon printLog:[NSString stringWithFormat:@"调用方法:\n%s\n参数: \n对方的username[%@]\ncallType[%@]",__FUNCTION__,uId,callTypeString]];
+    }
     if([uId length] == 0) {
         NSLog(@"makeCall faild!!remoteUid is empty");
         if(aCompletionBlock)
@@ -364,6 +377,7 @@ static EaseCallManager *easeCallManager = nil;
 - (void)refreshUIAlerting
 {
     if(self.modal.currentCall) {
+        [EaseCallCommon printLog:@"开始响铃"];
         if(self.delegate && [self.delegate respondsToSelector:@selector(callDidReceive:inviter:ext:)]) {
             [self.delegate callDidReceive:self.modal.currentCall.callType inviter:self.modal.currentCall.remoteUserAccount ext:self.modal.currentCall.ext];
         }
@@ -421,6 +435,29 @@ static EaseCallManager *easeCallManager = nil;
 #pragma mark - EaseCallModalDelegate
 - (void)callStateWillChangeTo:(EaseCallState)newState from:(EaseCallState)preState
 {
+    if (self.config.enableOutputLog) {
+        NSString *oldStateString = @"";
+        if (preState == EaseCallState_Idle){
+            oldStateString = @"闲置(EaseCallState_Idle)";
+        }else if (preState == EaseCallState_Outgoing){
+            oldStateString = @"呼叫对方中(EaseCallState_Outgoing)";
+        }else if (preState == EaseCallState_Alerting){
+            oldStateString = @"被呼叫,等待接听中(EaseCallState_Alerting)";
+        }else if (preState == EaseCallState_Answering){
+            oldStateString = @"通话进行中(EaseCallState_Answering)";
+        }
+        NSString *newStateString = @"";
+        if (newState == EaseCallState_Idle){
+            newStateString = @"闲置(EaseCallState_Idle)";
+        }else if (newState == EaseCallState_Outgoing){
+            newStateString = @"呼叫对方中(EaseCallState_Outgoing)";
+        }else if (newState == EaseCallState_Alerting){
+            newStateString = @"被呼叫,等待接听中(EaseCallState_Alerting)";
+        }else if (newState == EaseCallState_Answering){
+            newStateString = @"通话进行中(EaseCallState_Answering)";
+        }
+        [EaseCallCommon printLog:[NSString stringWithFormat:@"音视频模块状态改变:旧状态[%@] -> 新状态[%@]",oldStateString,newStateString]];
+    }
     [EMClient.sharedClient log:[NSString stringWithFormat:@"callState will chageto:%ld from:%ld",newState,(long)preState]];
     __weak typeof(self) weakself = self;
     dispatch_async(dispatch_get_main_queue(), ^{
@@ -490,6 +527,8 @@ static EaseCallManager *easeCallManager = nil;
 //    }
     EMChatMessage* msg = [[EMChatMessage alloc] initWithConversationID:aUid from:self.modal.curUserAccount to:aUid body:msgBody ext:ext];
     __weak typeof(self) weakself = self;
+    [EaseCallCommon printLog:@"发送消息::[邀请者在整条逻辑的第1条消息]发起方发起第一条消息,呼叫消息,呼叫邀请"];
+    [EaseCallCommon printSendMessage:msg];
     [[[EMClient sharedClient] chatManager] sendMessage:msg progress:nil completion:^(EMChatMessage *message, EMError *error) {
         if(aCompletionBlock)
             aCompletionBlock(weakself.modal.currentCall.callId,nil);
@@ -509,6 +548,8 @@ static EaseCallManager *easeCallManager = nil;
     NSDictionary* ext = @{kMsgType:kMsgTypeValue,kAction:kAlertAction,kCallId:aCallId,kCalleeDevId:self.modal.curDevId,kCallerDevId:aDevId,kTs:[self getTs]};
     EMChatMessage* msg = [[EMChatMessage alloc] initWithConversationID:aCallerUid from:self.modal.curUserAccount to:aCallerUid body:msgBody ext:ext];
     __weak typeof(self) weakself = self;
+    [EaseCallCommon printLog:@"发送消息::[被邀请者在整条逻辑的第1条消息]这条消息表示设备本身收到邀请消息"];
+    [EaseCallCommon printSendMessage:msg];
     [[[EMClient sharedClient] chatManager] sendMessage:msg progress:nil completion:^(EMChatMessage *message, EMError *error) {
         if(error) {
             [weakself callBackError:EaseCallErrorTypeIM code:error.code description:error.errorDescription];
@@ -526,6 +567,8 @@ static EaseCallManager *easeCallManager = nil;
     NSDictionary* ext = @{kMsgType:kMsgTypeValue,kAction:kConfirmRingAction,kCallId:aCallId,kCallerDevId:self.modal.curDevId,kCallStatus:[NSNumber numberWithBool:aIsCallValid],kTs:[self getTs],kCalleeDevId:aCalleeDevId};
     EMChatMessage* msg = [[EMChatMessage alloc] initWithConversationID:aUid from:self.modal.curUserAccount to:aUid body:msgBody ext:ext];
     __weak typeof(self) weakself = self;
+    [EaseCallCommon printLog:@"发送消息::[邀请者在整条逻辑的第2条消息]发送消息有效确认消息[邀请者发送的一条消息,发送邀请消息后再次发送的一条消息"];
+    [EaseCallCommon printSendMessage:msg];
     [[[EMClient sharedClient] chatManager] sendMessage:msg progress:nil completion:^(EMChatMessage *message, EMError *error) {
         if(error) {
             [weakself callBackError:EaseCallErrorTypeIM code:error.code description:error.errorDescription];
@@ -542,6 +585,8 @@ static EaseCallManager *easeCallManager = nil;
     NSDictionary* ext = @{kMsgType:kMsgTypeValue,kAction:kCancelCallAction,kCallId:aCallId,kCallerDevId:self.modal.curDevId,kTs:[self getTs]};
     EMChatMessage* msg = [[EMChatMessage alloc] initWithConversationID:aUid from:self.modal.curUserAccount to:aUid body:msgBody ext:ext];
     __weak typeof(self) weakself = self;
+    [EaseCallCommon printLog:@"发送消息::发送一条取消呼叫消息"];
+    [EaseCallCommon printSendMessage:msg];
     [[[EMClient sharedClient] chatManager] sendMessage:msg progress:nil completion:^(EMChatMessage *message, EMError *error) {
         if(error) {
             [weakself callBackError:EaseCallErrorTypeIM code:error.code description:error.errorDescription];
@@ -549,7 +594,7 @@ static EaseCallManager *easeCallManager = nil;
     }];
 }
 
-// 发送Answer消息
+// 发送Answer消息 (a给b发送邀请信息,b收到邀请信息,b给a发送这条Answer消息 但这并不是说认为的b同意了a的邀请,而是代码层面的逻辑,a给b发送消息之后,b设备立刻反馈给a设备的一个概念)
 - (void)sendAnswerMsg:(NSString*)aCallerUid callId:(NSString*)aCallId result:(NSString*)aResult devId:(NSString*)aDevId
 {
     if([aCallerUid length] == 0 || [aCallId length] == 0 || [aResult length] == 0 || [aDevId length] == 0)
@@ -561,6 +606,8 @@ static EaseCallManager *easeCallManager = nil;
         [ext setObject:[NSNumber numberWithBool:YES] forKey:kVideoToVoice];
     EMChatMessage* msg = [[EMChatMessage alloc] initWithConversationID:aCallerUid from:self.modal.curUserAccount to:aCallerUid body:msgBody ext:ext];
     __weak typeof(self) weakself = self;
+    [EaseCallCommon printLog:@"发送消息::[被邀请者在整条逻辑的第2条消息]点击同意邀请通话时,会发送这条消息"];
+    [EaseCallCommon printSendMessage:msg];
     [[[EMClient sharedClient] chatManager] sendMessage:msg progress:nil completion:^(EMChatMessage *message, EMError *error) {
         if(error) {
             [weakself callBackError:EaseCallErrorTypeIM code:error.code description:error.errorDescription];
@@ -569,7 +616,7 @@ static EaseCallManager *easeCallManager = nil;
     [self _startConfirmTimer:aCallId];
 }
 
-// 发送仲裁消息
+// 发送仲裁消息//被邀请者同意之后,邀请者收到同意消息,然后发送给被邀请者一条消息,会执行到这里
 - (void)sendConfirmAnswerMsgToCallee:(NSString*)aUid callId:(NSString*)aCallId result:(NSString*)aResult devId:(NSString*)aDevId
 {
     if([aUid length] == 0 || [aCallId length] == 0 || [aResult length] == 0 || [aDevId length] == 0)
@@ -579,6 +626,8 @@ static EaseCallManager *easeCallManager = nil;
     NSMutableDictionary* ext = [@{kMsgType:kMsgTypeValue,kAction:kConfirmCalleeAction,kCallId:aCallId,kCallerDevId:self.modal.curDevId,kCalleeDevId:aDevId,kCallResult:aResult,kTs:[self getTs]} mutableCopy];
     EMChatMessage* msg = [[EMChatMessage alloc] initWithConversationID:aUid from:self.modal.curUserAccount to:aUid body:msgBody ext:ext];
     __weak typeof(self) weakself = self;
+    [EaseCallCommon printLog:@"发送消息::[邀请者在整条逻辑的第3条消息]发送仲裁消息//被邀请者同意之后,邀请者收到同意消息,然后发送给被邀请者一条消息,会执行到这里"];
+    [EaseCallCommon printSendMessage:msg];
     [[[EMClient sharedClient] chatManager] sendMessage:msg progress:nil completion:^(EMChatMessage *message, EMError *error) {
         if(error) {
             [weakself callBackError:EaseCallErrorTypeIM code:error.code description:error.errorDescription];
@@ -598,6 +647,8 @@ static EaseCallManager *easeCallManager = nil;
     NSDictionary* ext = @{kMsgType:kMsgTypeValue,kAction:kVideoToVoice,kCallId:aCallId,kTs:[self getTs]};
     EMChatMessage* msg = [[EMChatMessage alloc] initWithConversationID:aUid from:self.modal.curUserAccount to:aUid body:msgBody ext:ext];
     __weak typeof(self) weakself = self;
+    [EaseCallCommon printLog:@"发送消息::视频转音频"];
+    [EaseCallCommon printSendMessage:msg];
     [[[EMClient sharedClient] chatManager] sendMessage:msg progress:nil completion:^(EMChatMessage *message, EMError *error) {
         if(error) {
             [weakself callBackError:EaseCallErrorTypeIM code:error.code description:error.errorDescription];
@@ -621,6 +672,7 @@ static EaseCallManager *easeCallManager = nil;
     NSString* msgType = [ext objectForKey:kMsgType];
     if([msgType length] == 0)
         return;
+    [EaseCallCommon printReceivedMessage:aMsg];
     NSString* callId = [ext objectForKey:kCallId];
     NSString* result = [ext objectForKey:kCallResult];
     NSString* callerDevId = [ext objectForKey:kCallerDevId];
@@ -1172,6 +1224,7 @@ static EaseCallManager *easeCallManager = nil;
 #pragma mark - 获取token
 - (void)fetchToken {
     if(self.config.enableRTCTokenValidate) {
+        [EaseCallCommon printLog:@"这里将执行获取声网音视频token的回调"];;
         if([self.delegate respondsToSelector:@selector(callDidRequestRTCTokenForAppId:channelName:account:uid:)]) {
             self.modal.agoraUid = arc4random();
             [self.delegate callDidRequestRTCTokenForAppId:self.config.agoraAppId channelName:self.modal.currentCall.channelName account:[EMClient sharedClient].currentUsername uid:self.config.agoraUid];
@@ -1332,6 +1385,7 @@ static EaseCallManager *easeCallManager = nil;
 
 - (void)joinChannel
 {
+    [EaseCallCommon printLog:@"AGORA::joinChannel"];;
     __weak typeof(self) weakself = self;
     dispatch_async(dispatch_get_main_queue(), ^{
         if(weakself.modal.hasJoinedChannel)
