@@ -61,6 +61,7 @@
     _defaultHeadImage = url;
     _agoraAppId = @"";
     _localConfig = nil;
+    _enableOutputLog = true;
 }
 
 - (AgoraVideoEncoderConfiguration*)encoderConfiguration
