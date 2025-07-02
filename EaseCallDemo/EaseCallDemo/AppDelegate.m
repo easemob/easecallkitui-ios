@@ -10,7 +10,8 @@
 #import <HyphenateChat/HyphenateChat.h>
 #import "UIStoryboard+Category.h"
 
-#define EASEMOB_APP_KEY @"easemob-demo#chatdemoui"
+//#define EASEMOB_APP_KEY @"easemob-demo#chatdemoui"
+#define EASEMOB_APP_KEY @"easemob-demo#support"
 
 
 

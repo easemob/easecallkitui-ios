@@ -59,22 +59,21 @@
     return @"map转换失败";
 }
 
-+ (void)printReceivedMessage:(EMChatMessage *)message{
-    [self printMessage:message direction:EMMessageDirectionReceive];
-}
+//+ (void)printReceivedMessage:(EMChatMessage *)message{
+//    [self printMessage:message direction:EMMessageDirectionReceive];
+//}
+//
+//+ (void)printSendMessage:(EMChatMessage *)message{
+//    [self printMessage:message direction:EMMessageDirectionSend];
+//}
 
-+ (void)printSendMessage:(EMChatMessage *)message{
-    [self printMessage:message direction:EMMessageDirectionSend];
-}
-
-+ (void)printMessage:(EMChatMessage *)message direction:(EMMessageDirection)direction {
++ (void)printMessage:(EMChatMessage *)message {
     if (!EaseCallManager.sharedManager.getEaseCallConfig.enableOutputLog){
         return;
     }
-
     NSMutableString *mString = NSMutableString.new;
     [mString appendString:@"打印消息\n=================================\n"];
-    if (direction == EMMessageDirectionSend){
+    if (message.direction == EMMessageDirectionSend){
         [mString appendString:@"音视频模块消息 发送消息:\n"];
     }else{
         [mString appendString:@"音视频模块消息 收到消息:\n"];

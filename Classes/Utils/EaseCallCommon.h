@@ -15,8 +15,9 @@ NS_ASSUME_NONNULL_BEGIN
 
 
 + (void)printLog:(NSString *)string;
-+ (void)printReceivedMessage:(EMChatMessage *)message;
-+ (void)printSendMessage:(EMChatMessage *)message;
+//+ (void)printReceivedMessage:(EMChatMessage *)message;
+//+ (void)printSendMessage:(EMChatMessage *)message;
++ (void)printMessage:(EMChatMessage *)message;
 
 
 
