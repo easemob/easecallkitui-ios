@@ -1,5 +1,5 @@
 //
-//  EaseCallCmdInfo.h
+//  EaseCallEventInfo.h
 //  EaseCallKit
 //
 //  Created by 杨剑 on 2025/7/1.
@@ -21,14 +21,16 @@
  "answerCall"       接收方发送 -> 接收方同意邀请,会发出此消息,告知发起方同意,其中此消息携带字段 result
  "confirmCallee"    发起方发送 -> 已收到接收方同意邀请的消息,并告知接收方:"我已收到" 并携带了 接收方所发送的answerCall消息的result字段值
  */
-typedef enum : NSUInteger {
-    EaseCallCmdActionInvite,
-    EaseCallCmdActionAlert,
-    EaseCallCmdActionConfirmRing,
-    EaseCallCmdActionAnswerCall,
-    EaseCallCmdActionAonfirmCallee,
-    EaseCallCmdActionNone = 100,
-} EaseCallCmdAction;
+typedef enum : int {
+    EaseCallEventTypeNone = -1,
+    EaseCallEventTypeInvite,
+    EaseCallEventTypeAlert,
+    EaseCallEventTypeConfirmRing,
+    EaseCallEventTypeAnswerCall,
+    EaseCallEventTypeConfirmCallee,
+    EaseCallEventTypeCancelCall,
+    EaseCallEventTypeVideoToAudio,
+} EaseCallEventType;
 
 /**
  result
@@ -37,12 +39,12 @@ typedef enum : NSUInteger {
  "refuse" 拒绝
  "busy" 忙
  */
-typedef enum : NSUInteger {
-    EaseCallCmdResultAccept,
-    EaseCallCmdResultRefuse,
-    EaseCallCmdResultBusy,
-    EaseCallCmdResultNone = 100,
-} EaseCallCmdResult;
+typedef enum : int {
+    EaseCallFeedbackResultNone = -1,
+    EaseCallFeedbackResultAccept,
+    EaseCallFeedbackResultRefuse,
+    EaseCallFeedbackResultBusy,
+} EaseCallFeedbackResult;
 
 
 /**
@@ -53,35 +55,50 @@ typedef enum : NSUInteger {
  "busy" 忙
  */
 typedef enum : bool {
-    EaseCallCmdMessageDirectionSend,
-    EaseCallCmdMessageDirectionReceive,
-} EaseCallCmdMessageDirection;
+    EaseCallEventDirectionSend,
+    EaseCallEventDirectionReceive,
+} EaseCallEventDirection;
 
 NS_ASSUME_NONNULL_BEGIN
+/**
+ 注意!
+ 这里并非是指 cmd 消息,而是指 callkit 在收发消息时,携带的信令,必要字段
+ 这里是针对要传输的信令字段进行封装
+ 投递时会以 key value 格式传输,存放是在消息的ext中
+ */
+@interface EaseCallEventInfo : NSObject
 
-@interface EaseCallCmdInfo : NSObject
++ (EaseCallEventType)callCmdActionFromString:(NSString *)value;
++ (NSString *)stringFromCallCmdAction:(EaseCallEventType)value;
 
-@property(nonatomic)EaseCallCmdAction action;
++ (EaseCallFeedbackResult)callCmdResultFromString:(NSString *)value;
++ (NSString *)stringFromCallCmdResult:(EaseCallFeedbackResult)value;
+
+
+
+@property(nonatomic)EaseCallEventType action;
 
 @property(nonatomic)EaseCallType call_type;
 
 
 /**
- starter_id:
+ callerDevice_id:
  callerDevId
+ 发起方!!!
  注意!在发起方叫callerDevId
  此字段获取时机为懒加载方式,使用的时候才会get获取,当获取的时候发现字段为空,则直接创建并存放在属性中(如果字段存在则不需要创建)
  字段的生成方式代码如下
          _curDevId = [NSString stringWithFormat:@"ios_%@", [[[UIDevice currentDevice] identifierForVendor] UUIDString] ];
  */
-@property(nonatomic,copy)NSString *starter_id;
+@property(nonatomic,copy)NSString *callerDevice_id;
 
 /**
- receiver_id
+ calleeDevice_id
  calleeDevId
+ 被呼叫方!!!
  此字段与前面提到的callerDevId具有相同意义,不过这并非发起方的设备id,而是接收方的设备id
  */
-@property(nonatomic,copy)NSString *receiver_id;
+@property(nonatomic,copy)NSString *calleeDevice_id;
 
 
 
@@ -112,7 +129,13 @@ NS_ASSUME_NONNULL_BEGIN
 
 @property(nonatomic)long long timestamp;
 
-@property(nonatomic)EaseCallCmdMessageDirection direction;
+@property(nonatomic)EaseCallEventDirection direction;
+
+
+/**
+ 转音频
+ */
+@property(nonatomic)bool toAudio;
 
 /**
  isEffective
@@ -123,19 +146,11 @@ NS_ASSUME_NONNULL_BEGIN
  */
 @property(nonatomic)bool isEffective;
 
-@property(nonatomic)EaseCallCmdResult result;
+@property(nonatomic)EaseCallFeedbackResult result;
 
+@property(nonatomic,strong)NSDictionary *subExt;
 
-//+ (instancetype)infoWithAction:(EaseCallCmdAction)action
-//                     call_type:(EaseCallType)call_type
-//                       call_id:(NSString *)call_id
-//                  channel_name:(NSString *)channel_name
-//                    starter_id:(NSString *)starter_id
-//                   receiver_id:(NSString *)receiver_id
-//                   isEffective:(bool)isEffective
-//                        result:(EaseCallCmdResult)result;
-
-+ (instancetype)infoWithAction:(EaseCallCmdAction)action;
++ (instancetype)infoWithAction:(EaseCallEventType)action;
 
 + (instancetype)infoWithMessage:(EMChatMessage *)message;
 
