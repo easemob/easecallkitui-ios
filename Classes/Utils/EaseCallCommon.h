@@ -12,6 +12,7 @@ NS_ASSUME_NONNULL_BEGIN
 @interface EaseCallCommon : NSObject
 
 
++ (bool)verifyCallMessage:(EMChatMessage *)message;
 
 
 + (void)printLog:(NSString *)string;

@@ -61,22 +61,19 @@ typedef enum : bool {
 
 NS_ASSUME_NONNULL_BEGIN
 /**
- 注意!
- 这里并非是指 cmd 消息,而是指 callkit 在收发消息时,携带的信令,必要字段
- 这里是针对要传输的信令字段进行封装
- 投递时会以 key value 格式传输,存放是在消息的ext中
+ 发送消息时,必传的一些字段
  */
 @interface EaseCallEventInfo : NSObject
 
-+ (EaseCallEventType)callCmdActionFromString:(NSString *)value;
-+ (NSString *)stringFromCallCmdAction:(EaseCallEventType)value;
++ (EaseCallEventType)callEventTypeFromString:(NSString *)value;
++ (NSString *)stringFromCallEventType:(EaseCallEventType)value;
 
-+ (EaseCallFeedbackResult)callCmdResultFromString:(NSString *)value;
-+ (NSString *)stringFromCallCmdResult:(EaseCallFeedbackResult)value;
++ (EaseCallFeedbackResult)callFeedbackResultFromString:(NSString *)value;
++ (NSString *)stringFromCallFeedbackResult:(EaseCallFeedbackResult)value;
 
 
 
-@property(nonatomic)EaseCallEventType action;
+@property(nonatomic)EaseCallEventType eventType;
 
 @property(nonatomic)EaseCallType call_type;
 
@@ -84,7 +81,7 @@ NS_ASSUME_NONNULL_BEGIN
 /**
  callerDevice_id:
  callerDevId
- 发起方!!!
+ 发起方
  注意!在发起方叫callerDevId
  此字段获取时机为懒加载方式,使用的时候才会get获取,当获取的时候发现字段为空,则直接创建并存放在属性中(如果字段存在则不需要创建)
  字段的生成方式代码如下
@@ -95,7 +92,7 @@ NS_ASSUME_NONNULL_BEGIN
 /**
  calleeDevice_id
  calleeDevId
- 被呼叫方!!!
+ 被呼叫方
  此字段与前面提到的callerDevId具有相同意义,不过这并非发起方的设备id,而是接收方的设备id
  */
 @property(nonatomic,copy)NSString *calleeDevice_id;
@@ -150,7 +147,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @property(nonatomic,strong)NSDictionary *subExt;
 
-+ (instancetype)infoWithAction:(EaseCallEventType)action;
++ (instancetype)infoWithEventType:(EaseCallEventType)eventType;
 
 + (instancetype)infoWithMessage:(EMChatMessage *)message;
 

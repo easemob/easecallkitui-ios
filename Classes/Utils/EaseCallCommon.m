@@ -9,6 +9,20 @@
 #import "EaseCallManager.h"
 @implementation EaseCallCommon
 
+
++ (bool)verifyCallMessage:(EMChatMessage *)message{
+    if(![message.to isEqualToString:EMClient.sharedClient.currentUsername]){
+        return false;
+    }
+    if (![message.ext[@"msgType"] isEqualToString:@"rtcCallWithAgora"]){
+        return false;
+    }
+    return true;
+}
+
+
+
+
 + (NSString *)generateRandomString{
     NSMutableString *randomString = NSMutableString.new;
     [randomString appendString:NSUUID.UUID.UUIDString];
